@@ -5,13 +5,13 @@ import re
 
 class DeviceControlInterface:
 
-    def get_device_list(self) -> List[Device]:
+    def __call__(self) -> List[Device]:
         raise NotImplementedError
 
-    def get_ssid_list(self) -> List[DeviceWifi]:
+    def wifi(self) -> List[DeviceWifi]:
         raise NotImplementedError
 
-    def connect_wifi(self, ssid: str, password: str) -> None:
+    def wifi_connect(self, ssid: str, password: str) -> None:
         raise NotImplementedError
 
 class DeviceControl(DeviceControlInterface):
