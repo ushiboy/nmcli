@@ -37,19 +37,21 @@ except Exception as e:
 
 ## API
 
-### `nmcli.connection`
+### connection
+
+#### nmcli.connection
 
 Get a list of connections.
 
-```python
+```
 nmcli.connection() -> List[Connection]
 ```
 
-### `nmcli.connection.add`
+#### nmcli.connection.add
 
 Create a new connection using specified properties.
 
-```python
+```
 nmcli.connection.add(
     conn_type: str,
     options: Optional[Dict[str, str]] = None,
@@ -58,37 +60,64 @@ nmcli.connection.add(
     autoconnect: bool = False) -> None
 ```
 
-### `nmcli.connection.modify`
+#### nmcli.connection.modify
 
 Add, modify or remove properties in the connection profile.
 
-```python
+```
 nmcli.connection.modify(name: str, options: Dict[str, str]) -> None
 ```
 
-### `nmcli.connection.delete`
+#### nmcli.connection.delete
 
 Delete a configured connection.
 
-```python
+```
 nmcli.connection.delete(name: str) -> None
 ```
 
-### `nmcli.connection.up`
+#### nmcli.connection.up
 
 Activate a connection.
 
-```python
+```
 nmcli.connection.up(name: str) -> None
 ```
 
-### `nmcli.connection.down`
+#### nmcli.connection.down
 
 Deactivate a connection from a device without preventing the device from further auto-activation.
 
-```python
+```
 nmcli.connection.down(name: str) -> None
 ```
+
+### device
+
+#### nmcli.device
+
+Print status of devices.
+
+```
+nmcli.device() -> List[Device]
+```
+
+#### nmcli.device.wifi
+
+List available Wi-Fi access points.
+
+```
+nmcli.device.wifi() -> List[DeviceWifi]
+```
+
+#### nmcli.device.wifi_connect
+
+Connect to a Wi-Fi network specified by SSID or BSSID.
+
+```
+nmcli.device.wifi_connect(ssid: str, password: str) -> None
+```
+
 
 ## Change Log
 
