@@ -51,6 +51,3 @@ class NotExistException(Exception):
     10 Connection, device, or access point does not exist.
     """
     pass
-
-class UnsupportedConnectionTypeException(Exception):
-    pass
