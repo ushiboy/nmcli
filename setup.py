@@ -13,6 +13,7 @@ setup(
     version='0.1.0',
     packages=['nmcli'],
     test_suite='tests',
+    python_requires='>=3.7',
     install_requires=[
     ],
     tests_require=[

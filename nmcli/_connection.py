@@ -1,17 +1,25 @@
-from ._system import SystemCommandInterface, SystemCommand
-from .data.connection import Connection
 from typing import List, Dict, Optional
 import re
+from ._system import SystemCommandInterface, SystemCommand
+from .data.connection import Connection
 
-class ConnectionControlInterface(object):
+ConnectionOptions = Dict[str, str]
+
+
+class ConnectionControlInterface:
 
     def __call__(self) -> List[Connection]:
         raise NotImplementedError
 
-    def add(self, conn_type:str, options:Optional[Dict[str, str]]=None, ifname:str="*", name:str=None, autoconnect:bool=False) -> None:
+    def add(self,
+            conn_type: str,
+            options: Optional[ConnectionOptions] = None,
+            ifname: str = "*",
+            name: str = None,
+            autoconnect: bool = False) -> None:
         raise NotImplementedError
 
-    def modify(self, name:str, options:Dict[str, str]) -> None:
+    def modify(self, name: str, options: ConnectionOptions) -> None:
         raise NotImplementedError
 
     def delete(self, name: str) -> None:
@@ -23,9 +31,10 @@ class ConnectionControlInterface(object):
     def down(self, name: str) -> None:
         raise NotImplementedError
 
+
 class ConnectionControl(ConnectionControlInterface):
 
-    def __init__(self, syscmd: SystemCommandInterface=None):
+    def __init__(self, syscmd: SystemCommandInterface = None):
         self._syscmd = syscmd or SystemCommand()
 
     def __call__(self) -> List[Connection]:
@@ -38,7 +47,12 @@ class ConnectionControl(ConnectionControlInterface):
                 results.append(Connection(name, uuid, conn_type, device))
         return results
 
-    def add(self, conn_type:str, options:Optional[Dict[str, str]]=None, ifname:str="*", name:str=None, autoconnect:bool=False) -> None:
+    def add(self,
+            conn_type: str,
+            options: Optional[ConnectionOptions] = None,
+            ifname: str = "*",
+            name: str = None,
+            autoconnect: bool = False) -> None:
         params = ['connection', 'add', 'type', conn_type, 'ifname', ifname]
         if not name is None:
             params += ['con-name', name]
@@ -47,7 +61,7 @@ class ConnectionControl(ConnectionControlInterface):
             params += [k, v]
         self._syscmd.nmcli(params)
 
-    def modify(self, name:str, options:Dict[str, str]) -> None:
+    def modify(self, name: str, options: ConnectionOptions) -> None:
         params = ['connection', 'modify', name]
         for k, v in options.items():
             params += [k, v]

@@ -1,21 +1,23 @@
-from ._exception import UnspecifiedException, \
-        InvalidUserInputException, \
-        TimeoutExpiredException, \
-        ConnectionActivateFailedException, \
-        ConnectionDeactivateFailedException, \
-        DisconnectDeviceFailedException, \
-        ConnectionDeleteFailedException, \
-        NetworkManagerNotRunningException, \
-        NotExistException
 from subprocess import run, CalledProcessError
 from typing import Union, List
+from ._exception import UnspecifiedException, \
+    InvalidUserInputException, \
+    TimeoutExpiredException, \
+    ConnectionActivateFailedException, \
+    ConnectionDeactivateFailedException, \
+    DisconnectDeviceFailedException, \
+    ConnectionDeleteFailedException, \
+    NetworkManagerNotRunningException, \
+    NotExistException
 
 CommandParameter = Union[str, List[str]]
 
-class SystemCommandInterface(object):
+
+class SystemCommandInterface:
 
     def nmcli(self, parameters: CommandParameter) -> str:
         raise NotImplementedError
+
 
 class SystemCommand(SystemCommandInterface):
 
@@ -27,7 +29,8 @@ class SystemCommand(SystemCommandInterface):
             parameters = [parameters]
         commands = ['sudo', 'nmcli'] + parameters
         try:
-            r = self._run(commands, capture_output=True, check=True, env={'LANG':'C'})
+            r = self._run(commands, capture_output=True,
+                          check=True, env={'LANG': 'C'})
             return r.stdout.decode('utf-8')
         except CalledProcessError as e:
             rc = e.returncode
