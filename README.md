@@ -54,7 +54,7 @@ Create a new connection using specified properties.
 ```
 nmcli.connection.add(
     conn_type: str,
-    options: Optional[Dict[str, str]] = None,
+    options: Optional[ConnectionOptions] = None,
     ifname: str = "*",
     name: str = None,
     autoconnect: bool = False) -> None
@@ -65,7 +65,7 @@ nmcli.connection.add(
 Add, modify or remove properties in the connection profile.
 
 ```
-nmcli.connection.modify(name: str, options: Dict[str, str]) -> None
+nmcli.connection.modify(name: str, options: ConnectionOptions) -> None
 ```
 
 #### nmcli.connection.delete
@@ -118,6 +118,15 @@ Connect to a Wi-Fi network specified by SSID or BSSID.
 nmcli.device.wifi_connect(ssid: str, password: str) -> None
 ```
 
+### general
+
+#### nmcli.general
+
+Show overall status of NetworkManager.
+
+```
+nmcli.general() -> General
+```
 
 ## Change Log
 
