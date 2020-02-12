@@ -3,6 +3,8 @@ import re
 from ._system import SystemCommandInterface, SystemCommand
 from .data.connection import Connection
 
+ConnectionOptions = Dict[str, str]
+
 
 class ConnectionControlInterface:
 
@@ -11,13 +13,13 @@ class ConnectionControlInterface:
 
     def add(self,
             conn_type: str,
-            options: Optional[Dict[str, str]] = None,
+            options: Optional[ConnectionOptions] = None,
             ifname: str = "*",
             name: str = None,
             autoconnect: bool = False) -> None:
         raise NotImplementedError
 
-    def modify(self, name: str, options: Dict[str, str]) -> None:
+    def modify(self, name: str, options: ConnectionOptions) -> None:
         raise NotImplementedError
 
     def delete(self, name: str) -> None:
@@ -47,7 +49,7 @@ class ConnectionControl(ConnectionControlInterface):
 
     def add(self,
             conn_type: str,
-            options: Optional[Dict[str, str]] = None,
+            options: Optional[ConnectionOptions] = None,
             ifname: str = "*",
             name: str = None,
             autoconnect: bool = False) -> None:
@@ -59,7 +61,7 @@ class ConnectionControl(ConnectionControlInterface):
             params += [k, v]
         self._syscmd.nmcli(params)
 
-    def modify(self, name: str, options: Dict[str, str]) -> None:
+    def modify(self, name: str, options: ConnectionOptions) -> None:
         params = ['connection', 'modify', name]
         for k, v in options.items():
             params += [k, v]
