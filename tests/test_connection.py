@@ -1,7 +1,10 @@
 from .helper import DummySystemCommand
 from nmcli._connection import ConnectionControl
 from nmcli.data import Connection
+import os
 import pytest
+
+connection_data_file = os.path.join(os.path.dirname(__file__), 'connection_data.txt')
 
 def test_connection():
     s = DummySystemCommand('''NAME            UUID                                  TYPE      DEVICE
@@ -72,3 +75,14 @@ def test_down():
     name = 'Con1'
     connection.down(name)
     assert s.passed_parameters == ['connection', 'down', name]
+
+def test_show():
+    with open(connection_data_file) as f:
+        buf = f.read()
+    s = DummySystemCommand(buf)
+    connection = ConnectionControl(s)
+    r = connection.show('Con1')
+    assert len(r.keys()) == 81
+    assert r['connection.id'] == 'Home'
+    assert r['connection.stable-id'] is None
+    assert r['ipv4.dns-options'] is None
