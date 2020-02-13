@@ -11,7 +11,7 @@ class PyTest(test):
 setup(
     name='nmcli',
     version='0.1.0',
-    packages=['nmcli'],
+    packages=['nmcli', 'nmcli.data'],
     test_suite='tests',
     python_requires='>=3.7',
     install_requires=[
