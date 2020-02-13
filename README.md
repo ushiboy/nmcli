@@ -92,6 +92,14 @@ Deactivate a connection from a device without preventing the device from further
 nmcli.connection.down(name: str) -> None
 ```
 
+#### nmcli.connection.show
+
+Show details for specified connections.
+
+```
+nmcli.connection.show(name: str) -> ConnectionDetails
+```
+
 ### device
 
 #### nmcli.device

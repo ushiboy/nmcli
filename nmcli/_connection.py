@@ -3,6 +3,7 @@ import re
 from ._system import SystemCommandInterface, SystemCommand
 from .data.connection import Connection
 
+ConnectionDetails = Dict[str, Optional[str]]
 ConnectionOptions = Dict[str, str]
 
 
@@ -29,6 +30,9 @@ class ConnectionControlInterface:
         raise NotImplementedError
 
     def down(self, name: str) -> None:
+        raise NotImplementedError
+
+    def show(self, name: str) -> ConnectionDetails:
         raise NotImplementedError
 
 
@@ -75,3 +79,13 @@ class ConnectionControl(ConnectionControlInterface):
 
     def down(self, name: str) -> None:
         self._syscmd.nmcli(['connection', 'down', name])
+
+    def show(self, name: str) -> ConnectionDetails:
+        r = self._syscmd.nmcli(['connection', 'show', name])
+        results = {}
+        for row in r.split('\n'):
+            m = re.search(r'^([a-z0-9]\S+):\s*(\S+)\s*', row)
+            if m:
+                key, value = m.groups()
+                results[key] = None if value in ('--', '""') else value
+        return results
