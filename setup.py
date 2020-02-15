@@ -12,6 +12,9 @@ setup(
     name='nmcli',
     version='0.1.0',
     packages=['nmcli', 'nmcli.data'],
+    package_data={
+        'nmcli': ['py.typed'],
+    },
     test_suite='tests',
     python_requires='>=3.7',
     install_requires=[
