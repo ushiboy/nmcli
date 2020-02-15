@@ -1,7 +1,8 @@
-from ._connection import ConnectionControl
-from ._device import DeviceControl
-from ._general import GeneralControl
+from ._connection import ConnectionControlInterface, ConnectionControl
+from ._device import DeviceControlInterface, DeviceControl
+from ._general import GeneralControlInterface, GeneralControl
 from ._system import SystemCommand
+from .data import Connection, Device, DeviceWifi, General
 
 _syscmd = SystemCommand()
 connection = ConnectionControl(_syscmd)
