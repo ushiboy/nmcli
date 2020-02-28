@@ -1,10 +1,9 @@
-from typing import Optional
 from .._general import GeneralControlInterface
 from ..data.general import General
 
 class DummyGeneralControl(GeneralControlInterface):
 
-    def __init__(self, result_call: Optional[General] = None,
+    def __init__(self, result_call: General = None,
                  raise_error: Exception = None):
         self._raise_error = raise_error
         self._result_call = result_call
