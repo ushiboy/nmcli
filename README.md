@@ -198,6 +198,10 @@ DummyGeneralControl(result_call: General = None, raise_error: Exception = None)
 
 ## Change Log
 
+### 0.2.0
+
+Added dummy classes.
+
 ### 0.1.0
 
 Initial release.

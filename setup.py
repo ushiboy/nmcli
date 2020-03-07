@@ -10,8 +10,8 @@ class PyTest(test):
 
 setup(
     name='nmcli',
-    version='0.1.0',
-    packages=['nmcli', 'nmcli.data'],
+    version='0.2.0',
+    packages=['nmcli', 'nmcli.data', 'nmcli.dummy'],
     package_data={
         'nmcli': ['py.typed'],
     },
