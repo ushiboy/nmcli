@@ -136,7 +136,71 @@ Show overall status of NetworkManager.
 nmcli.general() -> General
 ```
 
+### dummy
+
+#### DummyConnectionControl
+
+ConnectionControl dummy class.
+
+```
+DummyConnectionControl(
+    result_call: List[Connection] = None,
+    result_show: ConnectionDetails = None,
+    raise_error: Exception = None
+)
+```
+
+* Parameters
+    * Optional
+        * result_call
+            * Execution result of `__call__`.
+        * result_show
+            * Execution result of `show`.
+        * raise_error
+            * Error that occurs when executing the method.
+
+#### DummyDeviceControl
+
+DeviceControl dummy class.
+
+```
+DummyDeviceControl(
+    result_call: List[Device] = None,
+    result_wifi: List[DeviceWifi] = None,
+    raise_error: Exception = None
+)
+```
+
+* Parameters
+    * Optional
+        * result_call
+            * Execution result of `__call__`.
+        * result_wifi
+            * Execution result of `wifi`.
+        * raise_error
+            * Error that occurs when executing the method.
+
+
+#### DummyGeneralControl
+
+GeneralControl dummy class.
+
+```
+DummyGeneralControl(result_call: General = None, raise_error: Exception = None)
+```
+
+* Parameters
+    * Optional
+        * result_call
+            * Execution result of `__call__`.
+        * raise_error
+            * Error that occurs when executing the method.
+
 ## Change Log
+
+### 0.2.0
+
+Added dummy classes.
 
 ### 0.1.0
 
