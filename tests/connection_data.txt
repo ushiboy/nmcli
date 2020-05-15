@@ -1,4 +1,4 @@
-connection.id:                          Home
+connection.id:                          Wired connection 1
 connection.uuid:                        00000000-0000-0000-0000-000000000000
 connection.stable-id:                   --
 connection.type:                        802-3-ethernet
