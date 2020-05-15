@@ -198,6 +198,12 @@ DummyGeneralControl(result_call: General = None, raise_error: Exception = None)
 
 ## Change Log
 
+### 0.2.2
+
+Fix the parsing bug of connection names that contain spaces (connection.show).
+
+Added getting items that begin with a capital letter.
+
 ### 0.2.1
 
 Fix the parsing bug of connection names that contain spaces.
