@@ -10,13 +10,15 @@ def test_connection():
     s = DummySystemCommand('''NAME            UUID                                  TYPE      DEVICE
 AP1  3eac760c-de77-4823-9ab8-773c276daca3  wifi      wlan0
 Home            700f5b18-cbb3-4d38-9c61-e3bc3a3852b9  ethernet  eth0
+Wired connection 1  700f5b18-cbb3-4d38-9c61-999999999999  ethernet  eth1
 ''')
     connection = ConnectionControl(s)
     r = connection()
 
     assert r == [
         Connection('AP1', '3eac760c-de77-4823-9ab8-773c276daca3', 'wifi', 'wlan0'),
-        Connection('Home', '700f5b18-cbb3-4d38-9c61-e3bc3a3852b9', 'ethernet', 'eth0')
+        Connection('Home', '700f5b18-cbb3-4d38-9c61-e3bc3a3852b9', 'ethernet', 'eth0'),
+        Connection('Wired connection 1', '700f5b18-cbb3-4d38-9c61-999999999999', 'ethernet', 'eth1')
     ]
     assert s.passed_parameters == 'connection'
 

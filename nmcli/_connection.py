@@ -45,10 +45,10 @@ class ConnectionControl(ConnectionControlInterface):
         r = self._syscmd.nmcli('connection')
         results = []
         for row in r.split('\n')[1:]:
-            m = re.search(r'^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*', row)
+            m = re.search(r'^([\S\s]+)\s{2}(\S+)\s{2}(\S+)\s+(\S+)\s*', row)
             if m:
                 name, uuid, conn_type, device = m.groups()
-                results.append(Connection(name, uuid, conn_type, device))
+                results.append(Connection(name.strip(), uuid, conn_type, device))
         return results
 
     def add(self,
