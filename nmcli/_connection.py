@@ -84,7 +84,7 @@ class ConnectionControl(ConnectionControlInterface):
         r = self._syscmd.nmcli(['connection', 'show', name])
         results = {}
         for row in r.split('\n'):
-            m = re.search(r'^([a-z0-9]\S+):\s*(\S+)\s*', row)
+            m = re.search(r'^(\S+):\s*([\S\s]+)\s*', row)
             if m:
                 key, value = m.groups()
                 results[key] = None if value in ('--', '""') else value
