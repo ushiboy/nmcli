@@ -1,5 +1,14 @@
 from ._connection import ConnectionControlInterface, ConnectionControl
 from ._device import DeviceControlInterface, DeviceControl
+from ._exception import UnspecifiedException, \
+    InvalidUserInputException, \
+    TimeoutExpiredException, \
+    ConnectionActivateFailedException, \
+    ConnectionDeactivateFailedException, \
+    DisconnectDeviceFailedException, \
+    ConnectionDeleteFailedException, \
+    NetworkManagerNotRunningException, \
+    NotExistException
 from ._general import GeneralControlInterface, GeneralControl
 from ._system import SystemCommand
 from .data import Connection, Device, DeviceWifi, General

@@ -23,4 +23,4 @@ class GeneralControl(GeneralControlInterface):
         if m:
             state, connectivity, wifi_hw, wifi, wwan_hw, wwan = m.groups()
             return General(state, connectivity, wifi_hw, wifi, wwan_hw, wwan)
-        raise UnspecifiedException
+        raise UnspecifiedException('Failed to parse the results of the general command')
