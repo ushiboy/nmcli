@@ -35,6 +35,57 @@ except Exception as e:
   * `sudo apt install network-manager` (Debian)
 * User who can execute nmcli with sudo with NOPASSWD
 
+## Compatibility table
+
+| Object | Command | Status |
+|--------|---------|--------|
+| general | | supported |
+| general | status | not supported |
+| general | hostname | not supported |
+| general | permissions | not supported |
+| general | logging | not supported |
+| networking | | not supported |
+| networking | on | not supported |
+| networking | off | not supported |
+| networking | connectivity | not supported |
+| radio | | not supported |
+| radio | all | not supported |
+| radio | wifi | not supported |
+| radio | wwan | not supported |
+| connection | | supported |
+| connection | show | supported |
+| connection | up | supported |
+| connection | down | supported |
+| connection | add | supported |
+| connection | modify | supported |
+| connection | clone | not supported |
+| connection | edit | not supported |
+| connection | delete | supported |
+| connection | reload | not supported |
+| connection | load | not supported |
+| connection | import | not supported |
+| connection | export | not supported |
+| device | | supported |
+| device | status | not supported |
+| device | show | not supported |
+| device | set | not supported |
+| device | connect | not supported |
+| device | reapply | not supported |
+| device | modify | not supported |
+| device | disconnect | not supported |
+| device | delete | not supported |
+| device | monitor | not supported |
+| device | wifi | supported |
+| device | wifi connect | supported |
+| device | wifi rescan | not supported |
+| device | lldp hotspot | not supported |
+| agent | | not supported |
+| agent | secret | not supported |
+| agent | polkit | not supported |
+| agent | all | not supported |
+| monitor | | not supported |
+
+
 ## API
 
 ### connection
