@@ -10,6 +10,7 @@ from ._exception import UnspecifiedException, \
     NetworkManagerNotRunningException, \
     NotExistException
 from ._general import GeneralControlInterface, GeneralControl
+from ._networking import NetworkingControlInterface, NetworkingControl
 from ._system import SystemCommand
 from .data import Connection, Device, DeviceWifi, General
 
@@ -17,3 +18,4 @@ _syscmd = SystemCommand()
 connection = ConnectionControl(_syscmd)
 device = DeviceControl(_syscmd)
 general = GeneralControl(_syscmd)
+networking = NetworkingControl(_syscmd)
