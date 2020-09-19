@@ -44,10 +44,10 @@ except Exception as e:
 | general | hostname | not supported |
 | general | permissions | not supported |
 | general | logging | not supported |
-| networking | | not supported |
-| networking | on | not supported |
-| networking | off | not supported |
-| networking | connectivity | not supported |
+| networking | | supported |
+| networking | on | supported |
+| networking | off | supported |
+| networking | connectivity | supported |
 | radio | | not supported |
 | radio | all | not supported |
 | radio | wifi | not supported |
@@ -185,6 +185,42 @@ Show overall status of NetworkManager.
 
 ```
 nmcli.general() -> General
+```
+
+### networking
+
+#### nmcli.networking
+
+Get network connectivity state.
+
+```
+nmcli.networking() -> str
+```
+
+#### nmcli.networking.on
+
+Switch networking on.
+
+```
+nmcli.networking.on() -> None
+```
+
+#### nmcli.networking.off
+
+Switch networking off.
+
+```
+nmcli.networking.off() -> None
+```
+
+#### nmcli.networking.connectivity
+
+Get network connectivity state.
+
+The optional 'check' argument makes NetworkManager re-check the connectivity.
+
+```
+nmcli.networking.connectivity(check:bool = False) -> str
 ```
 
 
