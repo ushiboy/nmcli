@@ -1,4 +1,5 @@
 from ._connection import ConnectionControlInterface, ConnectionControl
+from ._const import NetworkConnectivity
 from ._device import DeviceControlInterface, DeviceControl
 from ._exception import UnspecifiedException, \
     InvalidUserInputException, \
