@@ -35,20 +35,20 @@ class SystemCommand(SystemCommandInterface):
         except CalledProcessError as e:
             rc = e.returncode
             if rc == 2:
-                raise InvalidUserInputException
+                raise InvalidUserInputException('Invalid user input, wrong nmcli invocation') from e
             elif rc == 3:
-                raise TimeoutExpiredException
+                raise TimeoutExpiredException('Timeout expired') from e
             elif rc == 4:
-                raise ConnectionActivateFailedException
+                raise ConnectionActivateFailedException('Connection activation failed') from e
             elif rc == 5:
-                raise ConnectionDeactivateFailedException
+                raise ConnectionDeactivateFailedException('Connection deactivation failed') from e
             elif rc == 6:
-                raise DisconnectDeviceFailedException
+                raise DisconnectDeviceFailedException('Disconnecting device failed') from e
             elif rc == 7:
-                raise ConnectionDeleteFailedException
+                raise ConnectionDeleteFailedException('Connection deletion failed') from e
             elif rc == 8:
-                raise NetworkManagerNotRunningException
+                raise NetworkManagerNotRunningException('NetworkManager is not running') from e
             elif rc == 10:
-                raise NotExistException
+                raise NotExistException('Connection, device, or access point does not exist') from e
             else:
-                raise UnspecifiedException
+                raise UnspecifiedException('Unknown or unspecified error [%d]' % rc) from e

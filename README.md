@@ -35,6 +35,57 @@ except Exception as e:
   * `sudo apt install network-manager` (Debian)
 * User who can execute nmcli with sudo with NOPASSWD
 
+## Compatibility table
+
+| Object | Command | Status |
+|--------|---------|--------|
+| general | | supported |
+| general | status | not supported |
+| general | hostname | not supported |
+| general | permissions | not supported |
+| general | logging | not supported |
+| networking | | supported |
+| networking | on | supported |
+| networking | off | supported |
+| networking | connectivity | supported |
+| radio | | not supported |
+| radio | all | not supported |
+| radio | wifi | not supported |
+| radio | wwan | not supported |
+| connection | | supported |
+| connection | show | supported |
+| connection | up | supported |
+| connection | down | supported |
+| connection | add | supported |
+| connection | modify | supported |
+| connection | clone | not supported |
+| connection | edit | not supported |
+| connection | delete | supported |
+| connection | reload | not supported |
+| connection | load | not supported |
+| connection | import | not supported |
+| connection | export | not supported |
+| device | | supported |
+| device | status | not supported |
+| device | show | not supported |
+| device | set | not supported |
+| device | connect | not supported |
+| device | reapply | not supported |
+| device | modify | not supported |
+| device | disconnect | not supported |
+| device | delete | not supported |
+| device | monitor | not supported |
+| device | wifi | supported |
+| device | wifi connect | supported |
+| device | wifi rescan | not supported |
+| device | lldp hotspot | not supported |
+| agent | | not supported |
+| agent | secret | not supported |
+| agent | polkit | not supported |
+| agent | all | not supported |
+| monitor | | not supported |
+
+
 ## API
 
 ### connection
@@ -136,65 +187,42 @@ Show overall status of NetworkManager.
 nmcli.general() -> General
 ```
 
-### dummy
+### networking
 
-#### DummyConnectionControl
+#### nmcli.networking
 
-ConnectionControl dummy class.
-
-```
-DummyConnectionControl(
-    result_call: List[Connection] = None,
-    result_show: ConnectionDetails = None,
-    raise_error: Exception = None
-)
-```
-
-* Parameters
-    * Optional
-        * result_call
-            * Execution result of `__call__`.
-        * result_show
-            * Execution result of `show`.
-        * raise_error
-            * Error that occurs when executing the method.
-
-#### DummyDeviceControl
-
-DeviceControl dummy class.
+Get network connectivity state.
 
 ```
-DummyDeviceControl(
-    result_call: List[Device] = None,
-    result_wifi: List[DeviceWifi] = None,
-    raise_error: Exception = None
-)
+nmcli.networking() -> NetworkConnectivity
 ```
 
-* Parameters
-    * Optional
-        * result_call
-            * Execution result of `__call__`.
-        * result_wifi
-            * Execution result of `wifi`.
-        * raise_error
-            * Error that occurs when executing the method.
+#### nmcli.networking.on
 
-
-#### DummyGeneralControl
-
-GeneralControl dummy class.
+Switch networking on.
 
 ```
-DummyGeneralControl(result_call: General = None, raise_error: Exception = None)
+nmcli.networking.on() -> None
 ```
 
-* Parameters
-    * Optional
-        * result_call
-            * Execution result of `__call__`.
-        * raise_error
-            * Error that occurs when executing the method.
+#### nmcli.networking.off
+
+Switch networking off.
+
+```
+nmcli.networking.off() -> None
+```
+
+#### nmcli.networking.connectivity
+
+Get network connectivity state.
+
+The optional 'check' argument makes NetworkManager re-check the connectivity.
+
+```
+nmcli.networking.connectivity(check:bool = False) -> NetworkConnectivity
+```
+
 
 ## Change Log
 
