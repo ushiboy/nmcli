@@ -194,7 +194,7 @@ nmcli.general() -> General
 Get network connectivity state.
 
 ```
-nmcli.networking() -> str
+nmcli.networking() -> NetworkConnectivity
 ```
 
 #### nmcli.networking.on
@@ -220,7 +220,7 @@ Get network connectivity state.
 The optional 'check' argument makes NetworkManager re-check the connectivity.
 
 ```
-nmcli.networking.connectivity(check:bool = False) -> str
+nmcli.networking.connectivity(check:bool = False) -> NetworkConnectivity
 ```
 
 
