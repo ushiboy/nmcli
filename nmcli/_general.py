@@ -9,6 +9,8 @@ class GeneralControlInterface:
     def __call__(self) -> General:
         raise NotImplementedError
 
+    def status(self) -> General:
+        raise NotImplementedError
 
 class GeneralControl(GeneralControlInterface):
 
@@ -16,7 +18,10 @@ class GeneralControl(GeneralControlInterface):
         self._syscmd = syscmd or SystemCommand()
 
     def __call__(self) -> General:
-        r = self._syscmd.nmcli('general')
+        return self.status()
+
+    def status(self) -> General:
+        r = self._syscmd.nmcli(['general', 'status'])
         row = r.split('\n')[1]
         m = re.search(
             r'^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*', row)
