@@ -48,10 +48,10 @@ except Exception as e:
 | networking | on | supported |
 | networking | off | supported |
 | networking | connectivity | supported |
-| radio | | not supported |
-| radio | all | not supported |
-| radio | wifi | not supported |
-| radio | wwan | not supported |
+| radio | | supported |
+| radio | all | supported |
+| radio | wifi | supported |
+| radio | wwan | supported |
 | connection | | supported |
 | connection | show | supported |
 | connection | up | supported |
@@ -223,6 +223,87 @@ The optional 'check' argument makes NetworkManager re-check the connectivity.
 nmcli.networking.connectivity(check:bool = False) -> NetworkConnectivity
 ```
 
+### radio
+
+#### nmcli.radio
+
+Get status of all radio switches.
+
+```
+nmcli.radio() -> Radio
+```
+
+#### nmcli.radio.all
+
+Get status of all radio switches.
+
+```
+nmcli.radio.all() -> Radio
+```
+
+#### nmcli.radio.all_on
+
+Turn on all radio switches.
+
+```
+nmcli.radio.all_on() -> None
+```
+
+#### nmcli.radio.all_off
+
+Turn off all radio switches.
+
+```
+nmcli.radio.all_off() -> None
+```
+
+#### nmcli.radio.wifi
+
+Get status of Wi-Fi radio switch.
+
+```
+nmcli.radio.wifi() -> bool
+```
+
+#### nmcli.radio.wifi_on
+
+Turn on Wi-Fi radio switches.
+
+```
+nmcli.radio.wifi_on() -> None
+```
+
+#### nmcli.radio.wifi_off
+
+Turn off Wi-Fi radio switches.
+
+```
+nmcli.radio.wifi_off() -> None
+```
+
+#### nmcli.radio.wwan
+
+Get status of mobile broadband radio switch.
+
+```
+nmcli.radio.wwan() -> bool
+```
+
+#### nmcli.radio.wwan_on
+
+Turn on mobile broadband radio switches.
+
+```
+nmcli.radio.wwan_on() -> None
+```
+
+#### nmcli.radio.wwan_off
+
+Turn off mobile broadband radio switches.
+
+```
+nmcli.radio.wwan_off() -> None
+```
 
 ## Change Log
 
