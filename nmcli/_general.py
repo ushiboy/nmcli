@@ -25,7 +25,7 @@ class GeneralControl(GeneralControlInterface):
         r = self._syscmd.nmcli(['general', 'status'])
         row = r.split('\n')[1]
         m = re.search(
-            r'^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*', row)
+            r'^([\S\s]+)\s{2}(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*', row)
         if m:
             state, connectivity, wifi_hw, wifi, wwan_hw, wwan = m.groups()
             return General(NetworkManagerState(state),
