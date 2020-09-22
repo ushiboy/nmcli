@@ -9,6 +9,9 @@ class DummyGeneralControl(GeneralControlInterface):
         self._result_call = result_call
 
     def __call__(self) -> General:
+        return self.status()
+
+    def status(self) -> General:
         if not self._raise_error is None:
             raise self._raise_error
         if not self._result_call is None:
