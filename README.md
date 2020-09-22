@@ -40,7 +40,7 @@ except Exception as e:
 | Object | Command | Status |
 |--------|---------|--------|
 | general | | supported |
-| general | status | not supported |
+| general | status | supported |
 | general | hostname | not supported |
 | general | permissions | not supported |
 | general | logging | not supported |
@@ -185,6 +185,14 @@ Show overall status of NetworkManager.
 
 ```
 nmcli.general() -> General
+```
+
+#### nmcli.general.status
+
+Show overall status of NetworkManager.
+
+```
+nmcli.general.status() -> General
 ```
 
 ### networking
