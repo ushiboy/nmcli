@@ -1,6 +1,7 @@
+from __future__ import annotations
 from dataclasses import dataclass
+import re
 from typing import Optional
-
 
 @dataclass(frozen=True)
 class Device:
@@ -16,6 +17,15 @@ class Device:
             'state': self.state,
             'connection': self.connection
         }
+
+    @classmethod
+    def parse(cls, text: str) -> Device:
+        m = re.search(r'^(\S*)\s+(\S*)\s+(\S*)\s+(\S*)\s*$', text)
+        if m:
+            device, device_type, state, conn = m.groups()
+            connection = conn if conn != '--' else None
+            return Device(device, device_type, state, connection)
+        raise ValueError('Parse failed [%s]' % text)
 
 
 @dataclass(frozen=True)
@@ -38,3 +48,13 @@ class DeviceWifi:
             'signal': self.signal,
             'security': self.security
         }
+
+    @classmethod
+    def parse(cls, text: str) -> DeviceWifi:
+        m = re.search(
+            r'^(\*|\s)\s+(\S*)\s+(\S*)\s+(\d+)\s+(\d+)\sMbit/s\s+(\d+)\s+\S+\s+(.*)$', text)
+        if m:
+            in_use, ssid, mode, chan, rate, signal, security = m.groups()
+            return DeviceWifi(in_use == '*', ssid, mode,
+                    int(chan), int(rate), int(signal), security.rstrip())
+        raise ValueError('Parse failed [%s]' % text)
