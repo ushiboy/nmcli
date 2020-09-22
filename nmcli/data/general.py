@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from .._const import NetworkConnectivity
+from .._const import NetworkManagerState, NetworkConnectivity
 
 @dataclass(frozen=True)
 class General:
-    state: str
+    state:NetworkManagerState
     connectivity: NetworkConnectivity
     wifi_hw: bool
     wifi: bool
@@ -12,7 +12,7 @@ class General:
 
     def to_json(self):
         return {
-            'state': self.state,
+            'state': self.state.value,
             'connectivity': self.connectivity.value,
             'wifi_hw': self.wifi_hw,
             'wifi': self.wifi,
