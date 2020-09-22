@@ -14,6 +14,9 @@ class DeviceControlInterface:
     def connect(self, ifname: str) -> None:
         raise NotImplementedError
 
+    def disconnect(self, ifname: str) -> None:
+        raise NotImplementedError
+
     def wifi(self) -> List[DeviceWifi]:
         raise NotImplementedError
 
@@ -38,6 +41,9 @@ class DeviceControl(DeviceControlInterface):
 
     def connect(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'connect', ifname])
+
+    def disconnect(self, ifname: str) -> None:
+        self._syscmd.nmcli(['device', 'disconnect', ifname])
 
     def wifi(self) -> List[DeviceWifi]:
         r = self._syscmd.nmcli(['device', 'wifi'])

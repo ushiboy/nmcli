@@ -39,6 +39,12 @@ def test_connect():
     device.connect(ifname)
     assert s.passed_parameters == ['device', 'connect', ifname]
 
+def test_disconnect():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ifname = 'eth0'
+    device.disconnect(ifname)
+    assert s.passed_parameters == ['device', 'disconnect', ifname]
 
 def test_device_wifi():
     d = '''IN-USE  SSID             MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
