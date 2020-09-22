@@ -8,6 +8,9 @@ class DeviceControlInterface:
     def __call__(self) -> List[Device]:
         raise NotImplementedError
 
+    def status(self) -> List[Device]:
+        raise NotImplementedError
+
     def wifi(self) -> List[DeviceWifi]:
         raise NotImplementedError
 
@@ -21,7 +24,10 @@ class DeviceControl(DeviceControlInterface):
         self._syscmd = syscmd or SystemCommand()
 
     def __call__(self) -> List[Device]:
-        r = self._syscmd.nmcli('device')
+        return self.status()
+
+    def status(self) -> List[Device]:
+        r = self._syscmd.nmcli(['device', 'status'])
         results = []
         for row in r.split('\n')[1:]:
             results.append(Device.parse(row))

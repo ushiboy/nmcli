@@ -16,7 +16,22 @@ lo      loopback  unmanaged  --''')
         Device('wlan0', 'wifi', 'connected', 'MyWifi'),
         Device('lo', 'loopback', 'unmanaged', None)
     ]
-    assert s.passed_parameters == 'device'
+    assert s.passed_parameters == ['device', 'status']
+
+def test_status():
+    s = DummySystemCommand('''DEVICE  TYPE      STATE      CONNECTION
+eth0    ethernet  connected  Default
+wlan0   wifi      connected  MyWifi
+lo      loopback  unmanaged  --''')
+    device = DeviceControl(s)
+    r = device.status()
+    assert len(r) == 3
+    assert r == [
+        Device('eth0', 'ethernet', 'connected', 'Default'),
+        Device('wlan0', 'wifi', 'connected', 'MyWifi'),
+        Device('lo', 'loopback', 'unmanaged', None)
+    ]
+    assert s.passed_parameters == ['device', 'status']
 
 def test_device_wifi():
     s = DummySystemCommand('''IN-USE  SSID             MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
