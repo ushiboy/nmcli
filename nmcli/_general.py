@@ -1,4 +1,5 @@
 import re
+from ._const import NetworkConnectivity
 from ._exception import UnspecifiedException
 from ._system import SystemCommandInterface, SystemCommand
 from .data import General
@@ -27,5 +28,7 @@ class GeneralControl(GeneralControlInterface):
             r'^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*', row)
         if m:
             state, connectivity, wifi_hw, wifi, wwan_hw, wwan = m.groups()
-            return General(state, connectivity, wifi_hw, wifi, wwan_hw, wwan)
+            return General(state, NetworkConnectivity(connectivity),
+                           wifi_hw == 'enabled', wifi == 'enabled',
+                           wwan_hw == 'enabled', wwan == 'enabled')
         raise UnspecifiedException('Failed to parse the results of the general command')
