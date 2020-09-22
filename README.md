@@ -41,7 +41,7 @@ except Exception as e:
 |--------|---------|--------|
 | general | | supported |
 | general | status | supported |
-| general | hostname | not supported |
+| general | hostname | supported |
 | general | permissions | not supported |
 | general | logging | not supported |
 | networking | | supported |
@@ -193,6 +193,22 @@ Show overall status of NetworkManager.
 
 ```
 nmcli.general.status() -> General
+```
+
+#### nmcli.general.get_hostname
+
+Get persistent system hostname.
+
+```
+nmcli.general.get_hostname() -> str
+```
+
+#### nmcli.general.set_hostname
+
+Change persistent system hostname.
+
+```
+nmcli.general.set_hostname(hostname: str) -> None
 ```
 
 ### networking
