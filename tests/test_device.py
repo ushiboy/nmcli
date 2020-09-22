@@ -1,7 +1,6 @@
-from .helper import DummySystemCommand
 from nmcli._device import DeviceControl
 from nmcli.data import Device, DeviceWifi
-import pytest
+from .helper import DummySystemCommand
 
 def test_device():
     s = DummySystemCommand('''DEVICE  TYPE      STATE      CONNECTION
@@ -33,11 +32,20 @@ lo      loopback  unmanaged  --''')
     ]
     assert s.passed_parameters == ['device', 'status']
 
+def test_connect():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ifname = 'eth0'
+    device.connect(ifname)
+    assert s.passed_parameters == ['device', 'connect', ifname]
+
+
 def test_device_wifi():
-    s = DummySystemCommand('''IN-USE  SSID             MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+    d = '''IN-USE  SSID             MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
 *       AP1  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2
         AP2  Infra  11    195 Mbit/s  74      ______  WPA2
-        AP3  Infra  11    195 Mbit/s  72      ______  WPA1 WPA2''')
+        AP3  Infra  11    195 Mbit/s  72      ______  WPA1 WPA2'''
+    s = DummySystemCommand(d)
     device = DeviceControl(s)
     r = device.wifi()
     assert len(r) == 3
