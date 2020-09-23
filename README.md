@@ -66,14 +66,14 @@ except Exception as e:
 | connection | import | not supported |
 | connection | export | not supported |
 | device | | supported |
-| device | status | not supported |
-| device | show | not supported |
+| device | status | supported |
+| device | show | supported |
 | device | set | not supported |
-| device | connect | not supported |
-| device | reapply | not supported |
+| device | connect | supported |
+| device | reapply | supported |
 | device | modify | not supported |
-| device | disconnect | not supported |
-| device | delete | not supported |
+| device | disconnect | supported |
+| device | delete | supported |
 | device | monitor | not supported |
 | device | wifi | supported |
 | device | wifi connect | supported |
@@ -159,6 +159,62 @@ Print status of devices.
 
 ```
 nmcli.device() -> List[Device]
+```
+
+#### nmcli.device.status
+
+Show status for all devices.
+
+```
+nmcli.device.status() -> List[Device]
+```
+
+#### nmcli.device.show
+
+Show details of device.
+
+```
+nmcli.device.show(ifname: str) -> DeviceDetails
+```
+
+#### nmcli.device.show_all
+
+Show details of devices.
+
+```
+nmcli.device.show_all() -> List[DeviceDetails]
+```
+
+#### nmcli.device.connect
+
+Connect the device.
+
+```
+nmcli.device.connect(ifname: str) -> None
+```
+
+#### nmcli.device.disconnect
+
+Disconnect devices.
+
+```
+nmcli.device.disconnect(ifname: str) -> None
+```
+
+#### nmcli.device.reapply
+
+Attempts to update device with changes to the currently active connection made since it was last applied.
+
+```
+nmcli.device.reapply(ifname: str) -> None
+```
+
+#### nmcli.device.delete
+
+Delete the software devices.
+
+```
+nmcli.device.delete(ifname: str) -> None
 ```
 
 #### nmcli.device.wifi
