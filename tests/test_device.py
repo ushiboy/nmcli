@@ -32,6 +32,37 @@ lo      loopback  unmanaged  --''')
     ]
     assert s.passed_parameters == ['device', 'status']
 
+def test_show():
+    d = '''GENERAL.DEVICE:                         lo
+GENERAL.TYPE:                           loopback
+GENERAL.HWADDR:                         00:00:00:00:00:00
+GENERAL.MTU:                            65536
+GENERAL.STATE:                          10 (unmanaged)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+IP4.ADDRESS[1]:                         127.0.0.1/8
+IP4.GATEWAY:                            --
+IP6.ADDRESS[1]:                         ::1/128
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
+    s = DummySystemCommand(d)
+    device = DeviceControl(s)
+    assert device.show('lo') == {
+        'GENERAL.DEVICE': 'lo',
+        'GENERAL.TYPE': 'loopback',
+        'GENERAL.HWADDR': '00:00:00:00:00:00',
+        'GENERAL.MTU': '65536',
+        'GENERAL.STATE': '10 (unmanaged)',
+        'GENERAL.CONNECTION': None,
+        'GENERAL.CON-PATH': None,
+        'IP4.ADDRESS[1]': '127.0.0.1/8',
+        'IP4.GATEWAY': None,
+        'IP6.ADDRESS[1]': '::1/128',
+        'IP6.GATEWAY': None,
+        'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
+        }
+    assert s.passed_parameters == ['device', 'show', 'lo']
+
 def test_connect():
     s = DummySystemCommand()
     device = DeviceControl(s)
@@ -45,6 +76,20 @@ def test_disconnect():
     ifname = 'eth0'
     device.disconnect(ifname)
     assert s.passed_parameters == ['device', 'disconnect', ifname]
+
+def test_reapply():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ifname = 'eth0'
+    device.reapply(ifname)
+    assert s.passed_parameters == ['device', 'reapply', ifname]
+
+def test_delete():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ifname = 'eth0'
+    device.delete(ifname)
+    assert s.passed_parameters == ['device', 'delete', ifname]
 
 def test_device_wifi():
     d = '''IN-USE  SSID             MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
