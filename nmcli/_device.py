@@ -1,12 +1,34 @@
-from typing import List
 import re
+from typing import List, Dict, Optional
 from ._system import SystemCommandInterface, SystemCommand
 from .data.device import Device, DeviceWifi
 
+DeviceDetails = Dict[str, Optional[str]]
 
 class DeviceControlInterface:
 
     def __call__(self) -> List[Device]:
+        raise NotImplementedError
+
+    def status(self) -> List[Device]:
+        raise NotImplementedError
+
+    def show(self, ifname: str) -> DeviceDetails:
+        raise NotImplementedError
+
+    def show_all(self) -> List[DeviceDetails]:
+        raise NotImplementedError
+
+    def connect(self, ifname: str) -> None:
+        raise NotImplementedError
+
+    def disconnect(self, ifname: str) -> None:
+        raise NotImplementedError
+
+    def reapply(self, ifname: str) -> None:
+        raise NotImplementedError
+
+    def delete(self, ifname: str) -> None:
         raise NotImplementedError
 
     def wifi(self) -> List[DeviceWifi]:
@@ -22,26 +44,56 @@ class DeviceControl(DeviceControlInterface):
         self._syscmd = syscmd or SystemCommand()
 
     def __call__(self) -> List[Device]:
-        r = self._syscmd.nmcli('device')
+        return self.status()
+
+    def status(self) -> List[Device]:
+        r = self._syscmd.nmcli(['device', 'status'])
         results = []
         for row in r.split('\n')[1:]:
-            m = re.search(r'^(\S*)\s+(\S*)\s+(\S*)\s+(\S*)\s*$', row)
-            if m:
-                device, device_type, state, conn = m.groups()
-                connection = conn if conn != '--' else None
-                results.append(Device(device, device_type, state, connection))
+            results.append(Device.parse(row))
         return results
+
+    def show(self, ifname: str) -> DeviceDetails:
+        r = self._syscmd.nmcli(['device', 'show', ifname])
+        results = {}
+        for row in r.split('\n'):
+            m = re.search(r'^(\S+):\s*([\S\s]+)\s*', row)
+            if m:
+                key, value = m.groups()
+                results[key] = None if value in ('--', '""') else value
+        return results
+
+    def show_all(self) -> List[DeviceDetails]:
+        r = self._syscmd.nmcli(['device', 'show'])
+        results = []
+        details: DeviceDetails = {}
+        for row in r.split('\n'):
+            m = re.search(r'^(\S+):\s*([\S\s]+)\s*', row)
+            if m:
+                key, value = m.groups()
+                if key == 'GENERAL.DEVICE':
+                    details = {}
+                    results.append(details)
+                details[key] = None if value in ('--', '""') else value
+        return results
+
+    def connect(self, ifname: str) -> None:
+        self._syscmd.nmcli(['device', 'connect', ifname])
+
+    def disconnect(self, ifname: str) -> None:
+        self._syscmd.nmcli(['device', 'disconnect', ifname])
+
+    def reapply(self, ifname: str) -> None:
+        self._syscmd.nmcli(['device', 'reapply', ifname])
+
+    def delete(self, ifname: str) -> None:
+        self._syscmd.nmcli(['device', 'delete', ifname])
 
     def wifi(self) -> List[DeviceWifi]:
         r = self._syscmd.nmcli(['device', 'wifi'])
         results = []
         for row in r.split('\n')[1:]:
-            m = re.search(
-                r'^(\*|\s)\s+(\S*)\s+(\S*)\s+(\d+)\s+(\d+)\sMbit/s\s+(\d+)\s+\S+\s+(.*)$', row)
-            if m:
-                in_use, ssid, mode, chan, rate, signal, security = m.groups()
-                results.append(DeviceWifi(in_use == '*', ssid, mode,
-                                          int(chan), int(rate), int(signal), security.rstrip()))
+            results.append(DeviceWifi.parse(row))
         return results
 
     def wifi_connect(self, ssid: str, password: str) -> None:
