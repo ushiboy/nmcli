@@ -63,6 +63,53 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
         }
     assert s.passed_parameters == ['device', 'show', 'lo']
 
+def test_show_all():
+    d = '''GENERAL.DEVICE:                         wlan0
+GENERAL.TYPE:                           wifi
+GENERAL.HWADDR:                         46:7B:1F:32:36:E2
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          30 (disconnected)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+
+GENERAL.DEVICE:                         lo
+GENERAL.TYPE:                           loopback
+GENERAL.HWADDR:                         00:00:00:00:00:00
+GENERAL.MTU:                            65536
+GENERAL.STATE:                          10 (unmanaged)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+IP4.ADDRESS[1]:                         127.0.0.1/8
+IP4.GATEWAY:                            --
+IP6.ADDRESS[1]:                         ::1/128
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
+    s = DummySystemCommand(d)
+    device = DeviceControl(s)
+    assert device.show_all() == [{
+        'GENERAL.DEVICE': 'wlan0',
+        'GENERAL.TYPE': 'wifi',
+        'GENERAL.HWADDR': '46:7B:1F:32:36:E2',
+        'GENERAL.MTU': '1500',
+        'GENERAL.STATE': '30 (disconnected)',
+        'GENERAL.CONNECTION': None,
+        'GENERAL.CON-PATH': None
+        }, {
+        'GENERAL.DEVICE': 'lo',
+        'GENERAL.TYPE': 'loopback',
+        'GENERAL.HWADDR': '00:00:00:00:00:00',
+        'GENERAL.MTU': '65536',
+        'GENERAL.STATE': '10 (unmanaged)',
+        'GENERAL.CONNECTION': None,
+        'GENERAL.CON-PATH': None,
+        'IP4.ADDRESS[1]': '127.0.0.1/8',
+        'IP4.GATEWAY': None,
+        'IP6.ADDRESS[1]': '::1/128',
+        'IP6.GATEWAY': None,
+        'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
+        }]
+    assert s.passed_parameters == ['device', 'show']
+
 def test_connect():
     s = DummySystemCommand()
     device = DeviceControl(s)

@@ -16,6 +16,9 @@ class DeviceControlInterface:
     def show(self, ifname: str) -> DeviceDetails:
         raise NotImplementedError
 
+    def show_all(self) -> List[DeviceDetails]:
+        raise NotImplementedError
+
     def connect(self, ifname: str) -> None:
         raise NotImplementedError
 
@@ -58,6 +61,20 @@ class DeviceControl(DeviceControlInterface):
             if m:
                 key, value = m.groups()
                 results[key] = None if value in ('--', '""') else value
+        return results
+
+    def show_all(self) -> List[DeviceDetails]:
+        r = self._syscmd.nmcli(['device', 'show'])
+        results = []
+        details: DeviceDetails = {}
+        for row in r.split('\n'):
+            m = re.search(r'^(\S+):\s*([\S\s]+)\s*', row)
+            if m:
+                key, value = m.groups()
+                if key == 'GENERAL.DEVICE':
+                    details = {}
+                    results.append(details)
+                details[key] = None if value in ('--', '""') else value
         return results
 
     def connect(self, ifname: str) -> None:
