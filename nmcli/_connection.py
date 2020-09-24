@@ -34,6 +34,9 @@ class ConnectionControlInterface:
     def show(self, name: str) -> ConnectionDetails:
         raise NotImplementedError
 
+    def reload(self) -> None:
+        raise NotImplementedError
+
 class ConnectionControl(ConnectionControlInterface):
 
     def __init__(self, syscmd: SystemCommandInterface = None):
@@ -86,3 +89,6 @@ class ConnectionControl(ConnectionControlInterface):
                 key, value = m.groups()
                 results[key] = None if value in ('--', '""') else value
         return results
+
+    def reload(self) -> None:
+        self._syscmd.nmcli(['connection', 'reload'])
