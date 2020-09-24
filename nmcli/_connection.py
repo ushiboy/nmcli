@@ -43,6 +43,8 @@ class ConnectionControl(ConnectionControlInterface):
         r = self._syscmd.nmcli('connection')
         results = []
         for row in r.split('\n')[1:]:
+            if len(row) == 0:
+                continue
             results.append(Connection.parse(row))
         return results
 
