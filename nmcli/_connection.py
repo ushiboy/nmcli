@@ -6,7 +6,6 @@ from .data.connection import Connection
 ConnectionDetails = Dict[str, Optional[str]]
 ConnectionOptions = Dict[str, str]
 
-
 class ConnectionControlInterface:
 
     def __call__(self) -> List[Connection]:
@@ -35,6 +34,8 @@ class ConnectionControlInterface:
     def show(self, name: str) -> ConnectionDetails:
         raise NotImplementedError
 
+    def reload(self) -> None:
+        raise NotImplementedError
 
 class ConnectionControl(ConnectionControlInterface):
 
@@ -45,10 +46,9 @@ class ConnectionControl(ConnectionControlInterface):
         r = self._syscmd.nmcli('connection')
         results = []
         for row in r.split('\n')[1:]:
-            m = re.search(r'^([\S\s]+)\s{2}(\S+)\s{2}(\S+)\s+(\S+)\s*', row)
-            if m:
-                name, uuid, conn_type, device = m.groups()
-                results.append(Connection(name.strip(), uuid, conn_type, device))
+            if len(row) == 0:
+                continue
+            results.append(Connection.parse(row))
         return results
 
     def add(self,
@@ -89,3 +89,6 @@ class ConnectionControl(ConnectionControlInterface):
                 key, value = m.groups()
                 results[key] = None if value in ('--', '""') else value
         return results
+
+    def reload(self) -> None:
+        self._syscmd.nmcli(['connection', 'reload'])

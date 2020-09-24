@@ -61,7 +61,7 @@ except Exception as e:
 | connection | clone | not supported |
 | connection | edit | not supported |
 | connection | delete | supported |
-| connection | reload | not supported |
+| connection | reload | supported |
 | connection | load | not supported |
 | connection | import | not supported |
 | connection | export | not supported |
@@ -149,6 +149,14 @@ Show details for specified connections.
 
 ```
 nmcli.connection.show(name: str) -> ConnectionDetails
+```
+
+#### nmcli.connection.reload
+
+Reload all connection files from disk.
+
+```
+nmcli.connection.reload() -> None
 ```
 
 ### device

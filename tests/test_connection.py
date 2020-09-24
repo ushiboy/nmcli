@@ -1,8 +1,7 @@
-from .helper import DummySystemCommand
+import os
 from nmcli._connection import ConnectionControl
 from nmcli.data import Connection
-import os
-import pytest
+from .helper import DummySystemCommand
 
 connection_data_file = os.path.join(os.path.dirname(__file__), 'connection_data.txt')
 
@@ -10,8 +9,7 @@ def test_connection():
     s = DummySystemCommand('''NAME            UUID                                  TYPE      DEVICE
 AP1  3eac760c-de77-4823-9ab8-773c276daca3  wifi      wlan0
 Home            700f5b18-cbb3-4d38-9c61-e3bc3a3852b9  ethernet  eth0
-Wired connection 1  700f5b18-cbb3-4d38-9c61-999999999999  ethernet  eth1
-''')
+Wired connection 1  700f5b18-cbb3-4d38-9c61-999999999999  ethernet  eth1''')
     connection = ConnectionControl(s)
     r = connection()
 
@@ -90,3 +88,9 @@ def test_show():
     assert r['ipv4.dns-options'] is None
     assert r['IP4.ADDRESS[1]'] == '192.168.1.10/24'
     assert r['DHCP6.OPTION[8]'] == 'requested_dhcp6_name_servers = 1'
+
+def test_reload():
+    s = DummySystemCommand()
+    connection = ConnectionControl(s)
+    connection.reload()
+    assert s.passed_parameters == ['connection', 'reload']
