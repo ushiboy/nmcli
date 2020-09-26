@@ -25,6 +25,10 @@ class DummyConnectionControl(ConnectionControlInterface):
     def down_args(self):
         return self._down_args
 
+    @property
+    def called_reload(self) -> int:
+        return self._called_reload
+
     def __init__(self, result_call: List[Connection] = None,
                  result_show: ConnectionDetails = None, raise_error: Exception = None):
         self._raise_error = raise_error
@@ -35,6 +39,7 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._delete_args: List[str] = []
         self._up_args: List[str] = []
         self._down_args: List[str] = []
+        self._called_reload = 0
 
     def __call__(self) -> List[Connection]:
         if not self._raise_error is None:
@@ -77,3 +82,6 @@ class DummyConnectionControl(ConnectionControlInterface):
         if not self._result_show is None:
             return self._result_show
         raise ValueError("'result_show' is not properly initialized")
+
+    def reload(self) -> None:
+        self._called_reload += 1

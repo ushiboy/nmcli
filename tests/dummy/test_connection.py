@@ -94,3 +94,8 @@ def test_show_when_no_arguments_are_passed():
     c = DummyConnectionControl()
     with pytest.raises(ValueError):
         c.show('MyHome')
+
+def test_reload():
+    c = DummyConnectionControl()
+    c.reload()
+    assert c.called_reload == 1
