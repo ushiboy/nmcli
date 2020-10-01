@@ -5,6 +5,10 @@ from ..data.device import Device, DeviceWifi
 class DummyDeviceControl(DeviceControlInterface):
 
     @property
+    def show_args(self):
+        return self._show_args
+
+    @property
     def connect_args(self):
         return self._connect_args
 
@@ -32,8 +36,9 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error = raise_error
         self._result_call = [] if result_call is None else result_call
         self._result_wifi = [] if result_wifi is None else result_wifi
-        self._result_show = [] if result_show is None else result_show
+        self._result_show = {} if result_show is None else result_show
         self._result_show_all = [] if result_show_all is None else result_show_all
+        self._show_args: List[str] = []
         self._connect_args: List[str] = []
         self._disconnect_args: List[str] = []
         self._reapply_args: List[str] = []
@@ -49,6 +54,7 @@ class DummyDeviceControl(DeviceControlInterface):
         return self._result_call
 
     def show(self, ifname: str) -> DeviceDetails:
+        self._show_args.append(ifname)
         self._raise_error_if_needed()
         return self._result_show
 
