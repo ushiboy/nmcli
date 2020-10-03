@@ -1,9 +1,7 @@
 import re
-from typing import List, Dict, Optional
+from typing import List
 from ._system import SystemCommandInterface, SystemCommand
-from .data.device import Device, DeviceWifi
-
-DeviceDetails = Dict[str, Optional[str]]
+from .data.device import Device, DeviceWifi, DeviceDetails
 
 class DeviceControlInterface:
 
