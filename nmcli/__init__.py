@@ -13,8 +13,15 @@ from ._exception import UnspecifiedException, \
 from ._general import GeneralControlInterface, GeneralControl
 from ._networking import NetworkingControlInterface, NetworkingControl
 from ._radio import RadioControlInterface, RadioControl
-from ._system import SystemCommand
-from .data import Connection, Device, DeviceWifi, General, Radio
+from ._system import SystemCommand, SystemCommandInterface, CommandParameter
+from .data import Connection, \
+        ConnectionDetails, \
+        ConnectionOptions, \
+        Device, \
+        DeviceWifi, \
+        DeviceDetails, \
+        General, \
+        Radio
 
 _syscmd = SystemCommand()
 connection = ConnectionControl(_syscmd)
