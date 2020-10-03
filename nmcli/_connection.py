@@ -1,10 +1,7 @@
-from typing import List, Dict, Optional
+from typing import List, Optional
 import re
 from ._system import SystemCommandInterface, SystemCommand
-from .data.connection import Connection
-
-ConnectionDetails = Dict[str, Optional[str]]
-ConnectionOptions = Dict[str, str]
+from .data.connection import Connection, ConnectionDetails, ConnectionOptions
 
 class ConnectionControlInterface:
 
