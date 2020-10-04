@@ -27,7 +27,8 @@ class DummyRadioControl(RadioControlInterface):
     def called_wwan_off(self) -> int:
         return self._called_wwan_off
 
-    def __init__(self, result_call: Radio = None,
+    def __init__(self,
+                 result_call: Radio = None,
                  result_all: Radio = None,
                  result_wifi: bool = None,
                  result_wwan: bool = None,

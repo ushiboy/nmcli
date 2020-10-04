@@ -16,7 +16,8 @@ class DummyNetworkingControl(NetworkingControlInterface):
     def connectivity_args(self) -> List[bool]:
         return self._connectivity_args
 
-    def __init__(self, result_call: NetworkConnectivity = None,
+    def __init__(self,
+                 result_call: NetworkConnectivity = None,
                  result_connectivity: NetworkConnectivity = None,
                  raise_error: Exception = None):
         self._result_call = result_call
