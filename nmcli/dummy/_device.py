@@ -28,16 +28,17 @@ class DummyDeviceControl(DeviceControlInterface):
     def wifi_connect_args(self):
         return self._wifi_connect_args
 
-    def __init__(self, result_call: List[Device] = None,
+    def __init__(self,
+                 result_call: List[Device] = None,
                  result_show: DeviceDetails = None,
                  result_show_all: List[DeviceDetails] = None,
                  result_wifi: List[DeviceWifi] = None,
                  raise_error: Exception = None):
         self._raise_error = raise_error
-        self._result_call = [] if result_call is None else result_call
-        self._result_wifi = [] if result_wifi is None else result_wifi
-        self._result_show = {} if result_show is None else result_show
-        self._result_show_all = [] if result_show_all is None else result_show_all
+        self._result_call = result_call or []
+        self._result_wifi = result_wifi or []
+        self._result_show = result_show
+        self._result_show_all = result_show_all or []
         self._show_args: List[str] = []
         self._connect_args: List[str] = []
         self._disconnect_args: List[str] = []
@@ -54,9 +55,11 @@ class DummyDeviceControl(DeviceControlInterface):
         return self._result_call
 
     def show(self, ifname: str) -> DeviceDetails:
-        self._show_args.append(ifname)
         self._raise_error_if_needed()
-        return self._result_show
+        self._show_args.append(ifname)
+        if not self._result_show is None:
+            return self._result_show
+        raise ValueError("'result_show' is not properly initialized")
 
     def show_all(self) -> List[DeviceDetails]:
         self._raise_error_if_needed()
