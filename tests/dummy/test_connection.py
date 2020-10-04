@@ -2,7 +2,6 @@ import pytest
 from nmcli.dummy._connection import DummyConnectionControl
 from nmcli.data import Connection
 
-
 def test_call():
     result_call = [Connection('a', 'b', 'ethernet', 'eth0')]
     c = DummyConnectionControl(result_call)
@@ -99,3 +98,8 @@ def test_reload():
     c = DummyConnectionControl()
     c.reload()
     assert c.called_reload == 1
+
+def test_reload_when_raise_error():
+    c = DummyConnectionControl(raise_error=Exception)
+    with pytest.raises(Exception):
+        c.reload()
