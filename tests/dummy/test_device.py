@@ -34,6 +34,11 @@ def test_show_when_raise_error():
     with pytest.raises(Exception):
         c.show('eth0')
 
+def test_show_when_no_arguments_are_passed():
+    c = DummyDeviceControl()
+    with pytest.raises(ValueError):
+        c.show('eth0')
+
 def test_show_all():
     result_show_all = [{'key':'value'}]
     c = DummyDeviceControl(result_show_all=result_show_all)

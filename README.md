@@ -395,6 +395,16 @@ nmcli.radio.wwan_off() -> None
 
 ## Change Log
 
+### 0.3.0
+
+Added networking and radio APIs.
+
+Added more APIs for connection, device and general.
+
+Changed the properties of the General data class.
+
+Changed throw a ValueError exception if the regular expression pattern is not matched.
+
 ### 0.2.2
 
 Fix the parsing bug of connection names that contain spaces (connection.show).

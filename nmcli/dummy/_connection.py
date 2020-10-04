@@ -29,10 +29,12 @@ class DummyConnectionControl(ConnectionControlInterface):
     def called_reload(self) -> int:
         return self._called_reload
 
-    def __init__(self, result_call: List[Connection] = None,
-                 result_show: ConnectionDetails = None, raise_error: Exception = None):
+    def __init__(self,
+                 result_call: List[Connection] = None,
+                 result_show: ConnectionDetails = None,
+                 raise_error: Exception = None):
         self._raise_error = raise_error
-        self._result_call = [] if result_call is None else result_call
+        self._result_call = result_call or []
         self._result_show = result_show
         self._add_args: List[Tuple] = []
         self._modify_args: List[Tuple] = []
@@ -42,8 +44,7 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._called_reload = 0
 
     def __call__(self) -> List[Connection]:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         return self._result_call
 
     def add(self,
@@ -52,36 +53,35 @@ class DummyConnectionControl(ConnectionControlInterface):
             ifname: str = "*",
             name: str = None,
             autoconnect: bool = False) -> None:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         self._add_args.append((conn_type, options, ifname, name, autoconnect))
 
     def modify(self, name: str, options: ConnectionOptions) -> None:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         self._modify_args.append((name, options))
 
     def delete(self, name: str) -> None:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         self._delete_args.append(name)
 
     def up(self, name: str) -> None:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         self._up_args.append(name)
 
     def down(self, name: str) -> None:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         self._down_args.append(name)
 
     def show(self, name: str) -> ConnectionDetails:
-        if not self._raise_error is None:
-            raise self._raise_error
+        self._raise_error_if_needed()
         if not self._result_show is None:
             return self._result_show
         raise ValueError("'result_show' is not properly initialized")
 
     def reload(self) -> None:
+        self._raise_error_if_needed()
         self._called_reload += 1
+
+    def _raise_error_if_needed(self):
+        if not self._raise_error is None:
+            raise self._raise_error
