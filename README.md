@@ -395,6 +395,10 @@ nmcli.radio.wwan_off() -> None
 
 ## Change Log
 
+### 0.3.1
+
+Fixed device status and device wifi parsing bug.
+
 ### 0.3.0
 
 Added networking and radio APIs.

@@ -48,7 +48,8 @@ class DeviceControl(DeviceControlInterface):
         r = self._syscmd.nmcli(['device', 'status'])
         results = []
         for row in r.split('\n')[1:]:
-            results.append(Device.parse(row))
+            if len(row) > 0:
+                results.append(Device.parse(row))
         return results
 
     def show(self, ifname: str) -> DeviceDetails:
@@ -91,7 +92,8 @@ class DeviceControl(DeviceControlInterface):
         r = self._syscmd.nmcli(['device', 'wifi'])
         results = []
         for row in r.split('\n')[1:]:
-            results.append(DeviceWifi.parse(row))
+            if len(row) > 0:
+                results.append(DeviceWifi.parse(row))
         return results
 
     def wifi_connect(self, ssid: str, password: str) -> None:
