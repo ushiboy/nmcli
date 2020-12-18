@@ -1,6 +1,9 @@
+import os
 from nmcli._device import DeviceControl
 from nmcli.data import Device, DeviceWifi
 from .helper import DummySystemCommand
+
+device_data_file = os.path.join(os.path.dirname(__file__), 'device_data.txt')
 
 def test_device():
     s = DummySystemCommand('''DEVICE  TYPE      STATE      CONNECTION
@@ -18,16 +21,16 @@ lo      loopback  unmanaged  --''')
     assert s.passed_parameters == ['device', 'status']
 
 def test_status():
-    s = DummySystemCommand('''DEVICE  TYPE      STATE      CONNECTION
-eth0    ethernet  connected  Default
-wlan0   wifi      connected  MyWifi
-lo      loopback  unmanaged  --''')
+    with open(device_data_file) as f:
+        buf = f.read()
+    s = DummySystemCommand(buf)
     device = DeviceControl(s)
     r = device.status()
-    assert len(r) == 3
+    assert len(r) == 4
     assert r == [
-        Device('eth0', 'ethernet', 'connected', 'Default'),
-        Device('wlan0', 'wifi', 'connected', 'MyWifi'),
+        Device('eth0', 'ethernet', 'connected', 'Wired connection 1'),
+        Device('wlan0', 'wifi', 'disconnected', None),
+        Device('p2p-dev-wlan0', 'wifi-p2p', 'disconnected', None),
         Device('lo', 'loopback', 'unmanaged', None)
     ]
     assert s.passed_parameters == ['device', 'status']
