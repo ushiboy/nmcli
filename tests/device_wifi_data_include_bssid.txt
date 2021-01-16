@@ -1,0 +1,4 @@
+IN-USE  BSSID              SSID                      MODE   CHAN  RATE        SIGNAL  BARS  SECURITY  
+        00:00:00:00:00:00  AP1                       Infra  11    195 Mbit/s  72      ***   WPA1 WPA2 
+        00:00:00:00:00:01  AP2                       Infra  4     130 Mbit/s  40      **    WPA1 WPA2 
+        00:00:00:00:00:02  AP3                       Infra  6     65 Mbit/s   24      *     WPA2      
