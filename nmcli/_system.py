@@ -18,16 +18,20 @@ class SystemCommandInterface:
     def nmcli(self, parameters: CommandParameter) -> str:
         raise NotImplementedError
 
+    def disable_use_sudo(self):
+        raise NotImplementedError
 
 class SystemCommand(SystemCommandInterface):
 
     def __init__(self, subprocess_run=run):
         self._run = subprocess_run
+        self._use_sudo = True
 
     def nmcli(self, parameters: CommandParameter) -> str:
         if isinstance(parameters, str):
             parameters = [parameters]
-        commands = ['sudo', 'nmcli'] + parameters
+        c = ['sudo', 'nmcli'] if self._use_sudo else ['nmcli']
+        commands = c + parameters
         try:
             r = self._run(commands, capture_output=True,
                           check=True, env={'LANG': 'C'})
@@ -52,3 +56,6 @@ class SystemCommand(SystemCommandInterface):
                 raise NotExistException('Connection, device, or access point does not exist') from e
             else:
                 raise UnspecifiedException('Unknown or unspecified error [%d]' % rc) from e
+
+    def disable_use_sudo(self):
+        self._use_sudo = False
