@@ -103,3 +103,10 @@ def test_nmcli_when_failed_with_unspecified():
 
     with pytest.raises(UnspecifiedException):
         s.nmcli('connection')
+
+def test_disable_use_sudo():
+    run = DummySubprocessRunner(stdout=b'test')
+    s = SystemCommand(run)
+    s.disable_use_sudo()
+    assert s.nmcli('connection') == 'test'
+    assert run.passed_args == ['nmcli', 'connection']

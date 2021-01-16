@@ -34,6 +34,7 @@ except Exception as e:
 * NetworkManager
   * `sudo apt install network-manager` (Debian)
 * User who can execute nmcli with sudo with NOPASSWD
+  * If sudo is not needed (like root user), use `disable_use_sudo` at the beginning of the process.
 
 ## Compatibility table
 
@@ -393,7 +394,23 @@ Turn off mobile broadband radio switches.
 nmcli.radio.wwan_off() -> None
 ```
 
+### other
+
+#### nmcli.disable_use_sudo
+
+Disable the use of sudo.
+
+```
+nmcli.disable_use_sudo() -> None
+```
+
 ## Change Log
+
+### 0.4.0
+
+Added disabling of sudo usage.
+
+Added support for parsing the execution results of recent versions of the nmcli device wifi command.
 
 ### 0.3.1
 

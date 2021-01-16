@@ -61,3 +61,13 @@ class DeviceWifi:
             return DeviceWifi(in_use == '*', ssid, mode,
                     int(chan), int(rate), int(signal), security.rstrip())
         raise ValueError('Parse failed [%s]' % text)
+
+    @classmethod
+    def parse_include_bssid_line(cls, text: str) -> DeviceWifi:
+        m = re.search(
+            r'^(\*|\s)\s+\S*\s+(\S*)\s+(\S*)\s+(\d+)\s+(\d+)\sMbit/s\s+(\d+)\s+\S+\s+(.*)$', text)
+        if m:
+            in_use, ssid, mode, chan, rate, signal, security = m.groups()
+            return DeviceWifi(in_use == '*', ssid, mode,
+                    int(chan), int(rate), int(signal), security.rstrip())
+        raise ValueError('Parse failed [%s]' % text)

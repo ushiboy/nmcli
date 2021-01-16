@@ -5,6 +5,8 @@ from .helper import DummySystemCommand
 
 device_data_file = os.path.join(os.path.dirname(__file__), 'device_data.txt')
 device_wifi_data_file = os.path.join(os.path.dirname(__file__), 'device_wifi_data.txt')
+device_wifi_data_include_bssid_file = os.path.join(os.path.dirname(__file__),
+        'device_wifi_data_include_bssid.txt')
 
 def test_device():
     s = DummySystemCommand('''DEVICE  TYPE      STATE      CONNECTION
@@ -168,6 +170,18 @@ def test_device_wifi():
         DeviceWifi(False, 'AP2', 'Infra', 4, 130, 40, 'WPA1 WPA2'),
         DeviceWifi(False, 'AP3', 'Infra', 6, 65, 24, 'WPA2'),
     ]
+
+    with open(device_wifi_data_include_bssid_file) as f:
+        buf = f.read()
+    device = DeviceControl(DummySystemCommand(buf))
+    r = device.wifi()
+    assert len(r) == 3
+    assert r == [
+        DeviceWifi(False, 'AP1', 'Infra', 11, 195, 72, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP2', 'Infra', 4, 130, 40, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP3', 'Infra', 6, 65, 24, 'WPA2'),
+    ]
+
 
 def test_wifi_connect():
     s = DummySystemCommand()

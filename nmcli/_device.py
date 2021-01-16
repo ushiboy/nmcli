@@ -91,9 +91,15 @@ class DeviceControl(DeviceControlInterface):
     def wifi(self) -> List[DeviceWifi]:
         r = self._syscmd.nmcli(['device', 'wifi'])
         results = []
-        for row in r.split('\n')[1:]:
-            if len(row) > 0:
-                results.append(DeviceWifi.parse(row))
+        rows = r.split('\n')
+        if rows[0].find('BSSID') > 0:
+            for row in rows[1:]:
+                if len(row) > 0:
+                    results.append(DeviceWifi.parse_include_bssid_line(row))
+        else:
+            for row in rows[1:]:
+                if len(row) > 0:
+                    results.append(DeviceWifi.parse(row))
         return results
 
     def wifi_connect(self, ssid: str, password: str) -> None:
