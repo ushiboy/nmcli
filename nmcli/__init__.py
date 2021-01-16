@@ -29,3 +29,6 @@ device = DeviceControl(_syscmd)
 general = GeneralControl(_syscmd)
 networking = NetworkingControl(_syscmd)
 radio = RadioControl(_syscmd)
+
+def disable_use_sudo():
+    _syscmd.disable_use_sudo()
