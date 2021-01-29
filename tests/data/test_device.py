@@ -39,6 +39,12 @@ def test_device_wifi_parse():
     d2 = '        AP1  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2'
     assert DeviceWifi.parse(d2) == \
         DeviceWifi(False, 'AP1', 'Infra', 1, 130, 82, 'WPA1 WPA2')
+    d3 = '        AP 1  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2'
+    assert DeviceWifi.parse(d3) == \
+        DeviceWifi(False, 'AP 1', 'Infra', 1, 130, 82, 'WPA1 WPA2')
+    d4 = '        AP 1 2  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2'
+    assert DeviceWifi.parse(d4) == \
+        DeviceWifi(False, 'AP 1 2', 'Infra', 1, 130, 82, 'WPA1 WPA2')
 
 def test_device_wifi_parse_include_bssid_line():
     d1 = '*       00:00:00:00:00:00  AP1  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2'
