@@ -406,6 +406,10 @@ nmcli.disable_use_sudo() -> None
 
 ## Change Log
 
+### 0.4.1
+
+Fixed parsing when SSID has a space.
+
 ### 0.4.0
 
 Added disabling of sudo usage.
