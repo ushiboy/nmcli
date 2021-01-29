@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 from __future__ import annotations
 from dataclasses import dataclass
 import re
@@ -65,7 +66,7 @@ class DeviceWifi:
     @classmethod
     def parse_include_bssid_line(cls, text: str) -> DeviceWifi:
         m = re.search(
-            r'^(\*|\s)\s+\S*\s+(\S*)\s+(\S*)\s+(\d+)\s+(\d+)\sMbit/s\s+(\d+)\s+\S+\s+(.*)$', text)
+            r'^(\*|\s)\s+\S*\s+(\S*|\S+\s[\S]+|\S+\s[\S]+\s[\S]+)\s+(\S*)\s+(\d+)\s+(\d+)\sMbit/s\s+(\d+)\s+\S+\s+(.*)$', text)
         if m:
             in_use, ssid, mode, chan, rate, signal, security = m.groups()
             return DeviceWifi(in_use == '*', ssid, mode,
