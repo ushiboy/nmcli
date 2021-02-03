@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 from nmcli.data import Device, DeviceWifi
 
 def test_device_to_json():
@@ -59,3 +60,6 @@ def test_device_wifi_parse_include_bssid_line():
     d4 = '        00:00:00:00:00:00  AP 3 1  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2'
     assert DeviceWifi.parse_include_bssid_line(d4) == \
         DeviceWifi(False, 'AP 3 1', 'Infra', 1, 130, 82, 'WPA1 WPA2')
+    d5 = '        00:00:00:00:00:00  AAAAAA-BB-CC DDDDDDDDD EEE 9999  Infra  11     65 Mbit/s  49      ______  WPA2'
+    assert DeviceWifi.parse_include_bssid_line(d5) == \
+        DeviceWifi(False, 'AAAAAA-BB-CC DDDDDDDDD EEE 9999', 'Infra', 11, 65, 49, 'WPA2')
