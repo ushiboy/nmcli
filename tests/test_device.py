@@ -145,10 +145,9 @@ def test_delete():
     assert s.passed_parameters == ['device', 'delete', ifname]
 
 def test_device_wifi():
-    d = '''IN-USE  SSID             MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
-*       AP1  Infra  1     130 Mbit/s  82      ______  WPA1 WPA2
-        AP2  Infra  11    195 Mbit/s  74      ______  WPA2
-        AP3  Infra  11    195 Mbit/s  72      ______  WPA1 WPA2'''
+    d = '''*:AP1:Infra:1:130 Mbit/s:82:WPA1 WPA2
+ :AP2:Infra:11:195 Mbit/s:74:WPA2
+ :AP3:Infra:11:195 Mbit/s:72:WPA1 WPA2'''
     s = DummySystemCommand(d)
     device = DeviceControl(s)
     r = device.wifi()
@@ -158,7 +157,8 @@ def test_device_wifi():
         DeviceWifi(False, 'AP2', 'Infra', 11, 195, 74, 'WPA2'),
         DeviceWifi(False, 'AP3', 'Infra', 11, 195, 72, 'WPA1 WPA2'),
     ]
-    assert s.passed_parameters == ['device', 'wifi']
+    assert s.passed_parameters == ['-t', '-f', 'IN-USE,SSID,MODE,CHAN,RATE,SIGNAL,SECURITY',
+            'device', 'wifi']
 
     with open(device_wifi_data_file) as f:
         buf = f.read()
@@ -170,18 +170,6 @@ def test_device_wifi():
         DeviceWifi(False, 'AP2', 'Infra', 4, 130, 40, 'WPA1 WPA2'),
         DeviceWifi(False, 'AP3', 'Infra', 6, 65, 24, 'WPA2'),
     ]
-
-    with open(device_wifi_data_include_bssid_file) as f:
-        buf = f.read()
-    device = DeviceControl(DummySystemCommand(buf))
-    r = device.wifi()
-    assert len(r) == 3
-    assert r == [
-        DeviceWifi(False, 'AP1', 'Infra', 11, 195, 72, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP2', 'Infra', 4, 130, 40, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP3', 'Infra', 6, 65, 24, 'WPA2'),
-    ]
-
 
 def test_wifi_connect():
     s = DummySystemCommand()
