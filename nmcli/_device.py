@@ -35,6 +35,15 @@ class DeviceControlInterface:
     def wifi_connect(self, ssid: str, password: str) -> None:
         raise NotImplementedError
 
+    def wifi_hotspot(self,
+                     ifname: str = None,
+                     name: str = None,
+                     ssid: str = None,
+                     band: str = None,
+                     channel: int = None,
+                     password: str = None) -> None:
+        raise NotImplementedError
+
 
 class DeviceControl(DeviceControlInterface):
 
@@ -101,3 +110,12 @@ class DeviceControl(DeviceControlInterface):
     def wifi_connect(self, ssid: str, password: str) -> None:
         self._syscmd.nmcli(['device', 'wifi', 'connect',
                             ssid, 'password', password])
+
+    def wifi_hotspot(self,
+                     ifname: str = None,
+                     name: str = None,
+                     ssid: str = None,
+                     band: str = None,
+                     channel: int = None,
+                     password: str = None) -> None:
+        raise NotImplementedError

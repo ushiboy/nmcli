@@ -89,6 +89,15 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         self._wifi_connect_args.append((ssid, password))
 
+    def wifi_hotspot(self,
+                     ifname: str = None,
+                     name: str = None,
+                     ssid: str = None,
+                     band: str = None,
+                     channel: int = None,
+                     password: str = None) -> None:
+        raise NotImplementedError
+
     def _raise_error_if_needed(self):
         if not self._raise_error is None:
             raise self._raise_error
