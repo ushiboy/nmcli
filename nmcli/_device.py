@@ -2,6 +2,7 @@ import re
 from typing import List
 from ._system import SystemCommandInterface, SystemCommand
 from .data.device import Device, DeviceWifi, DeviceDetails
+from .data.hotspot import Hotspot
 
 class DeviceControlInterface:
 
@@ -37,11 +38,11 @@ class DeviceControlInterface:
 
     def wifi_hotspot(self,
                      ifname: str = None,
-                     name: str = None,
+                     con_name: str = None,
                      ssid: str = None,
                      band: str = None,
                      channel: int = None,
-                     password: str = None) -> None:
+                     password: str = None) -> Hotspot:
         raise NotImplementedError
 
 
@@ -113,9 +114,9 @@ class DeviceControl(DeviceControlInterface):
 
     def wifi_hotspot(self,
                      ifname: str = None,
-                     name: str = None,
+                     con_name: str = None,
                      ssid: str = None,
                      band: str = None,
                      channel: int = None,
-                     password: str = None) -> None:
+                     password: str = None) -> Hotspot:
         raise NotImplementedError
