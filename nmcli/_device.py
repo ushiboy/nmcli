@@ -169,4 +169,9 @@ class DeviceControl(DeviceControlInterface):
     def wifi_rescan(self,
                      ifname: str = None,
                      ssid: str = None) -> None:
-        raise NotImplementedError
+        cmd = ['device', 'wifi', 'rescan']
+        if ifname is not None:
+            cmd += ['ifname', ifname]
+        if ssid is not None:
+            cmd += ['ssid', ssid]
+        self._syscmd.nmcli(cmd)
