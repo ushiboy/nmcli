@@ -1,6 +1,7 @@
 from typing import List, Tuple
 from .._device import DeviceControlInterface, DeviceDetails
 from ..data.device import Device, DeviceWifi
+from ..data.hotspot import Hotspot
 
 class DummyDeviceControl(DeviceControlInterface):
 
@@ -88,6 +89,15 @@ class DummyDeviceControl(DeviceControlInterface):
     def wifi_connect(self, ssid: str, password: str) -> None:
         self._raise_error_if_needed()
         self._wifi_connect_args.append((ssid, password))
+
+    def wifi_hotspot(self,
+                     ifname: str = None,
+                     con_name: str = None,
+                     ssid: str = None,
+                     band: str = None,
+                     channel: int = None,
+                     password: str = None) -> Hotspot:
+        raise NotImplementedError
 
     def _raise_error_if_needed(self):
         if not self._raise_error is None:

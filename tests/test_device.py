@@ -1,6 +1,6 @@
 import os
 from nmcli._device import DeviceControl
-from nmcli.data import Device, DeviceWifi
+from nmcli.data import Device, DeviceWifi, Hotspot
 from .helper import DummySystemCommand
 
 device_data_file = os.path.join(os.path.dirname(__file__), 'device_data.txt')
@@ -178,3 +178,36 @@ def test_wifi_connect():
     password = 'abc'
     device.wifi_connect(ssid, password)
     assert s.passed_parameters == ['device', 'wifi', 'connect', ssid, 'password', password]
+
+def test_wifi_hotspot():
+    d1 = '''Hotspot password: abcdefgh
+Device 'wlan0' successfully activated with '00000000-0000-0000-0000-000000000000'.
+'''
+    d2 = '''connection.id:Hotspot
+802-11-wireless.ssid:AP1
+'''
+    s = DummySystemCommand([d1, d2])
+    device = DeviceControl(s)
+    r = device.wifi_hotspot()
+    assert r == Hotspot('wlan0', 'Hotspot', 'AP1', 'abcdefgh')
+    assert s.parameters_history == [
+            ['device', 'wifi', 'hotspot', '--show-secrets'],
+            ['-t', '-f', 'connection.id,802-11-wireless.ssid',
+                'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
+            ]
+
+    s2 = DummySystemCommand([d1, d2])
+    ifname = 'wlan0'
+    con_name = 'MyHotspot'
+    ssid  ='Hot Spot'
+    band = 'a'
+    channel = 123
+    password = 'pass'
+    DeviceControl(s2).wifi_hotspot(ifname, con_name, ssid, band, channel, password)
+    assert s2.parameters_history == [
+            ['device', 'wifi', 'hotspot', '--show-secrets', 'ifname', ifname,
+                'con-name', con_name, 'ssid', ssid, 'band', band,
+                'channel', str(channel), 'password', password],
+            ['-t', '-f', 'connection.id,802-11-wireless.ssid',
+                'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
+            ]
