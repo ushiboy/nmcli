@@ -99,6 +99,11 @@ class DummyDeviceControl(DeviceControlInterface):
                      password: str = None) -> Hotspot:
         raise NotImplementedError
 
+    def wifi_rescan(self,
+                     ifname: str = None,
+                     ssid: str = None) -> None:
+        raise NotImplementedError
+
     def _raise_error_if_needed(self):
         if not self._raise_error is None:
             raise self._raise_error
