@@ -119,4 +119,32 @@ class DeviceControl(DeviceControlInterface):
                      band: str = None,
                      channel: int = None,
                      password: str = None) -> Hotspot:
-        raise NotImplementedError
+        cmd = ['device', 'wifi', 'hotspot', '--show-secrets']
+        if ifname is not None:
+            cmd += ['ifname', ifname]
+        if con_name is not None:
+            cmd += ['con-name', con_name]
+        if ssid is not None:
+            cmd += ['ssid', ssid]
+        if band is not None:
+            cmd += ['band', band]
+        if channel is not None:
+            cmd += ['channel', str(channel)]
+        if password is not None:
+            cmd += ['password', password]
+        r = self._syscmd.nmcli(cmd)
+        m = re.search(r'Hotspot\spassword:\s(.*)', r)
+        if m:
+            password = m.groups()[0]
+        m = re.search(r"Device\s'(.*)'\ssuccessfully\sactivated\swith\s'(.*)'", r)
+        if m:
+            ifname, uuid = m.groups()
+        r = self._syscmd.nmcli(['-t', '-f', 'GENERAL.NAME,802-11-wireless.ssid',
+            'connection', 'show', 'uuid', uuid])
+        for row in r.split('\n'):
+            key, value = row.split(':')
+            if key == 'GENERAL.NAME':
+                con_name = value
+            elif key == '802-11-wireless.ssid':
+                ssid = value
+        return Hotspot(ifname, con_name, ssid, password)
