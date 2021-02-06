@@ -50,3 +50,9 @@ class NotExistException(Exception):
     """
     10 Connection, device, or access point does not exist.
     """
+
+
+class AlreadyScanningException(Exception):
+    """
+    Scanning not allowed while already scanning.
+    """
