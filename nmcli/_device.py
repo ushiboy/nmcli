@@ -1,8 +1,30 @@
 import re
-from typing import List
+from typing import List, Tuple
 from ._system import SystemCommandInterface, SystemCommand
 from .data.device import Device, DeviceWifi, DeviceDetails
 from .data.hotspot import Hotspot
+
+
+def parse_wifi_hotspot_result(text: str) -> Tuple[str, str, str]:
+    m = re.search(r'Hotspot\spassword:\s(.*)', text)
+    if m:
+        password = m.groups()[0]
+    m = re.search(r"Device\s'(.*)'\ssuccessfully\sactivated\swith\s'(.*)'", text)
+    if m:
+        ifname, uuid = m.groups()
+    return (uuid, ifname, password)
+
+def parse_hotspot_properties(text: str) -> Tuple[str, str]:
+    for row in text.split('\n'):
+        if len(row) == 0:
+            continue
+        key, value = row.split(':')
+        if key == 'connection.id':
+            con_name = value
+        elif key == '802-11-wireless.ssid':
+            ssid = value
+    return (con_name, ssid)
+
 
 class DeviceControlInterface:
 
@@ -133,18 +155,8 @@ class DeviceControl(DeviceControlInterface):
         if password is not None:
             cmd += ['password', password]
         r = self._syscmd.nmcli(cmd)
-        m = re.search(r'Hotspot\spassword:\s(.*)', r)
-        if m:
-            password = m.groups()[0]
-        m = re.search(r"Device\s'(.*)'\ssuccessfully\sactivated\swith\s'(.*)'", r)
-        if m:
-            ifname, uuid = m.groups()
-        r = self._syscmd.nmcli(['-t', '-f', 'GENERAL.NAME,802-11-wireless.ssid',
+        uuid, ifname, password = parse_wifi_hotspot_result(r)
+        r = self._syscmd.nmcli(['-t', '-f', 'connection.id,802-11-wireless.ssid',
             'connection', 'show', 'uuid', uuid])
-        for row in r.split('\n'):
-            key, value = row.split(':')
-            if key == 'GENERAL.NAME':
-                con_name = value
-            elif key == '802-11-wireless.ssid':
-                ssid = value
+        con_name, ssid = parse_hotspot_properties(r)
         return Hotspot(ifname, con_name, ssid, password)
