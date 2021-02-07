@@ -1,6 +1,6 @@
 import pytest
 
-from nmcli.data import Device, DeviceWifi
+from nmcli.data import Device, DeviceWifi, Hotspot
 from nmcli.dummy._device import DummyDeviceControl
 
 
@@ -138,3 +138,43 @@ def test_wifi_connect_when_raise_error():
     password = 'passwd'
     with pytest.raises(Exception):
         c.wifi_connect(ssid, password)
+
+
+def test_wifi_hotspot():
+    ifname = 'wlan0'
+    con_name = 'MyHotspot'
+    ssid = 'ssid'
+    band = 'a'
+    channel = 123
+    password = 'passwd'
+    r = Hotspot(ifname, con_name, ssid, password)
+    c = DummyDeviceControl(result_wifi_hotspot=r)
+    assert c.wifi_hotspot(ifname, con_name, ssid, band, channel, password) == r
+    assert c.wifi_hotspot_args == [
+        (ifname, con_name, ssid, band, channel, password)]
+
+
+def test_wifi_hotspot_when_raise_error():
+    c = DummyDeviceControl(raise_error=Exception)
+    with pytest.raises(Exception):
+        c.wifi_hotspot()
+
+
+def test_wifi_hotspot_when_no_arguments_are_passed():
+    c = DummyDeviceControl()
+    with pytest.raises(ValueError):
+        c.wifi_hotspot()
+
+
+def test_wifi_rescan():
+    c = DummyDeviceControl()
+    ifname = 'wlan0'
+    ssid = 'ssid'
+    c.wifi_rescan(ifname, ssid)
+    assert c.wifi_rescan_args == [(ifname, ssid)]
+
+
+def test_wifi_rescan_when_raise_error():
+    c = DummyDeviceControl(raise_error=Exception)
+    with pytest.raises(Exception):
+        c.wifi_rescan()
