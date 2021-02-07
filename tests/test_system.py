@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 from subprocess import CalledProcessError, CompletedProcess
 
 import pytest
@@ -20,6 +21,7 @@ class DummySubprocessRunner:
         return self._args
 
     def __init__(self, return_code=0, stdout=b'', stderr=b''):
+        self._args = None
         self._return_code = return_code
         self._stdout = stdout
         self._stderr = stderr
@@ -28,9 +30,7 @@ class DummySubprocessRunner:
         self._args = args
         if self._return_code == 0:
             return CompletedProcess(args, self._return_code, stdout=self._stdout)
-        else:
-            raise CalledProcessError(
-                self._return_code, args, stderr=self._stderr)
+        raise CalledProcessError(self._return_code, args, stderr=self._stderr)
 
 
 def test_nmcli_when_successed():
