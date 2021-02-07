@@ -112,11 +112,12 @@ def test_nmcli_when_failed_with_not_exist():
 
 
 def test_nmcli_when_failed_with_unspecified():
-    run = DummySubprocessRunner(return_code=1)
+    run = DummySubprocessRunner(return_code=1, stderr=b'error')
     s = SystemCommand(run)
 
-    with pytest.raises(UnspecifiedException):
+    with pytest.raises(UnspecifiedException) as e:
         s.nmcli('connection')
+    assert str(e.value) == 'Unknown or unspecified error [1, error]'
 
 
 def test_nmcli_when_failed_with_scanning_not_allowed():

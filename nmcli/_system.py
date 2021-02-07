@@ -39,6 +39,7 @@ class SystemCommand(SystemCommandInterface):
             return r.stdout.decode('utf-8')
         except CalledProcessError as e:
             rc = e.returncode
+            stderr = e.stderr.decode('utf-8')
             if rc == 2:
                 raise InvalidUserInputException(
                     'Invalid user input, wrong nmcli invocation') from e
@@ -63,11 +64,10 @@ class SystemCommand(SystemCommandInterface):
                 raise NotExistException(
                     'Connection, device, or access point does not exist') from e
             else:
-                if rc == 1 and e.stderr.find(b'Scanning not allowed') > 0:
-                    raise ScanningNotAllowedException(
-                        e.stderr.decode('utf-8')) from e
+                if rc == 1 and stderr.find('Scanning not allowed') > 0:
+                    raise ScanningNotAllowedException(stderr) from e
                 raise UnspecifiedException(
-                    'Unknown or unspecified error [%d]' % rc) from e
+                    'Unknown or unspecified error [%d, %s]' % (rc, stderr)) from e
 
     def disable_use_sudo(self):
         self._use_sudo = False
