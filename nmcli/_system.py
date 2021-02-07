@@ -8,7 +8,8 @@ from ._exception import UnspecifiedException, \
     DisconnectDeviceFailedException, \
     ConnectionDeleteFailedException, \
     NetworkManagerNotRunningException, \
-    NotExistException
+    NotExistException, \
+    ScanningNotAllowedException
 
 CommandParameter = Union[str, List[str]]
 
@@ -55,6 +56,8 @@ class SystemCommand(SystemCommandInterface):
             elif rc == 10:
                 raise NotExistException('Connection, device, or access point does not exist') from e
             else:
+                if rc == 1 and e.stderr.find(b'Scanning not allowed') > 0:
+                    raise ScanningNotAllowedException(e.stderr.decode('utf-8')) from e
                 raise UnspecifiedException('Unknown or unspecified error [%d]' % rc) from e
 
     def disable_use_sudo(self):

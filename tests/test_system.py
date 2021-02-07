@@ -7,7 +7,8 @@ from nmcli._exception import UnspecifiedException, \
         DisconnectDeviceFailedException, \
         ConnectionDeleteFailedException, \
         NetworkManagerNotRunningException, \
-        NotExistException
+        NotExistException, \
+        ScanningNotAllowedException
 from subprocess import CompletedProcess, CalledProcessError
 import pytest
 
@@ -17,16 +18,17 @@ class DummySubprocessRunner:
     def passed_args(self):
         return self._args
 
-    def __init__(self, return_code=0, stdout=b''):
+    def __init__(self, return_code=0, stdout=b'', stderr=b''):
         self._return_code = return_code
         self._stdout = stdout
+        self._stderr = stderr
 
     def __call__(self, args, capture_output, check, env):
         self._args = args
         if self._return_code == 0:
             return CompletedProcess(args, self._return_code, stdout=self._stdout)
         else:
-            raise CalledProcessError(self._return_code, args)
+            raise CalledProcessError(self._return_code, args, stderr=self._stderr)
 
 
 def test_nmcli_when_successed():
@@ -102,6 +104,14 @@ def test_nmcli_when_failed_with_unspecified():
     s = SystemCommand(run)
 
     with pytest.raises(UnspecifiedException):
+        s.nmcli('connection')
+
+def test_nmcli_when_failed_with_scanning_not_allowed():
+    run = DummySubprocessRunner(return_code=1,
+            stderr=b'Error: Scanning not allowed immediately following previous scan.')
+    s = SystemCommand(run)
+
+    with pytest.raises(ScanningNotAllowedException):
         s.nmcli('connection')
 
 def test_disable_use_sudo():

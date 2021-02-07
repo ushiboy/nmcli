@@ -67,6 +67,11 @@ class DeviceControlInterface:
                      password: str = None) -> Hotspot:
         raise NotImplementedError
 
+    def wifi_rescan(self,
+                     ifname: str = None,
+                     ssid: str = None) -> None:
+        raise NotImplementedError
+
 
 class DeviceControl(DeviceControlInterface):
 
@@ -160,3 +165,13 @@ class DeviceControl(DeviceControlInterface):
             'connection', 'show', 'uuid', uuid])
         con_name, ssid = parse_hotspot_properties(r)
         return Hotspot(ifname, con_name, ssid, password)
+
+    def wifi_rescan(self,
+                     ifname: str = None,
+                     ssid: str = None) -> None:
+        cmd = ['device', 'wifi', 'rescan']
+        if ifname is not None:
+            cmd += ['ifname', ifname]
+        if ssid is not None:
+            cmd += ['ssid', ssid]
+        self._syscmd.nmcli(cmd)

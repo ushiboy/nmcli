@@ -78,7 +78,7 @@ except Exception as e:
 | device | monitor | not supported |
 | device | wifi | supported |
 | device | wifi connect | supported |
-| device | wifi rescan | not supported |
+| device | wifi rescan | supported |
 | device | wifi hotspot | supported |
 | device | lldp | not supported |
 | agent | | not supported |
