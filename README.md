@@ -243,6 +243,27 @@ Connect to a Wi-Fi network specified by SSID or BSSID.
 nmcli.device.wifi_connect(ssid: str, password: str) -> None
 ```
 
+#### nmcli.device.wifi_hotspot
+
+Create a Wi-Fi hotspot
+
+```
+nmcli.device.wifi_hotspot(ifname: str = None,
+                          con_name: str = None,
+                          ssid: str = None,
+                          band: str = None,
+                          channel: int = None,
+                          password: str = None) -> Hotspot
+```
+
+#### nmcli.device.wifi_rescan
+
+Request that NetworkManager immediately re-scan for available access points.
+
+```
+nmcli.device.wifi_rescan(ifname: str = None, ssid: str = None) -> None
+```
+
 ### general
 
 #### nmcli.general
