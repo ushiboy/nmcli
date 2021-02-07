@@ -428,6 +428,12 @@ nmcli.disable_use_sudo() -> None
 
 ## Change Log
 
+### 0.5.0
+
+Added support for "nmcli device wifi hotspot".
+
+Added support for "nmcli device wifi rescan".
+
 ### 0.4.2
 
 Fixed the parsing of device wifi.
