@@ -117,7 +117,8 @@ def test_nmcli_when_failed_with_unspecified():
 
     with pytest.raises(UnspecifiedException) as e:
         s.nmcli('connection')
-    assert str(e.value) == 'Unknown or unspecified error [1, error]'
+    assert str(
+        e.value) == 'Unknown or unspecified error [code:1, detail:error]'
 
 
 def test_nmcli_when_failed_with_scanning_not_allowed():
