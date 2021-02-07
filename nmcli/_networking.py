@@ -1,5 +1,6 @@
 from ._const import NetworkConnectivity
-from ._system import SystemCommandInterface, SystemCommand
+from ._system import SystemCommand, SystemCommandInterface
+
 
 class NetworkingControlInterface:
 

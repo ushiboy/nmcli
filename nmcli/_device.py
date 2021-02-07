@@ -1,7 +1,8 @@
 import re
 from typing import List, Tuple
-from ._system import SystemCommandInterface, SystemCommand
-from .data.device import Device, DeviceWifi, DeviceDetails
+
+from ._system import SystemCommand, SystemCommandInterface
+from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
 
 

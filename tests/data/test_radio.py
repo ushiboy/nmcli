@@ -1,5 +1,6 @@
 from nmcli.data import Radio
 
+
 def test_to_json():
     wifi_hw = True
     wifi = True

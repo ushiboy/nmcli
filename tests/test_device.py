@@ -1,6 +1,8 @@
 import os
+
 from nmcli._device import DeviceControl
 from nmcli.data import Device, DeviceWifi, Hotspot
+
 from .helper import DummySystemCommand
 
 device_data_file = os.path.join(os.path.dirname(__file__), 'device_data.txt')

@@ -1,6 +1,8 @@
 import pytest
-from nmcli.dummy._networking import DummyNetworkingControl
+
 from nmcli._const import NetworkConnectivity
+from nmcli.dummy._networking import DummyNetworkingControl
+
 
 def test_call():
     result_call = NetworkConnectivity.FULL

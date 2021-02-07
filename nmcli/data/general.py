@@ -1,7 +1,10 @@
 from __future__ import annotations
-from dataclasses import dataclass
+
 import re
-from .._const import NetworkManagerState, NetworkConnectivity
+from dataclasses import dataclass
+
+from .._const import NetworkConnectivity, NetworkManagerState
+
 
 @dataclass(frozen=True)
 class General:

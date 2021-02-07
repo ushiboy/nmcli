@@ -1,6 +1,7 @@
 from .._radio import RadioControlInterface
 from ..data.radio import Radio
 
+
 class DummyRadioControl(RadioControlInterface):
 
     @property

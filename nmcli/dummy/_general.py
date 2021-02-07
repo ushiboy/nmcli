@@ -1,6 +1,8 @@
 from typing import List
+
 from .._general import GeneralControlInterface
 from ..data.general import General
+
 
 class DummyGeneralControl(GeneralControlInterface):
 

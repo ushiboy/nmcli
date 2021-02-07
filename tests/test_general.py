@@ -1,7 +1,9 @@
-from nmcli._const import NetworkManagerState, NetworkConnectivity
+from nmcli._const import NetworkConnectivity, NetworkManagerState
 from nmcli._general import GeneralControl
 from nmcli.data import General
+
 from .helper import DummySystemCommand
+
 
 def test_general():
     s = DummySystemCommand('''STATE      CONNECTIVITY  WIFI-HW  WIFI     WWAN-HW  WWAN

@@ -1,5 +1,6 @@
 from nmcli._system import SystemCommandInterface
 
+
 class DummySystemCommand(SystemCommandInterface):
 
     @property

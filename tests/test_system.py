@@ -1,16 +1,17 @@
-from nmcli import SystemCommand
-from nmcli._exception import UnspecifiedException, \
-        InvalidUserInputException, \
-        TimeoutExpiredException, \
-        ConnectionActivateFailedException, \
-        ConnectionDeactivateFailedException, \
-        DisconnectDeviceFailedException, \
-        ConnectionDeleteFailedException, \
-        NetworkManagerNotRunningException, \
-        NotExistException, \
-        ScanningNotAllowedException
-from subprocess import CompletedProcess, CalledProcessError
+from subprocess import CalledProcessError, CompletedProcess
+
 import pytest
+
+from nmcli import SystemCommand
+from nmcli._exception import (ConnectionActivateFailedException,
+                              ConnectionDeactivateFailedException,
+                              ConnectionDeleteFailedException,
+                              DisconnectDeviceFailedException,
+                              InvalidUserInputException,
+                              NetworkManagerNotRunningException,
+                              NotExistException, ScanningNotAllowedException,
+                              TimeoutExpiredException, UnspecifiedException)
+
 
 class DummySubprocessRunner:
 

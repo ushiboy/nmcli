@@ -1,6 +1,8 @@
 import os
+
 from nmcli._connection import ConnectionControl
 from nmcli.data import Connection
+
 from .helper import DummySystemCommand
 
 connection_data_file = os.path.join(os.path.dirname(__file__), 'connection_data.txt')

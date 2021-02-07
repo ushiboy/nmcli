@@ -1,7 +1,9 @@
 import pytest
-from nmcli.dummy._general import DummyGeneralControl
+
+from nmcli._const import NetworkConnectivity, NetworkManagerState
 from nmcli.data import General
-from nmcli._const import NetworkManagerState, NetworkConnectivity
+from nmcli.dummy._general import DummyGeneralControl
+
 
 def test_call():
     result_call = General(NetworkManagerState.CONNECTED_GLOBAL,

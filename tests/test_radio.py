@@ -1,6 +1,8 @@
 from nmcli._radio import RadioControl
 from nmcli.data import Radio
+
 from .helper import DummySystemCommand
+
 
 def test_radio():
     s = DummySystemCommand('''WIFI-HW  WIFI     WWAN-HW  WWAN

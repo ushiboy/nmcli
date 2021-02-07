@@ -1,7 +1,9 @@
 from typing import List, Tuple
+
 from .._device import DeviceControlInterface, DeviceDetails
 from ..data.device import Device, DeviceWifi
 from ..data.hotspot import Hotspot
+
 
 class DummyDeviceControl(DeviceControlInterface):
 

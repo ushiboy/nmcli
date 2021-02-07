@@ -1,6 +1,8 @@
-from nmcli._const  import NetworkConnectivity
+from nmcli._const import NetworkConnectivity
 from nmcli._networking import NetworkingControl
+
 from .helper import DummySystemCommand
+
 
 def test_networking():
     s = DummySystemCommand('full\n')

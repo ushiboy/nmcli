@@ -1,5 +1,6 @@
 from nmcli.data import Connection
 
+
 def test_to_json():
     name = 'con'
     uuid = 'abcdef'

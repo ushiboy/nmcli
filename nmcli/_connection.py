@@ -1,7 +1,9 @@
-from typing import List, Optional
 import re
-from ._system import SystemCommandInterface, SystemCommand
+from typing import List, Optional
+
+from ._system import SystemCommand, SystemCommandInterface
 from .data.connection import Connection, ConnectionDetails, ConnectionOptions
+
 
 class ConnectionControlInterface:
 

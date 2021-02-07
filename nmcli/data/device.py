@@ -1,7 +1,8 @@
 # pylint: disable=line-too-long
 from __future__ import annotations
-from dataclasses import dataclass
+
 import re
+from dataclasses import dataclass
 from typing import Dict, Optional
 
 DeviceDetails = Dict[str, Optional[str]]

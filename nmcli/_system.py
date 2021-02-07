@@ -1,15 +1,14 @@
-from subprocess import run, CalledProcessError
-from typing import Union, List
-from ._exception import UnspecifiedException, \
-    InvalidUserInputException, \
-    TimeoutExpiredException, \
-    ConnectionActivateFailedException, \
-    ConnectionDeactivateFailedException, \
-    DisconnectDeviceFailedException, \
-    ConnectionDeleteFailedException, \
-    NetworkManagerNotRunningException, \
-    NotExistException, \
-    ScanningNotAllowedException
+from subprocess import CalledProcessError, run
+from typing import List, Union
+
+from ._exception import (ConnectionActivateFailedException,
+                         ConnectionDeactivateFailedException,
+                         ConnectionDeleteFailedException,
+                         DisconnectDeviceFailedException,
+                         InvalidUserInputException,
+                         NetworkManagerNotRunningException, NotExistException,
+                         ScanningNotAllowedException, TimeoutExpiredException,
+                         UnspecifiedException)
 
 CommandParameter = Union[str, List[str]]
 

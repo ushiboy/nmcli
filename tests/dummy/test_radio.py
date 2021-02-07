@@ -1,6 +1,8 @@
 import pytest
-from nmcli.dummy._radio import DummyRadioControl
+
 from nmcli.data import Radio
+from nmcli.dummy._radio import DummyRadioControl
+
 
 def test_call():
     result_call = Radio(True, True, True, True)

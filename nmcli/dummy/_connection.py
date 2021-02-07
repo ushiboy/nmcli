@@ -1,5 +1,7 @@
-from typing import List, Tuple, Optional
-from .._connection import ConnectionControlInterface, ConnectionOptions, ConnectionDetails
+from typing import List, Optional, Tuple
+
+from .._connection import (ConnectionControlInterface, ConnectionDetails,
+                           ConnectionOptions)
 from ..data.connection import Connection
 
 

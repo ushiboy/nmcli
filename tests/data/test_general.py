@@ -1,5 +1,6 @@
-from nmcli._const import NetworkManagerState, NetworkConnectivity
+from nmcli._const import NetworkConnectivity, NetworkManagerState
 from nmcli.data import General
+
 
 def test_to_json():
     state = NetworkManagerState.CONNECTED_GLOBAL

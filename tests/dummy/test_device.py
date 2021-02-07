@@ -1,6 +1,8 @@
 import pytest
-from nmcli.dummy._device import DummyDeviceControl
+
 from nmcli.data import Device, DeviceWifi
+from nmcli.dummy._device import DummyDeviceControl
+
 
 def test_call():
     result_call = [Device('eth0', 'ethernet', 'connected,', 'MyNet')]

@@ -1,5 +1,6 @@
-from ._system import SystemCommandInterface, SystemCommand
+from ._system import SystemCommand, SystemCommandInterface
 from .data import General
+
 
 class GeneralControlInterface:
 

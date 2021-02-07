@@ -1,6 +1,7 @@
 # pylint: disable=line-too-long
 from nmcli.data import Device, DeviceWifi
 
+
 def test_device_to_json():
     device = 'eth0'
     device_type = 'ethernet'

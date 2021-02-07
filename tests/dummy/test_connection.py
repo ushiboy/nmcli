@@ -1,6 +1,8 @@
 import pytest
-from nmcli.dummy._connection import DummyConnectionControl
+
 from nmcli.data import Connection
+from nmcli.dummy._connection import DummyConnectionControl
+
 
 def test_call():
     result_call = [Connection('a', 'b', 'ethernet', 'eth0')]

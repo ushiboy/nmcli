@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class NetworkManagerState(Enum):
     UNKNOWN = 'unknown'
     ASLEEP = 'asleep'

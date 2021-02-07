@@ -1,7 +1,9 @@
 import re
+
 from ._exception import UnspecifiedException
-from ._system import SystemCommandInterface, SystemCommand
+from ._system import SystemCommand, SystemCommandInterface
 from .data.radio import Radio
+
 
 class RadioControlInterface:
 
