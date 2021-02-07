@@ -2,3 +2,7 @@ pytest>=5.3.2
 wheel>=0.33.6
 mypy>=0.761
 pylint>=2.6.0
+twine>=3.3.0
+autoflake>=1.4
+autopep8>=1.5.5
+isort>=5.7.0
