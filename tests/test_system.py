@@ -17,16 +17,17 @@ class DummySubprocessRunner:
     def passed_args(self):
         return self._args
 
-    def __init__(self, return_code=0, stdout=b''):
+    def __init__(self, return_code=0, stdout=b'', stderr=b''):
         self._return_code = return_code
         self._stdout = stdout
+        self._stderr = stderr
 
     def __call__(self, args, capture_output, check, env):
         self._args = args
         if self._return_code == 0:
             return CompletedProcess(args, self._return_code, stdout=self._stdout)
         else:
-            raise CalledProcessError(self._return_code, args)
+            raise CalledProcessError(self._return_code, args, stderr=self._stderr)
 
 
 def test_nmcli_when_successed():
