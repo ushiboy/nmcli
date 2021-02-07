@@ -7,6 +7,7 @@ from typing import Dict, Optional
 ConnectionDetails = Dict[str, Optional[str]]
 ConnectionOptions = Dict[str, str]
 
+
 @dataclass(frozen=True)
 class Connection:
     name: str

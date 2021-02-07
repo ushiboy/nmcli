@@ -16,6 +16,7 @@ class NetworkingControlInterface:
     def connectivity(self, check: bool = False) -> NetworkConnectivity:
         raise NotImplementedError
 
+
 class NetworkingControl(NetworkingControlInterface):
 
     def __init__(self, syscmd: SystemCommandInterface = None):

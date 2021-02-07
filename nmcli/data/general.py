@@ -8,7 +8,7 @@ from .._const import NetworkConnectivity, NetworkManagerState
 
 @dataclass(frozen=True)
 class General:
-    state:NetworkManagerState
+    state: NetworkManagerState
     connectivity: NetworkConnectivity
     wifi_hw: bool
     wifi: bool

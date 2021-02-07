@@ -21,6 +21,7 @@ class SystemCommandInterface:
     def disable_use_sudo(self):
         raise NotImplementedError
 
+
 class SystemCommand(SystemCommandInterface):
 
     def __init__(self, subprocess_run=run):
@@ -39,25 +40,34 @@ class SystemCommand(SystemCommandInterface):
         except CalledProcessError as e:
             rc = e.returncode
             if rc == 2:
-                raise InvalidUserInputException('Invalid user input, wrong nmcli invocation') from e
+                raise InvalidUserInputException(
+                    'Invalid user input, wrong nmcli invocation') from e
             elif rc == 3:
                 raise TimeoutExpiredException('Timeout expired') from e
             elif rc == 4:
-                raise ConnectionActivateFailedException('Connection activation failed') from e
+                raise ConnectionActivateFailedException(
+                    'Connection activation failed') from e
             elif rc == 5:
-                raise ConnectionDeactivateFailedException('Connection deactivation failed') from e
+                raise ConnectionDeactivateFailedException(
+                    'Connection deactivation failed') from e
             elif rc == 6:
-                raise DisconnectDeviceFailedException('Disconnecting device failed') from e
+                raise DisconnectDeviceFailedException(
+                    'Disconnecting device failed') from e
             elif rc == 7:
-                raise ConnectionDeleteFailedException('Connection deletion failed') from e
+                raise ConnectionDeleteFailedException(
+                    'Connection deletion failed') from e
             elif rc == 8:
-                raise NetworkManagerNotRunningException('NetworkManager is not running') from e
+                raise NetworkManagerNotRunningException(
+                    'NetworkManager is not running') from e
             elif rc == 10:
-                raise NotExistException('Connection, device, or access point does not exist') from e
+                raise NotExistException(
+                    'Connection, device, or access point does not exist') from e
             else:
                 if rc == 1 and e.stderr.find(b'Scanning not allowed') > 0:
-                    raise ScanningNotAllowedException(e.stderr.decode('utf-8')) from e
-                raise UnspecifiedException('Unknown or unspecified error [%d]' % rc) from e
+                    raise ScanningNotAllowedException(
+                        e.stderr.decode('utf-8')) from e
+                raise UnspecifiedException(
+                    'Unknown or unspecified error [%d]' % rc) from e
 
     def disable_use_sudo(self):
         self._use_sudo = False

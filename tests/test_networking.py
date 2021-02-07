@@ -11,6 +11,7 @@ def test_networking():
     assert r == NetworkConnectivity.FULL
     assert s.passed_parameters == ['networking', 'connectivity']
 
+
 def test_networking_connectivity():
     s = DummySystemCommand('full\n')
     networking = NetworkingControl(s)
@@ -19,13 +20,14 @@ def test_networking_connectivity():
     assert s.passed_parameters == ['networking', 'connectivity']
 
     assert NetworkingControl(DummySystemCommand('unknown\n')).connectivity() \
-            == NetworkConnectivity.UNKNOWN
+        == NetworkConnectivity.UNKNOWN
     assert NetworkingControl(DummySystemCommand('none\n')).connectivity() \
-            == NetworkConnectivity.NONE
+        == NetworkConnectivity.NONE
     assert NetworkingControl(DummySystemCommand('portal\n')).connectivity() \
-            == NetworkConnectivity.PORTAL
+        == NetworkConnectivity.PORTAL
     assert NetworkingControl(DummySystemCommand('limited\n')).connectivity() \
-            == NetworkConnectivity.LIMITED
+        == NetworkConnectivity.LIMITED
+
 
 def test_networking_connectivity_check():
     s = DummySystemCommand('full\n')
@@ -34,11 +36,13 @@ def test_networking_connectivity_check():
     assert r == NetworkConnectivity.FULL
     assert s.passed_parameters == ['networking', 'connectivity', 'check']
 
+
 def test_networking_on():
     s = DummySystemCommand()
     networking = NetworkingControl(s)
     networking.on()
     assert s.passed_parameters == ['networking', 'on']
+
 
 def test_networking_off():
     s = DummySystemCommand()

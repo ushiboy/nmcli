@@ -10,10 +10,12 @@ def parse_wifi_hotspot_result(text: str) -> Tuple[str, str, str]:
     m = re.search(r'Hotspot\spassword:\s(.*)', text)
     if m:
         password = m.groups()[0]
-    m = re.search(r"Device\s'(.*)'\ssuccessfully\sactivated\swith\s'(.*)'", text)
+    m = re.search(
+        r"Device\s'(.*)'\ssuccessfully\sactivated\swith\s'(.*)'", text)
     if m:
         ifname, uuid = m.groups()
     return (uuid, ifname, password)
+
 
 def parse_hotspot_properties(text: str) -> Tuple[str, str]:
     for row in text.split('\n'):
@@ -69,8 +71,8 @@ class DeviceControlInterface:
         raise NotImplementedError
 
     def wifi_rescan(self,
-                     ifname: str = None,
-                     ssid: str = None) -> None:
+                    ifname: str = None,
+                    ssid: str = None) -> None:
         raise NotImplementedError
 
 
@@ -128,7 +130,7 @@ class DeviceControl(DeviceControlInterface):
 
     def wifi(self) -> List[DeviceWifi]:
         r = self._syscmd.nmcli(['-t', '-f', 'IN-USE,SSID,MODE,CHAN,RATE,SIGNAL,SECURITY',
-            'device', 'wifi'])
+                                'device', 'wifi'])
         results = []
         rows = r.split('\n')
         for row in rows:
@@ -163,13 +165,13 @@ class DeviceControl(DeviceControlInterface):
         r = self._syscmd.nmcli(cmd)
         uuid, ifname, password = parse_wifi_hotspot_result(r)
         r = self._syscmd.nmcli(['-t', '-f', 'connection.id,802-11-wireless.ssid',
-            'connection', 'show', 'uuid', uuid])
+                                'connection', 'show', 'uuid', uuid])
         con_name, ssid = parse_hotspot_properties(r)
         return Hotspot(ifname, con_name, ssid, password)
 
     def wifi_rescan(self,
-                     ifname: str = None,
-                     ssid: str = None) -> None:
+                    ifname: str = None,
+                    ssid: str = None) -> None:
         cmd = ['device', 'wifi', 'rescan']
         if ifname is not None:
             cmd += ['ifname', ifname]

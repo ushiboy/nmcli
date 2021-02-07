@@ -16,6 +16,7 @@ class GeneralControlInterface:
     def set_hostname(self, hostname: str):
         raise NotImplementedError
 
+
 class GeneralControl(GeneralControlInterface):
 
     def __init__(self, syscmd: SystemCommandInterface = None):

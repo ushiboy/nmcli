@@ -11,6 +11,7 @@ class NetworkManagerState(Enum):
     DISCONNECTING = 'disconnecting'
     DISCONNECTED = 'disconnected'
 
+
 class NetworkConnectivity(Enum):
     UNKNOWN = 'unknown'
     NONE = 'none'

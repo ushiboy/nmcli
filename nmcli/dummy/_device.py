@@ -102,8 +102,8 @@ class DummyDeviceControl(DeviceControlInterface):
         raise NotImplementedError
 
     def wifi_rescan(self,
-                     ifname: str = None,
-                     ssid: str = None) -> None:
+                    ifname: str = None,
+                    ssid: str = None) -> None:
         raise NotImplementedError
 
     def _raise_error_if_needed(self):

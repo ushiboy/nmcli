@@ -36,6 +36,7 @@ class ConnectionControlInterface:
     def reload(self) -> None:
         raise NotImplementedError
 
+
 class ConnectionControl(ConnectionControlInterface):
 
     def __init__(self, syscmd: SystemCommandInterface = None):

@@ -37,6 +37,7 @@ class RadioControlInterface:
     def wwan_off(self) -> None:
         raise NotImplementedError
 
+
 class RadioControl(RadioControlInterface):
 
     def __init__(self, syscmd: SystemCommandInterface = None):
@@ -53,7 +54,8 @@ class RadioControl(RadioControlInterface):
             wifi_hw, wifi, wwan_hw, wwan = m.groups()
             return Radio(wifi_hw == 'enabled', wifi == 'enabled',
                          wwan_hw == 'enabled', wwan == 'enabled')
-        raise UnspecifiedException('Failed to parse the results of the radio command')
+        raise UnspecifiedException(
+            'Failed to parse the results of the radio command')
 
     def all_on(self) -> None:
         self._syscmd.nmcli(['radio', 'all', 'on'])

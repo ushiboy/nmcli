@@ -29,7 +29,8 @@ class DummySubprocessRunner:
         if self._return_code == 0:
             return CompletedProcess(args, self._return_code, stdout=self._stdout)
         else:
-            raise CalledProcessError(self._return_code, args, stderr=self._stderr)
+            raise CalledProcessError(
+                self._return_code, args, stderr=self._stderr)
 
 
 def test_nmcli_when_successed():
@@ -38,11 +39,13 @@ def test_nmcli_when_successed():
     assert s.nmcli('connection') == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'connection']
 
+
 def test_nmcli_when_successed_with_list_args():
     run = DummySubprocessRunner(stdout=b'test')
     s = SystemCommand(run)
     assert s.nmcli(['device', 'wifi']) == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'device', 'wifi']
+
 
 def test_nmcli_when_failed_with_invalid_user_input():
     run = DummySubprocessRunner(return_code=2)
@@ -51,12 +54,14 @@ def test_nmcli_when_failed_with_invalid_user_input():
     with pytest.raises(InvalidUserInputException):
         s.nmcli('connection')
 
+
 def test_nmcli_when_failed_with_timeout_expired():
     run = DummySubprocessRunner(return_code=3)
     s = SystemCommand(run)
 
     with pytest.raises(TimeoutExpiredException):
         s.nmcli('connection')
+
 
 def test_nmcli_when_failed_with_connection_activate():
     run = DummySubprocessRunner(return_code=4)
@@ -65,12 +70,14 @@ def test_nmcli_when_failed_with_connection_activate():
     with pytest.raises(ConnectionActivateFailedException):
         s.nmcli('connection')
 
+
 def test_nmcli_when_failed_with_connection_deactivate():
     run = DummySubprocessRunner(return_code=5)
     s = SystemCommand(run)
 
     with pytest.raises(ConnectionDeactivateFailedException):
         s.nmcli('connection')
+
 
 def test_nmcli_when_failed_with_disconnect_device():
     run = DummySubprocessRunner(return_code=6)
@@ -79,12 +86,14 @@ def test_nmcli_when_failed_with_disconnect_device():
     with pytest.raises(DisconnectDeviceFailedException):
         s.nmcli('connection')
 
+
 def test_nmcli_when_failed_with_connection_delete():
     run = DummySubprocessRunner(return_code=7)
     s = SystemCommand(run)
 
     with pytest.raises(ConnectionDeleteFailedException):
         s.nmcli('connection')
+
 
 def test_nmcli_when_failed_with_network_manager_not_running():
     run = DummySubprocessRunner(return_code=8)
@@ -93,12 +102,14 @@ def test_nmcli_when_failed_with_network_manager_not_running():
     with pytest.raises(NetworkManagerNotRunningException):
         s.nmcli('connection')
 
+
 def test_nmcli_when_failed_with_not_exist():
     run = DummySubprocessRunner(return_code=10)
     s = SystemCommand(run)
 
     with pytest.raises(NotExistException):
         s.nmcli('connection')
+
 
 def test_nmcli_when_failed_with_unspecified():
     run = DummySubprocessRunner(return_code=1)
@@ -107,13 +118,15 @@ def test_nmcli_when_failed_with_unspecified():
     with pytest.raises(UnspecifiedException):
         s.nmcli('connection')
 
+
 def test_nmcli_when_failed_with_scanning_not_allowed():
     run = DummySubprocessRunner(return_code=1,
-            stderr=b'Error: Scanning not allowed immediately following previous scan.')
+                                stderr=b'Error: Scanning not allowed immediately following previous scan.')
     s = SystemCommand(run)
 
     with pytest.raises(ScanningNotAllowedException):
         s.nmcli('connection')
+
 
 def test_disable_use_sudo():
     run = DummySubprocessRunner(stdout=b'test')
