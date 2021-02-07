@@ -52,7 +52,7 @@ class NotExistException(Exception):
     """
 
 
-class AlreadyScanningException(Exception):
+class ScanningNotAllowedException(Exception):
     """
-    Scanning not allowed while already scanning.
+    Scanning not allowed.
     """

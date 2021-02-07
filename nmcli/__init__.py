@@ -9,7 +9,8 @@ from ._exception import UnspecifiedException, \
     DisconnectDeviceFailedException, \
     ConnectionDeleteFailedException, \
     NetworkManagerNotRunningException, \
-    NotExistException
+    NotExistException, \
+    ScanningNotAllowedException
 from ._general import GeneralControlInterface, GeneralControl
 from ._networking import NetworkingControlInterface, NetworkingControl
 from ._radio import RadioControlInterface, RadioControl
