@@ -1,5 +1,6 @@
 from nmcli.data import Hotspot
 
+
 def test_to_json():
     ifname = 'eth0'
     con_name = 'con'

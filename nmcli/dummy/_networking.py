@@ -1,6 +1,8 @@
 from typing import List
-from .._networking import NetworkingControlInterface
+
 from .._const import NetworkConnectivity
+from .._networking import NetworkingControlInterface
+
 
 class DummyNetworkingControl(NetworkingControlInterface):
 

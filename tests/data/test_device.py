@@ -1,6 +1,7 @@
 # pylint: disable=line-too-long
 from nmcli.data import Device, DeviceWifi
 
+
 def test_device_to_json():
     device = 'eth0'
     device_type = 'ethernet'
@@ -8,11 +9,12 @@ def test_device_to_json():
     connection = 'Home'
     d = Device(device, device_type, state, connection)
     assert d.to_json() == {
-        'device':device,
-        'device_type':device_type,
-        'state':state,
-        'connection':connection
+        'device': device,
+        'device_type': device_type,
+        'state': state,
+        'connection': connection
     }
+
 
 def test_device_wifi_to_json():
     in_use = True
@@ -33,6 +35,7 @@ def test_device_wifi_to_json():
         'security': security
     }
 
+
 def test_device_wifi_parse():
     d1 = '*:AP1:Infra:1:130 Mbit/s:82:WPA1 WPA2'
     assert DeviceWifi.parse(d1) == \
@@ -45,4 +48,5 @@ def test_device_wifi_parse():
         DeviceWifi(False, 'AP 1', 'Infra', 1, 130, 82, 'WPA1 WPA2')
     d4 = ' :AAAAAA BBBBBBBBB CCC 9999:Infra:1:130 Mbit/s:82:WPA1 WPA2'
     assert DeviceWifi.parse(d4) == \
-        DeviceWifi(False, 'AAAAAA BBBBBBBBB CCC 9999', 'Infra', 1, 130, 82, 'WPA1 WPA2')
+        DeviceWifi(False, 'AAAAAA BBBBBBBBB CCC 9999',
+                   'Infra', 1, 130, 82, 'WPA1 WPA2')

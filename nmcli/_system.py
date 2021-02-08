@@ -1,15 +1,14 @@
-from subprocess import run, CalledProcessError
-from typing import Union, List
-from ._exception import UnspecifiedException, \
-    InvalidUserInputException, \
-    TimeoutExpiredException, \
-    ConnectionActivateFailedException, \
-    ConnectionDeactivateFailedException, \
-    DisconnectDeviceFailedException, \
-    ConnectionDeleteFailedException, \
-    NetworkManagerNotRunningException, \
-    NotExistException, \
-    ScanningNotAllowedException
+from subprocess import CalledProcessError, run
+from typing import List, Union
+
+from ._exception import (ConnectionActivateFailedException,
+                         ConnectionDeactivateFailedException,
+                         ConnectionDeleteFailedException,
+                         DisconnectDeviceFailedException,
+                         InvalidUserInputException,
+                         NetworkManagerNotRunningException, NotExistException,
+                         ScanningNotAllowedException, TimeoutExpiredException,
+                         UnspecifiedException)
 
 CommandParameter = Union[str, List[str]]
 
@@ -21,6 +20,7 @@ class SystemCommandInterface:
 
     def disable_use_sudo(self):
         raise NotImplementedError
+
 
 class SystemCommand(SystemCommandInterface):
 
@@ -39,26 +39,35 @@ class SystemCommand(SystemCommandInterface):
             return r.stdout.decode('utf-8')
         except CalledProcessError as e:
             rc = e.returncode
+            stderr = e.stderr.decode('utf-8')
             if rc == 2:
-                raise InvalidUserInputException('Invalid user input, wrong nmcli invocation') from e
+                raise InvalidUserInputException(
+                    'Invalid user input, wrong nmcli invocation') from e
             elif rc == 3:
                 raise TimeoutExpiredException('Timeout expired') from e
             elif rc == 4:
-                raise ConnectionActivateFailedException('Connection activation failed') from e
+                raise ConnectionActivateFailedException(
+                    'Connection activation failed') from e
             elif rc == 5:
-                raise ConnectionDeactivateFailedException('Connection deactivation failed') from e
+                raise ConnectionDeactivateFailedException(
+                    'Connection deactivation failed') from e
             elif rc == 6:
-                raise DisconnectDeviceFailedException('Disconnecting device failed') from e
+                raise DisconnectDeviceFailedException(
+                    'Disconnecting device failed') from e
             elif rc == 7:
-                raise ConnectionDeleteFailedException('Connection deletion failed') from e
+                raise ConnectionDeleteFailedException(
+                    'Connection deletion failed') from e
             elif rc == 8:
-                raise NetworkManagerNotRunningException('NetworkManager is not running') from e
+                raise NetworkManagerNotRunningException(
+                    'NetworkManager is not running') from e
             elif rc == 10:
-                raise NotExistException('Connection, device, or access point does not exist') from e
+                raise NotExistException(
+                    'Connection, device, or access point does not exist') from e
             else:
-                if rc == 1 and e.stderr.find(b'Scanning not allowed') > 0:
-                    raise ScanningNotAllowedException(e.stderr.decode('utf-8')) from e
-                raise UnspecifiedException('Unknown or unspecified error [%d]' % rc) from e
+                if rc == 1 and stderr.find('Scanning not allowed') > 0:
+                    raise ScanningNotAllowedException(stderr) from e
+                raise UnspecifiedException(
+                    'Unknown or unspecified error [code:%d, detail:%s]' % (rc, stderr)) from e
 
     def disable_use_sudo(self):
         self._use_sudo = False

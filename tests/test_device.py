@@ -1,12 +1,16 @@
 import os
+
 from nmcli._device import DeviceControl
 from nmcli.data import Device, DeviceWifi, Hotspot
+
 from .helper import DummySystemCommand
 
 device_data_file = os.path.join(os.path.dirname(__file__), 'device_data.txt')
-device_wifi_data_file = os.path.join(os.path.dirname(__file__), 'device_wifi_data.txt')
+device_wifi_data_file = os.path.join(
+    os.path.dirname(__file__), 'device_wifi_data.txt')
 device_wifi_data_include_bssid_file = os.path.join(os.path.dirname(__file__),
-        'device_wifi_data_include_bssid.txt')
+                                                   'device_wifi_data_include_bssid.txt')
+
 
 def test_device():
     s = DummySystemCommand('''DEVICE  TYPE      STATE      CONNECTION
@@ -23,6 +27,7 @@ lo      loopback  unmanaged  --''')
     ]
     assert s.passed_parameters == ['device', 'status']
 
+
 def test_status():
     with open(device_data_file) as f:
         buf = f.read()
@@ -37,6 +42,7 @@ def test_status():
         Device('lo', 'loopback', 'unmanaged', None)
     ]
     assert s.passed_parameters == ['device', 'status']
+
 
 def test_show():
     d = '''GENERAL.DEVICE:                         lo
@@ -66,8 +72,9 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
         'IP6.ADDRESS[1]': '::1/128',
         'IP6.GATEWAY': None,
         'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
-        }
+    }
     assert s.passed_parameters == ['device', 'show', 'lo']
+
 
 def test_show_all():
     d = '''GENERAL.DEVICE:                         wlan0
@@ -100,7 +107,7 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
         'GENERAL.STATE': '30 (disconnected)',
         'GENERAL.CONNECTION': None,
         'GENERAL.CON-PATH': None
-        }, {
+    }, {
         'GENERAL.DEVICE': 'lo',
         'GENERAL.TYPE': 'loopback',
         'GENERAL.HWADDR': '00:00:00:00:00:00',
@@ -113,8 +120,9 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
         'IP6.ADDRESS[1]': '::1/128',
         'IP6.GATEWAY': None,
         'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
-        }]
+    }]
     assert s.passed_parameters == ['device', 'show']
+
 
 def test_connect():
     s = DummySystemCommand()
@@ -123,12 +131,14 @@ def test_connect():
     device.connect(ifname)
     assert s.passed_parameters == ['device', 'connect', ifname]
 
+
 def test_disconnect():
     s = DummySystemCommand()
     device = DeviceControl(s)
     ifname = 'eth0'
     device.disconnect(ifname)
     assert s.passed_parameters == ['device', 'disconnect', ifname]
+
 
 def test_reapply():
     s = DummySystemCommand()
@@ -137,12 +147,14 @@ def test_reapply():
     device.reapply(ifname)
     assert s.passed_parameters == ['device', 'reapply', ifname]
 
+
 def test_delete():
     s = DummySystemCommand()
     device = DeviceControl(s)
     ifname = 'eth0'
     device.delete(ifname)
     assert s.passed_parameters == ['device', 'delete', ifname]
+
 
 def test_device_wifi():
     d = '''*:AP1:Infra:1:130 Mbit/s:82:WPA1 WPA2
@@ -158,7 +170,7 @@ def test_device_wifi():
         DeviceWifi(False, 'AP3', 'Infra', 11, 195, 72, 'WPA1 WPA2'),
     ]
     assert s.passed_parameters == ['-t', '-f', 'IN-USE,SSID,MODE,CHAN,RATE,SIGNAL,SECURITY',
-            'device', 'wifi']
+                                   'device', 'wifi']
 
     with open(device_wifi_data_file) as f:
         buf = f.read()
@@ -171,13 +183,16 @@ def test_device_wifi():
         DeviceWifi(False, 'AP3', 'Infra', 6, 65, 24, 'WPA2'),
     ]
 
+
 def test_wifi_connect():
     s = DummySystemCommand()
     device = DeviceControl(s)
     ssid = 'AP1'
     password = 'abc'
     device.wifi_connect(ssid, password)
-    assert s.passed_parameters == ['device', 'wifi', 'connect', ssid, 'password', password]
+    assert s.passed_parameters == [
+        'device', 'wifi', 'connect', ssid, 'password', password]
+
 
 def test_wifi_hotspot():
     d1 = '''Hotspot password: abcdefgh
@@ -191,23 +206,24 @@ Device 'wlan0' successfully activated with '00000000-0000-0000-0000-000000000000
     r = device.wifi_hotspot()
     assert r == Hotspot('wlan0', 'Hotspot', 'AP1', 'abcdefgh')
     assert s.parameters_history == [
-            ['device', 'wifi', 'hotspot', '--show-secrets'],
-            ['-t', '-f', 'connection.id,802-11-wireless.ssid',
-                'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
-            ]
+        ['device', 'wifi', 'hotspot', '--show-secrets'],
+        ['-t', '-f', 'connection.id,802-11-wireless.ssid',
+         'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
+    ]
 
     s2 = DummySystemCommand([d1, d2])
     ifname = 'wlan0'
     con_name = 'MyHotspot'
-    ssid  ='Hot Spot'
+    ssid = 'Hot Spot'
     band = 'a'
     channel = 123
     password = 'pass'
-    DeviceControl(s2).wifi_hotspot(ifname, con_name, ssid, band, channel, password)
+    DeviceControl(s2).wifi_hotspot(
+        ifname, con_name, ssid, band, channel, password)
     assert s2.parameters_history == [
-            ['device', 'wifi', 'hotspot', '--show-secrets', 'ifname', ifname,
-                'con-name', con_name, 'ssid', ssid, 'band', band,
-                'channel', str(channel), 'password', password],
-            ['-t', '-f', 'connection.id,802-11-wireless.ssid',
-                'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
-            ]
+        ['device', 'wifi', 'hotspot', '--show-secrets', 'ifname', ifname,
+         'con-name', con_name, 'ssid', ssid, 'band', band,
+         'channel', str(channel), 'password', password],
+        ['-t', '-f', 'connection.id,802-11-wireless.ssid',
+         'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
+    ]

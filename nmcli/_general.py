@@ -1,5 +1,6 @@
-from ._system import SystemCommandInterface, SystemCommand
+from ._system import SystemCommand, SystemCommandInterface
 from .data import General
+
 
 class GeneralControlInterface:
 
@@ -14,6 +15,7 @@ class GeneralControlInterface:
 
     def set_hostname(self, hostname: str):
         raise NotImplementedError
+
 
 class GeneralControl(GeneralControlInterface):
 

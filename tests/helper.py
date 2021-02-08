@@ -1,5 +1,6 @@
 from nmcli._system import SystemCommandInterface
 
+
 class DummySystemCommand(SystemCommandInterface):
 
     @property
@@ -29,3 +30,6 @@ class DummySystemCommand(SystemCommandInterface):
         if len(self._result) > 0:
             return self._result.pop(0)
         return ''
+
+    def disable_use_sudo(self):
+        pass

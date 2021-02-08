@@ -1,10 +1,12 @@
 from __future__ import annotations
-from typing import Dict, Optional
-from dataclasses import dataclass
+
 import re
+from dataclasses import dataclass
+from typing import Dict, Optional
 
 ConnectionDetails = Dict[str, Optional[str]]
 ConnectionOptions = Dict[str, str]
+
 
 @dataclass(frozen=True)
 class Connection:

@@ -1,9 +1,13 @@
 import os
+
 from nmcli._connection import ConnectionControl
 from nmcli.data import Connection
+
 from .helper import DummySystemCommand
 
-connection_data_file = os.path.join(os.path.dirname(__file__), 'connection_data.txt')
+connection_data_file = os.path.join(
+    os.path.dirname(__file__), 'connection_data.txt')
+
 
 def test_connection():
     s = DummySystemCommand('''NAME            UUID                                  TYPE      DEVICE
@@ -14,11 +18,15 @@ Wired connection 1  700f5b18-cbb3-4d38-9c61-999999999999  ethernet  eth1''')
     r = connection()
 
     assert r == [
-        Connection('AP1', '3eac760c-de77-4823-9ab8-773c276daca3', 'wifi', 'wlan0'),
-        Connection('Home', '700f5b18-cbb3-4d38-9c61-e3bc3a3852b9', 'ethernet', 'eth0'),
-        Connection('Wired connection 1', '700f5b18-cbb3-4d38-9c61-999999999999', 'ethernet', 'eth1')
+        Connection('AP1', '3eac760c-de77-4823-9ab8-773c276daca3',
+                   'wifi', 'wlan0'),
+        Connection('Home', '700f5b18-cbb3-4d38-9c61-e3bc3a3852b9',
+                   'ethernet', 'eth0'),
+        Connection('Wired connection 1',
+                   '700f5b18-cbb3-4d38-9c61-999999999999', 'ethernet', 'eth1')
     ]
     assert s.passed_parameters == 'connection'
+
 
 def test_add():
     s = DummySystemCommand()
@@ -33,13 +41,14 @@ def test_add():
     }
     connection.add(conn_type, ifname=ifname, name=name, options=options)
     assert s.passed_parameters == [
-            'connection', 'add', 'type', conn_type, 'ifname', ifname,
-            'con-name', name, 'ipv4.addresses', '192.168.1.1/24',
-            'ipv4.gateway', '192.168.1.255', 'ipv4.method', 'manual']
+        'connection', 'add', 'type', conn_type, 'ifname', ifname,
+        'con-name', name, 'ipv4.addresses', '192.168.1.1/24',
+        'ipv4.gateway', '192.168.1.255', 'ipv4.method', 'manual']
 
     connection.add(conn_type)
     assert s.passed_parameters == [
-            'connection', 'add', 'type', conn_type, 'ifname', '*']
+        'connection', 'add', 'type', conn_type, 'ifname', '*']
+
 
 def test_modify():
     s = DummySystemCommand()
@@ -52,8 +61,9 @@ def test_modify():
     }
     connection.modify(name, options)
     assert s.passed_parameters == [
-            'connection', 'modify', name, 'ipv4.addresses', '192.168.1.1/24',
-            'ipv4.gateway', '192.168.1.255', 'ipv4.method', 'manual']
+        'connection', 'modify', name, 'ipv4.addresses', '192.168.1.1/24',
+        'ipv4.gateway', '192.168.1.255', 'ipv4.method', 'manual']
+
 
 def test_delete():
     s = DummySystemCommand()
@@ -62,6 +72,7 @@ def test_delete():
     connection.delete(name)
     assert s.passed_parameters == ['connection', 'delete', name]
 
+
 def test_up():
     s = DummySystemCommand()
     connection = ConnectionControl(s)
@@ -69,12 +80,14 @@ def test_up():
     connection.up(name)
     assert s.passed_parameters == ['connection', 'up', name]
 
+
 def test_down():
     s = DummySystemCommand()
     connection = ConnectionControl(s)
     name = 'Con1'
     connection.down(name)
     assert s.passed_parameters == ['connection', 'down', name]
+
 
 def test_show():
     with open(connection_data_file) as f:
@@ -88,6 +101,7 @@ def test_show():
     assert r['ipv4.dns-options'] is None
     assert r['IP4.ADDRESS[1]'] == '192.168.1.10/24'
     assert r['DHCP6.OPTION[8]'] == 'requested_dhcp6_name_servers = 1'
+
 
 def test_reload():
     s = DummySystemCommand()

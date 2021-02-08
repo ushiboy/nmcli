@@ -1,7 +1,9 @@
 from typing import List, Tuple
+
 from .._device import DeviceControlInterface, DeviceDetails
 from ..data.device import Device, DeviceWifi
 from ..data.hotspot import Hotspot
+
 
 class DummyDeviceControl(DeviceControlInterface):
 
@@ -29,23 +31,35 @@ class DummyDeviceControl(DeviceControlInterface):
     def wifi_connect_args(self):
         return self._wifi_connect_args
 
+    @property
+    def wifi_hotspot_args(self):
+        return self._wifi_hotspot_args
+
+    @property
+    def wifi_rescan_args(self):
+        return self._wifi_rescan_args
+
     def __init__(self,
                  result_call: List[Device] = None,
                  result_show: DeviceDetails = None,
                  result_show_all: List[DeviceDetails] = None,
                  result_wifi: List[DeviceWifi] = None,
+                 result_wifi_hotspot: Hotspot = None,
                  raise_error: Exception = None):
         self._raise_error = raise_error
         self._result_call = result_call or []
         self._result_wifi = result_wifi or []
         self._result_show = result_show
         self._result_show_all = result_show_all or []
+        self._result_wifi_hotspot = result_wifi_hotspot
         self._show_args: List[str] = []
         self._connect_args: List[str] = []
         self._disconnect_args: List[str] = []
         self._reapply_args: List[str] = []
         self._delete_args: List[str] = []
         self._wifi_connect_args: List[Tuple] = []
+        self._wifi_hotspot_args: List[Tuple] = []
+        self._wifi_rescan_args: List[Tuple] = []
 
     def __call__(self) -> List[Device]:
         self._raise_error_if_needed()
@@ -97,12 +111,18 @@ class DummyDeviceControl(DeviceControlInterface):
                      band: str = None,
                      channel: int = None,
                      password: str = None) -> Hotspot:
-        raise NotImplementedError
+        self._raise_error_if_needed()
+        self._wifi_hotspot_args.append(
+            (ifname, con_name, ssid, band, channel, password))
+        if not self._result_wifi_hotspot is None:
+            return self._result_wifi_hotspot
+        raise ValueError("'result_wifi_hotspot' is not properly initialized")
 
     def wifi_rescan(self,
-                     ifname: str = None,
-                     ssid: str = None) -> None:
-        raise NotImplementedError
+                    ifname: str = None,
+                    ssid: str = None) -> None:
+        self._raise_error_if_needed()
+        self._wifi_rescan_args.append((ifname, ssid))
 
     def _raise_error_if_needed(self):
         if not self._raise_error is None:

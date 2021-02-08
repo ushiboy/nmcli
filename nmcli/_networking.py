@@ -1,5 +1,6 @@
 from ._const import NetworkConnectivity
-from ._system import SystemCommandInterface, SystemCommand
+from ._system import SystemCommand, SystemCommandInterface
+
 
 class NetworkingControlInterface:
 
@@ -14,6 +15,7 @@ class NetworkingControlInterface:
 
     def connectivity(self, check: bool = False) -> NetworkConnectivity:
         raise NotImplementedError
+
 
 class NetworkingControl(NetworkingControlInterface):
 

@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class NetworkManagerState(Enum):
     UNKNOWN = 'unknown'
     ASLEEP = 'asleep'
@@ -9,6 +10,7 @@ class NetworkManagerState(Enum):
     CONNECTED_GLOBAL = 'connected'
     DISCONNECTING = 'disconnecting'
     DISCONNECTED = 'disconnected'
+
 
 class NetworkConnectivity(Enum):
     UNKNOWN = 'unknown'

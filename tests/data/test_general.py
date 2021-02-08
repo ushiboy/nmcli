@@ -1,5 +1,6 @@
-from nmcli._const import NetworkManagerState, NetworkConnectivity
+from nmcli._const import NetworkConnectivity, NetworkManagerState
 from nmcli.data import General
+
 
 def test_to_json():
     state = NetworkManagerState.CONNECTED_GLOBAL
@@ -10,13 +11,14 @@ def test_to_json():
     wwan = True
     g = General(state, connectivity, wifi_hw, wifi, wwan_hw, wwan)
     assert g.to_json() == {
-        'state':state.value,
-        'connectivity':connectivity.value,
-        'wifi_hw':wifi_hw,
-        'wifi':wifi,
-        'wwan_hw':wwan_hw,
-        'wwan':wwan
+        'state': state.value,
+        'connectivity': connectivity.value,
+        'wifi_hw': wifi_hw,
+        'wifi': wifi,
+        'wwan_hw': wwan_hw,
+        'wwan': wwan
     }
+
 
 def test_parse():
     d1 = 'unknown  none          enabled  enabled  enabled  disabled'

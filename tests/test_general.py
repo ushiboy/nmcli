@@ -1,7 +1,9 @@
-from nmcli._const import NetworkManagerState, NetworkConnectivity
+from nmcli._const import NetworkConnectivity, NetworkManagerState
 from nmcli._general import GeneralControl
 from nmcli.data import General
+
 from .helper import DummySystemCommand
+
 
 def test_general():
     s = DummySystemCommand('''STATE      CONNECTIVITY  WIFI-HW  WIFI     WWAN-HW  WWAN
@@ -12,6 +14,7 @@ connected  full          enabled  enabled  enabled  enabled''')
                         NetworkConnectivity.FULL, True, True, True, True)
     assert s.passed_parameters == ['general', 'status']
 
+
 def test_status():
     s = DummySystemCommand('''STATE      CONNECTIVITY  WIFI-HW  WIFI     WWAN-HW  WWAN
 connected  full          enabled  enabled  enabled  enabled''')
@@ -21,11 +24,13 @@ connected  full          enabled  enabled  enabled  enabled''')
                         NetworkConnectivity.FULL, True, True, True, True)
     assert s.passed_parameters == ['general', 'status']
 
+
 def test_get_hostname():
     s = DummySystemCommand('test\n')
     general = GeneralControl(s)
     assert general.get_hostname() == 'test'
     assert s.passed_parameters == ['general', 'hostname']
+
 
 def test_set_hostname():
     s = DummySystemCommand()

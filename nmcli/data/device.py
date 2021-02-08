@@ -1,10 +1,12 @@
 # pylint: disable=line-too-long
 from __future__ import annotations
-from dataclasses import dataclass
+
 import re
+from dataclasses import dataclass
 from typing import Dict, Optional
 
 DeviceDetails = Dict[str, Optional[str]]
+
 
 @dataclass(frozen=True)
 class Device:
@@ -55,9 +57,10 @@ class DeviceWifi:
 
     @classmethod
     def parse(cls, text: str) -> DeviceWifi:
-        m = re.search(r'^(\*|\s):(.*):(.*):(\d+):(\d+)\sMbit\/s:(\d+):(.*)$', text)
+        m = re.search(
+            r'^(\*|\s):(.*):(.*):(\d+):(\d+)\sMbit\/s:(\d+):(.*)$', text)
         if m:
             in_use, ssid, mode, chan, rate, signal, security = m.groups()
             return DeviceWifi(in_use == '*', ssid, mode,
-                    int(chan), int(rate), int(signal), security.rstrip())
+                              int(chan), int(rate), int(signal), security.rstrip())
         raise ValueError('Parse failed [%s]' % text)

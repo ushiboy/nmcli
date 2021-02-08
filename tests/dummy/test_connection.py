@@ -1,16 +1,20 @@
 import pytest
-from nmcli.dummy._connection import DummyConnectionControl
+
 from nmcli.data import Connection
+from nmcli.dummy._connection import DummyConnectionControl
+
 
 def test_call():
     result_call = [Connection('a', 'b', 'ethernet', 'eth0')]
     c = DummyConnectionControl(result_call)
     assert c() == result_call
 
+
 def test_call_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
         c()
+
 
 def test_add():
     c = DummyConnectionControl()
@@ -24,10 +28,12 @@ def test_add():
     c.add(conn_type, options, ifname, name, autoconnect)
     assert c.add_args[0] == (conn_type, options, ifname, name, autoconnect)
 
+
 def test_add_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
         c.add('ethernet')
+
 
 def test_modify():
     c = DummyConnectionControl()
@@ -38,10 +44,12 @@ def test_modify():
     c.modify(name, options)
     assert c.modify_args[0] == (name, options)
 
+
 def test_modify_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
-        c.modify('ethernet', {'key':'value'})
+        c.modify('ethernet', {'key': 'value'})
+
 
 def test_delete():
     c = DummyConnectionControl()
@@ -49,10 +57,12 @@ def test_delete():
     c.delete(name)
     assert c.delete_args[0] == name
 
+
 def test_delete_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
         c.delete('ethernet')
+
 
 def test_up():
     c = DummyConnectionControl()
@@ -60,10 +70,12 @@ def test_up():
     c.up(name)
     assert c.up_args[0] == name
 
+
 def test_up_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
         c.up('ethernet')
+
 
 def test_down():
     c = DummyConnectionControl()
@@ -71,10 +83,12 @@ def test_down():
     c.down(name)
     assert c.down_args[0] == name
 
+
 def test_down_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
         c.down('ethernet')
+
 
 def test_show():
     result_show = {
@@ -84,20 +98,24 @@ def test_show():
     name = 'MyHome'
     assert c.show(name) == result_show
 
+
 def test_show_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
     with pytest.raises(Exception):
         c.show('MyHome')
+
 
 def test_show_when_no_arguments_are_passed():
     c = DummyConnectionControl()
     with pytest.raises(ValueError):
         c.show('MyHome')
 
+
 def test_reload():
     c = DummyConnectionControl()
     c.reload()
     assert c.called_reload == 1
+
 
 def test_reload_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)
