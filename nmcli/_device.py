@@ -129,7 +129,7 @@ class DeviceControl(DeviceControlInterface):
         self._syscmd.nmcli(['device', 'delete', ifname])
 
     def wifi(self) -> List[DeviceWifi]:
-        r = self._syscmd.nmcli(['-t', '-f', 'IN-USE,SSID,MODE,CHAN,RATE,SIGNAL,SECURITY',
+        r = self._syscmd.nmcli(['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
                                 'device', 'wifi'])
         results = []
         rows = r.split('\n')
