@@ -38,8 +38,10 @@ class Device:
 class DeviceWifi:
     in_use: bool
     ssid: str
+    bssid: str
     mode: str
     chan: int
+    freq: int
     rate: int
     signal: int
     security: str
@@ -48,8 +50,10 @@ class DeviceWifi:
         return {
             'in_use': self.in_use,
             'ssid': self.ssid,
+            'bssid': self.bssid,
             'mode': self.mode,
             'chan': self.chan,
+            'freq': self.freq,
             'rate': self.rate,
             'signal': self.signal,
             'security': self.security
@@ -57,10 +61,11 @@ class DeviceWifi:
 
     @classmethod
     def parse(cls, text: str) -> DeviceWifi:
+        text = text.replace("\\:", "\uFFFE").replace(":", "\uFFFF").replace("\uFFFE", ":")
         m = re.search(
-            r'^(\*|\s):(.*):(.*):(\d+):(\d+)\sMbit\/s:(\d+):(.*)$', text)
+            '^(\*|\s)\uFFFF(.*)\uFFFF(.*)\uFFFF(.*)\uFFFF(\d+)\uFFFF(\d+)\sMHz\uFFFF(\d+)\sMbit\/s\uFFFF(\d+)\uFFFF(.*)$', text)
         if m:
-            in_use, ssid, mode, chan, rate, signal, security = m.groups()
-            return DeviceWifi(in_use == '*', ssid, mode,
-                              int(chan), int(rate), int(signal), security.rstrip())
+            in_use, ssid, bssid, mode, chan, freq, rate, signal, security = m.groups()
+            return DeviceWifi(in_use == '*', ssid, bssid, mode,
+                              int(chan), int(freq), int(rate), int(signal), security.rstrip())
         raise ValueError('Parse failed [%s]' % text)
