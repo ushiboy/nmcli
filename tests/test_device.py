@@ -178,9 +178,9 @@ def test_device_wifi():
     r = device.wifi()
     assert len(r) == 3
     assert r == [
-        DeviceWifi(False, 'AP1', '00:00:00:00:00:00', 'Infra', 11, 2400, 195, 72, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP2', '00:00:00:00:00:01', 'Infra', 4, 2401, 130, 40, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP3', '00:00:00:00:00:02', 'Infra', 6, 2402, 65, 24, 'WPA2'),
+        DeviceWifi(False, '', '00:00:00:00:00:00', 'Infra', 11, 2400, 195, 72, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP1', '00:00:00:00:00:01', 'Infra', 4, 2401, 130, 40, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP2', '00:00:00:00:00:02', 'Infra', 6, 2402, 65, 24, 'WPA2'),
     ]
 
 
