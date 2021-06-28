@@ -157,19 +157,19 @@ def test_delete():
 
 
 def test_device_wifi():
-    d = '''*:AP1:Infra:1:130 Mbit/s:82:WPA1 WPA2
- :AP2:Infra:11:195 Mbit/s:74:WPA2
- :AP3:Infra:11:195 Mbit/s:72:WPA1 WPA2'''
+    d = '''*:AP1:00\\:00\\:00\\:00\\:00\\:00:Infra:1:2400 MHz:130 Mbit/s:82:WPA1 WPA2
+ :AP2:00\\:00\\:00\\:00\\:00\\:01:Infra:11:2401 MHz:195 Mbit/s:74:WPA2
+ :AP3:00\\:00\\:00\\:00\\:00\\:02:Infra:11:2402 MHz:195 Mbit/s:72:WPA1 WPA2'''
     s = DummySystemCommand(d)
     device = DeviceControl(s)
     r = device.wifi()
     assert len(r) == 3
     assert r == [
-        DeviceWifi(True, 'AP1', 'Infra', 1, 130, 82, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP2', 'Infra', 11, 195, 74, 'WPA2'),
-        DeviceWifi(False, 'AP3', 'Infra', 11, 195, 72, 'WPA1 WPA2'),
+            DeviceWifi(True, 'AP1', '00:00:00:00:00:00', 'Infra', 1, 2400, 130, 82, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP2', '00:00:00:00:00:01', 'Infra', 11, 2401, 195, 74, 'WPA2'),
+        DeviceWifi(False, 'AP3', '00:00:00:00:00:02',  'Infra', 11, 2402, 195, 72, 'WPA1 WPA2'),
     ]
-    assert s.passed_parameters == ['-t', '-f', 'IN-USE,SSID,MODE,CHAN,RATE,SIGNAL,SECURITY',
+    assert s.passed_parameters == ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
                                    'device', 'wifi']
 
     with open(device_wifi_data_file) as f:
@@ -178,9 +178,9 @@ def test_device_wifi():
     r = device.wifi()
     assert len(r) == 3
     assert r == [
-        DeviceWifi(False, 'AP1', 'Infra', 11, 195, 72, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP2', 'Infra', 4, 130, 40, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP3', 'Infra', 6, 65, 24, 'WPA2'),
+        DeviceWifi(False, 'AP1', '00:00:00:00:00:00', 'Infra', 11, 2400, 195, 72, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP2', '00:00:00:00:00:01', 'Infra', 4, 2401, 130, 40, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP3', '00:00:00:00:00:02', 'Infra', 6, 2402, 65, 24, 'WPA2'),
     ]
 
 
