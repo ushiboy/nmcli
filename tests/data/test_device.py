@@ -58,5 +58,6 @@ def test_device_wifi_parse():
 
 def test_device_wifi_parse_when_failed():
     d = '*:AP1:Infra:1:130 Mbit/s:82:WPA1 WPA2'
-    with pytest.raises(ValueError, match='Parse failed [%s]' % d):
+    with pytest.raises(ValueError) as e:
         DeviceWifi.parse(d)
+    assert str(e.value) == 'Parse failed [%s]' % d
