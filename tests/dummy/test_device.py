@@ -113,7 +113,7 @@ def test_delete_when_raise_error():
 
 
 def test_wifi():
-    result_wifi = [DeviceWifi(False, 'ssid', 'Infra', 1, 54, 78, 'WPA2')]
+    result_wifi = [DeviceWifi(False, 'ssid', '00:00:00:00:00:00', 'Infra', 1, 2400, 54, 78, 'WPA2')]
     c = DummyDeviceControl(result_wifi=result_wifi)
     assert c.wifi() == result_wifi
 

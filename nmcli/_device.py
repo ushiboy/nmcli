@@ -21,7 +21,10 @@ def parse_hotspot_properties(text: str) -> Tuple[str, str]:
     for row in text.split('\n'):
         if len(row) == 0:
             continue
-        key, value = row.split(':')
+        m = re.search(r'^([\w\.\-]+):([\S\s]+)', row)
+        if m is None:
+            continue
+        key, value = m.groups()
         if key == 'connection.id':
             con_name = value
         elif key == '802-11-wireless.ssid':
