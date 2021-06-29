@@ -227,3 +227,16 @@ Device 'wlan0' successfully activated with '00000000-0000-0000-0000-000000000000
         ['-t', '-f', 'connection.id,802-11-wireless.ssid',
          'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
     ]
+
+    d3 = '''connection.id:Hotspot
+802-11-wireless.ssid:foo:bar:baz
+'''
+    s3 = DummySystemCommand([d1, d3])
+    device = DeviceControl(s3)
+    r = device.wifi_hotspot(ssid='foo:bar:baz')
+    assert r == Hotspot('wlan0', 'Hotspot', 'foo:bar:baz', 'abcdefgh')
+    assert s3.parameters_history == [
+            ['device', 'wifi', 'hotspot', '--show-secrets', 'ssid', 'foo:bar:baz'],
+        ['-t', '-f', 'connection.id,802-11-wireless.ssid',
+         'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
+    ]
