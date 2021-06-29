@@ -1,4 +1,5 @@
 # pylint: disable=line-too-long
+import pytest
 from nmcli.data import Device, DeviceWifi
 
 
@@ -54,3 +55,8 @@ def test_device_wifi_parse():
     assert DeviceWifi.parse(d4) == \
         DeviceWifi(False, 'AAAAAA BBBBBBBBB CCC 9999', '00:00:00:00:00:03',
                    'Infra', 1, 2403, 130, 82, 'WPA1 WPA2')
+
+def test_device_wifi_parse_when_failed():
+    d = '*:AP1:Infra:1:130 Mbit/s:82:WPA1 WPA2'
+    with pytest.raises(ValueError, match='Parse failed [%s]' % d):
+        DeviceWifi.parse(d)
