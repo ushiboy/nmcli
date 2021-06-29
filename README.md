@@ -428,6 +428,10 @@ nmcli.disable_use_sudo() -> None
 
 ## Change Log
 
+### 0.6.0
+
+Added BSSID and FREQ to DeviceWifi.
+
 ### 0.5.0
 
 Added support for "nmcli device wifi hotspot".
