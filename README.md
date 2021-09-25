@@ -110,7 +110,7 @@ nmcli.connection.add(
     options: Optional[ConnectionOptions] = None,
     ifname: str = "*",
     name: str = None,
-    autoconnect: bool = False) -> None
+    autoconnect: bool = None) -> None
 ```
 
 #### nmcli.connection.modify
@@ -427,6 +427,10 @@ nmcli.disable_use_sudo() -> None
 ```
 
 ## Change Log
+
+### 0.6.1
+
+Fixed a bug in the autoconnect parameter of the nmcli.connection.add method (made the default value conform to the specification of nmcli connection add).
 
 ### 0.6.0
 
