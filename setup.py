@@ -13,7 +13,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='nmcli',
-    version='0.6.0',
+    version='0.6.1',
     author='ushiboy',
     license='MIT',
     description='A python wrapper library for the network-manager cli client',
