@@ -15,7 +15,7 @@ class ConnectionControlInterface:
             options: Optional[ConnectionOptions] = None,
             ifname: str = "*",
             name: str = None,
-            autoconnect: bool = False) -> None:
+            autoconnect: bool = None) -> None:
         raise NotImplementedError
 
     def modify(self, name: str, options: ConnectionOptions) -> None:
@@ -56,8 +56,10 @@ class ConnectionControl(ConnectionControlInterface):
             options: Optional[ConnectionOptions] = None,
             ifname: str = "*",
             name: str = None,
-            autoconnect: bool = False) -> None:
+            autoconnect: bool = None) -> None:
         params = ['connection', 'add', 'type', conn_type, 'ifname', ifname]
+        if autoconnect is not None:
+            params += ['autoconnect', 'yes' if autoconnect else 'no']
         if not name is None:
             params += ['con-name', name]
         options = {} if options is None else options
