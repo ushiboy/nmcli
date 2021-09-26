@@ -49,6 +49,13 @@ def test_add():
     assert s.passed_parameters == [
         'connection', 'add', 'type', conn_type, 'ifname', '*']
 
+    connection.add(conn_type, autoconnect=True)
+    assert s.passed_parameters == [
+        'connection', 'add', 'type', conn_type, 'ifname', '*', 'autoconnect', 'yes']
+
+    connection.add(conn_type, autoconnect=False)
+    assert s.passed_parameters == [
+        'connection', 'add', 'type', conn_type, 'ifname', '*', 'autoconnect', 'no']
 
 def test_modify():
     s = DummySystemCommand()

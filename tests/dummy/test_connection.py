@@ -28,6 +28,12 @@ def test_add():
     c.add(conn_type, options, ifname, name, autoconnect)
     assert c.add_args[0] == (conn_type, options, ifname, name, autoconnect)
 
+    c.add(conn_type, options, ifname, name, False)
+    assert c.add_args[1] == (conn_type, options, ifname, name, False)
+
+    c.add(conn_type, options, ifname, name)
+    assert c.add_args[2] == (conn_type, options, ifname, name, None)
+
 
 def test_add_when_raise_error():
     c = DummyConnectionControl(raise_error=Exception)

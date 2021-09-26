@@ -54,7 +54,7 @@ class DummyConnectionControl(ConnectionControlInterface):
             options: Optional[ConnectionOptions] = None,
             ifname: str = "*",
             name: str = None,
-            autoconnect: bool = False) -> None:
+            autoconnect: bool = None) -> None:
         self._raise_error_if_needed()
         self._add_args.append((conn_type, options, ifname, name, autoconnect))
 
