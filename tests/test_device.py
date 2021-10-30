@@ -189,9 +189,13 @@ def test_wifi_connect():
     device = DeviceControl(s)
     ssid = 'AP1'
     password = 'abc'
+    ifname = 'wlan0'
     device.wifi_connect(ssid, password)
     assert s.passed_parameters == [
         'device', 'wifi', 'connect', ssid, 'password', password]
+    device.wifi_connect(ssid, password, ifname)
+    assert s.passed_parameters == [
+        'device', 'wifi', 'connect', ssid, 'password', password, 'ifname', ifname]
 
 
 def test_wifi_hotspot():
