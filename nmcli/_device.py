@@ -141,9 +141,11 @@ class DeviceControl(DeviceControlInterface):
                 results.append(DeviceWifi.parse(row))
         return results
 
-    def wifi_connect(self, ssid: str, password: str) -> None:
-        self._syscmd.nmcli(['device', 'wifi', 'connect',
-                            ssid, 'password', password])
+    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
+        cmd = ['device', 'wifi', 'connect', ssid, 'password', password]
+        if ifname is not None:
+            cmd += ['ifname', ifname]
+        self._syscmd.nmcli(cmd)
 
     def wifi_hotspot(self,
                      ifname: str = None,
