@@ -240,7 +240,7 @@ nmcli.device.wifi() -> List[DeviceWifi]
 Connect to a Wi-Fi network specified by SSID or BSSID.
 
 ```
-nmcli.device.wifi_connect(ssid: str, password: str) -> None
+nmcli.device.wifi_connect(ssid: str, password: str, ifname: str = None) -> None
 ```
 
 #### nmcli.device.wifi_hotspot
@@ -427,6 +427,10 @@ nmcli.disable_use_sudo() -> None
 ```
 
 ## Change Log
+
+### 0.7.0
+
+Added ifname param to wifi_connect.
 
 ### 0.6.1
 
