@@ -100,9 +100,12 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         return self._result_wifi
 
-    def wifi_connect(self, ssid: str, password: str) -> None:
+    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
         self._raise_error_if_needed()
-        self._wifi_connect_args.append((ssid, password))
+        if ifname is None:
+            self._wifi_connect_args.append((ssid, password))
+        else:
+            self._wifi_connect_args.append((ssid, password, ifname))
 
     def wifi_hotspot(self,
                      ifname: str = None,

@@ -128,8 +128,11 @@ def test_wifi_connect():
     c = DummyDeviceControl()
     ssid = 'ssid'
     password = 'passwd'
+    ifname = 'wlan0'
     c.wifi_connect(ssid, password)
     assert c.wifi_connect_args == [(ssid, password)]
+    c.wifi_connect(ssid, password, ifname)
+    assert c.wifi_connect_args == [(ssid, password), (ssid, password, ifname)]
 
 
 def test_wifi_connect_when_raise_error():
