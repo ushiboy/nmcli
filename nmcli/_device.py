@@ -61,7 +61,7 @@ class DeviceControlInterface:
     def wifi(self) -> List[DeviceWifi]:
         raise NotImplementedError
 
-    def wifi_connect(self, ssid: str, password: str) -> None:
+    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
         raise NotImplementedError
 
     def wifi_hotspot(self,
