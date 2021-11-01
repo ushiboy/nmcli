@@ -35,7 +35,7 @@ class SystemCommand(SystemCommandInterface):
         commands = c + parameters
         try:
             r = self._run(commands, capture_output=True,
-                          check=True, env={'LANG': 'C'})
+                          check=True)
             return r.stdout.decode('utf-8')
         except CalledProcessError as e:
             rc = e.returncode
