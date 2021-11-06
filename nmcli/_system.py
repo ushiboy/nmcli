@@ -21,12 +21,16 @@ class SystemCommandInterface:
     def disable_use_sudo(self):
         raise NotImplementedError
 
+    def set_lang(self, lang: str):
+        raise NotImplementedError
+
 
 class SystemCommand(SystemCommandInterface):
 
     def __init__(self, subprocess_run=run):
         self._run = subprocess_run
         self._use_sudo = True
+        self._lang = 'C'
 
     def nmcli(self, parameters: CommandParameter) -> str:
         if isinstance(parameters, str):
@@ -35,7 +39,7 @@ class SystemCommand(SystemCommandInterface):
         commands = c + parameters
         try:
             r = self._run(commands, capture_output=True,
-                          check=True, env={'LANG': 'C'})
+                          check=True, env={'LANG': self._lang})
             return r.stdout.decode('utf-8')
         except CalledProcessError as e:
             rc = e.returncode
@@ -71,3 +75,6 @@ class SystemCommand(SystemCommandInterface):
 
     def disable_use_sudo(self):
         self._use_sudo = False
+
+    def set_lang(self, lang: str):
+        self._lang = lang

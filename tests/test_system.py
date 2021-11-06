@@ -20,14 +20,20 @@ class DummySubprocessRunner:
     def passed_args(self):
         return self._args
 
+    @property
+    def passed_env(self):
+        return self._env
+
     def __init__(self, return_code=0, stdout=b'', stderr=b''):
         self._args = None
+        self._env = None
         self._return_code = return_code
         self._stdout = stdout
         self._stderr = stderr
 
     def __call__(self, args, capture_output, check, env):
         self._args = args
+        self._env = env
         if self._return_code == 0:
             return CompletedProcess(args, self._return_code, stdout=self._stdout)
         raise CalledProcessError(self._return_code, args, stderr=self._stderr)
@@ -38,6 +44,7 @@ def test_nmcli_when_successed():
     s = SystemCommand(run)
     assert s.nmcli('connection') == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'connection']
+    assert run.passed_env == {'LANG':'C'}
 
 
 def test_nmcli_when_successed_with_list_args():
@@ -45,6 +52,7 @@ def test_nmcli_when_successed_with_list_args():
     s = SystemCommand(run)
     assert s.nmcli(['device', 'wifi']) == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'device', 'wifi']
+    assert run.passed_env == {'LANG':'C'}
 
 
 def test_nmcli_when_failed_with_invalid_user_input():
@@ -136,3 +144,12 @@ def test_disable_use_sudo():
     s.disable_use_sudo()
     assert s.nmcli('connection') == 'test'
     assert run.passed_args == ['nmcli', 'connection']
+
+
+def test_set_lang():
+    run = DummySubprocessRunner(stdout=b'test')
+    s = SystemCommand(run)
+    s.set_lang('C.UTF-8')
+    assert s.nmcli('connection') == 'test'
+    assert run.passed_args == ['sudo', 'nmcli', 'connection']
+    assert run.passed_env == {'LANG':'C.UTF-8'}
