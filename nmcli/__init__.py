@@ -27,5 +27,6 @@ radio = RadioControl(_syscmd)
 def disable_use_sudo():
     _syscmd.disable_use_sudo()
 
+
 def set_lang(lang: str):
     _syscmd.set_lang(lang)
