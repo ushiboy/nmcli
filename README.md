@@ -428,6 +428,8 @@ nmcli.disable_use_sudo() -> None
 
 ## Change Log
 
+### 0.8.0
+
 ### 0.7.0
 
 Added ifname param to wifi_connect.
