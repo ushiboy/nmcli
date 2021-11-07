@@ -71,7 +71,7 @@ class SystemCommand(SystemCommandInterface):
                 if rc == 1 and stderr.find('Scanning not allowed') > 0:
                     raise ScanningNotAllowedException(stderr) from e
                 raise UnspecifiedException(
-                    'Unknown or unspecified error [code:%d, detail:%s]' % (rc, stderr)) from e
+                    f'Unknown or unspecified error [code:{rc}, detail:{stderr}]') from e
 
     def disable_use_sudo(self):
         self._use_sudo = False

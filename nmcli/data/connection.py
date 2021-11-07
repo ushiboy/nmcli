@@ -29,4 +29,4 @@ class Connection:
         if m:
             name, uuid, conn_type, device = m.groups()
             return Connection(name.strip(), uuid, conn_type, device)
-        raise ValueError('Parse failed [%s]' % text)
+        raise ValueError(f'Parse failed [{text}]')
