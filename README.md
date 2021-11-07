@@ -426,9 +426,20 @@ Disable the use of sudo.
 nmcli.disable_use_sudo() -> None
 ```
 
+#### nmcli.set_lang
+
+Change the environment variable LANG from the default `C`.
+Run this command when you want to use `C.UTF-8`.
+
+```
+nmcli.set_lang(lang: str) -> None
+```
+
 ## Change Log
 
 ### 0.8.0
+
+Added support for changing the LANG environment variable.
 
 ### 0.7.0
 
