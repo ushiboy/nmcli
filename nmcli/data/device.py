@@ -31,7 +31,7 @@ class Device:
             conn = conn.strip()
             connection = conn if conn != '--' else None
             return Device(device, device_type, state, connection)
-        raise ValueError('Parse failed [%s]' % text)
+        raise ValueError(f'Parse failed [{text}]')
 
 
 @dataclass(frozen=True)
@@ -61,11 +61,12 @@ class DeviceWifi:
 
     @classmethod
     def parse(cls, text: str) -> DeviceWifi:
-        t = text.replace("\\:", "\uFFFE").replace(":", "\uFFFF").replace("\uFFFE", ":")
+        t = text.replace("\\:", "\uFFFE").replace(
+            ":", "\uFFFF").replace("\uFFFE", ":")
         m = re.search(
             r'^(\*|\s)\uFFFF(.*)\uFFFF(.*)\uFFFF(.*)\uFFFF(\d+)\uFFFF(\d+)\sMHz\uFFFF(\d+)\sMbit\/s\uFFFF(\d+)\uFFFF(.*)$', t)
         if m:
             in_use, ssid, bssid, mode, chan, freq, rate, signal, security = m.groups()
             return DeviceWifi(in_use == '*', ssid, bssid, mode,
                               int(chan), int(freq), int(rate), int(signal), security.rstrip())
-        raise ValueError('Parse failed [%s]' % text)
+        raise ValueError(f'Parse failed [{text}]')

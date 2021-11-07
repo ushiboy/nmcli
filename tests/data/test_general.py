@@ -1,3 +1,5 @@
+import pytest
+
 from nmcli._const import NetworkConnectivity, NetworkManagerState
 from nmcli.data import General
 
@@ -55,3 +57,9 @@ def test_parse():
     assert General.parse(d7) == General(NetworkManagerState.DISCONNECTED,
                                         NetworkConnectivity.FULL,
                                         True, True, True, True)
+
+def test_parse_when_failed():
+    with pytest.raises(ValueError) as e:
+        General.parse('invalid')
+    assert str(
+        e.value) == 'Parse failed [invalid]'

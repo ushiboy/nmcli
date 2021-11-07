@@ -37,4 +37,4 @@ class General:
                            wifi == 'enabled',
                            wwan_hw == 'enabled',
                            wwan == 'enabled')
-        raise ValueError('Parse failed [%s]' % text)
+        raise ValueError(f'Parse failed [{text}]')
