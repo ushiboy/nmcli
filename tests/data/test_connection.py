@@ -1,3 +1,5 @@
+import pytest
+
 from nmcli.data import Connection
 
 
@@ -28,3 +30,9 @@ def test_parse():
     assert Connection.parse(d3) == \
         Connection('Wired connection 1',
                    '700f5b18-cbb3-4d38-9c61-999999999999', 'ethernet', 'eth1')
+
+def test_parse_when_failed():
+    with pytest.raises(ValueError) as e:
+        Connection.parse('invalid')
+    assert str(
+        e.value) == 'Parse failed [invalid]'

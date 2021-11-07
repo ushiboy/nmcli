@@ -1,5 +1,6 @@
 # pylint: disable=line-too-long
 import pytest
+
 from nmcli.data import Device, DeviceWifi
 
 
@@ -15,6 +16,21 @@ def test_device_to_json():
         'state': state,
         'connection': connection
     }
+
+
+def test_device_parse():
+    d1 = 'eth0    ethernet  connected  Default'
+    assert Device.parse(d1) == \
+        Device('eth0', 'ethernet', 'connected', 'Default')
+    d2 = 'lo      loopback  unmanaged  --'
+    assert Device.parse(d2) == \
+        Device('lo', 'loopback', 'unmanaged', None)
+
+
+def test_device_parse_when_failed():
+    with pytest.raises(ValueError) as e:
+        Device.parse('invalid')
+    assert str(e.value) == 'Parse failed [invalid]'
 
 
 def test_device_wifi_to_json():
