@@ -58,7 +58,7 @@ class DeviceControlInterface:
     def delete(self, ifname: str) -> None:
         raise NotImplementedError
 
-    def wifi(self) -> List[DeviceWifi]:
+    def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         raise NotImplementedError
 
     def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
@@ -131,9 +131,12 @@ class DeviceControl(DeviceControlInterface):
     def delete(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'delete', ifname])
 
-    def wifi(self) -> List[DeviceWifi]:
-        r = self._syscmd.nmcli(['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
-                                'device', 'wifi'])
+    def wifi(self, ifname: str = None) -> List[DeviceWifi]:
+        cmd = ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+              'device', 'wifi', 'list']
+        if ifname is not None:
+            cmd += ['ifname', ifname]
+        r = self._syscmd.nmcli(cmd)
         results = []
         rows = r.split('\n')
         for row in rows:
