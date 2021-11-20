@@ -232,7 +232,7 @@ nmcli.device.delete(ifname: str) -> None
 List available Wi-Fi access points.
 
 ```
-nmcli.device.wifi() -> List[DeviceWifi]
+nmcli.device.wifi(ifname: str = None) -> List[DeviceWifi]
 ```
 
 #### nmcli.device.wifi_connect
@@ -436,6 +436,10 @@ nmcli.set_lang(lang: str) -> None
 ```
 
 ## Change Log
+
+### 0.9.0
+
+Added ifname param to wifi.
 
 ### 0.8.0
 

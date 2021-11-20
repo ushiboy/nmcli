@@ -165,23 +165,27 @@ def test_device_wifi():
     r = device.wifi()
     assert len(r) == 3
     assert r == [
-            DeviceWifi(True, 'AP1', '00:00:00:00:00:00', 'Infra', 1, 2400, 130, 82, 'WPA1 WPA2'),
+        DeviceWifi(True, 'AP1', '00:00:00:00:00:00', 'Infra', 1, 2400, 130, 82, 'WPA1 WPA2'),
         DeviceWifi(False, 'AP2', '00:00:00:00:00:01', 'Infra', 11, 2401, 195, 74, 'WPA2'),
         DeviceWifi(False, 'AP3', '00:00:00:00:00:02',  'Infra', 11, 2402, 195, 72, 'WPA1 WPA2'),
     ]
     assert s.passed_parameters == ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
-                                   'device', 'wifi']
+                                   'device', 'wifi', 'list']
 
     with open(device_wifi_data_file) as f:
         buf = f.read()
-    device = DeviceControl(DummySystemCommand(buf))
-    r = device.wifi()
+    s2 = DummySystemCommand(buf)
+    device = DeviceControl(s2)
+    ifname = 'wlan0'
+    r = device.wifi(ifname)
     assert len(r) == 3
     assert r == [
         DeviceWifi(False, '', '00:00:00:00:00:00', 'Infra', 11, 2400, 195, 72, 'WPA1 WPA2'),
         DeviceWifi(False, 'AP1', '00:00:00:00:00:01', 'Infra', 4, 2401, 130, 40, 'WPA1 WPA2'),
         DeviceWifi(False, 'AP2', '00:00:00:00:00:02', 'Infra', 6, 2402, 65, 24, 'WPA2'),
     ]
+    assert s2.passed_parameters == ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+                                   'device', 'wifi', 'list', 'ifname', ifname]
 
 
 def test_wifi_connect():

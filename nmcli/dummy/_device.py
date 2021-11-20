@@ -28,6 +28,10 @@ class DummyDeviceControl(DeviceControlInterface):
         return self._delete_args
 
     @property
+    def wifi_args(self):
+        return self._wifi_args
+
+    @property
     def wifi_connect_args(self):
         return self._wifi_connect_args
 
@@ -57,6 +61,7 @@ class DummyDeviceControl(DeviceControlInterface):
         self._disconnect_args: List[str] = []
         self._reapply_args: List[str] = []
         self._delete_args: List[str] = []
+        self._wifi_args: List[str] = []
         self._wifi_connect_args: List[Tuple] = []
         self._wifi_hotspot_args: List[Tuple] = []
         self._wifi_rescan_args: List[Tuple] = []
@@ -96,8 +101,10 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         self._delete_args.append(ifname)
 
-    def wifi(self) -> List[DeviceWifi]:
+    def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         self._raise_error_if_needed()
+        if ifname is not None:
+            self._wifi_args.append(ifname)
         return self._result_wifi
 
     def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
