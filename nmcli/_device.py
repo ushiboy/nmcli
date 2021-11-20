@@ -133,7 +133,7 @@ class DeviceControl(DeviceControlInterface):
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         cmd = ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
-              'device', 'wifi', 'list']
+               'device', 'wifi', 'list']
         if ifname is not None:
             cmd += ['ifname', ifname]
         r = self._syscmd.nmcli(cmd)
