@@ -116,6 +116,9 @@ def test_wifi():
     result_wifi = [DeviceWifi(False, 'ssid', '00:00:00:00:00:00', 'Infra', 1, 2400, 54, 78, 'WPA2')]
     c = DummyDeviceControl(result_wifi=result_wifi)
     assert c.wifi() == result_wifi
+    ifname = 'wlan0'
+    assert c.wifi(ifname) == result_wifi
+    assert c.wifi_args == [ifname]
 
 
 def test_wifi_when_raise_error():
