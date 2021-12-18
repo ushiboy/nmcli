@@ -40,9 +40,9 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._result_show = result_show
         self._add_args: List[Tuple] = []
         self._modify_args: List[Tuple] = []
-        self._delete_args: List[str] = []
-        self._up_args: List[str] = []
-        self._down_args: List[str] = []
+        self._delete_args: List[Tuple] = []
+        self._up_args: List[Tuple] = []
+        self._down_args: List[Tuple] = []
         self._called_reload = 0
 
     def __call__(self) -> List[Connection]:
@@ -64,15 +64,15 @@ class DummyConnectionControl(ConnectionControlInterface):
 
     def delete(self, name: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        self._delete_args.append(name)
+        self._delete_args.append((name, wait_sec))
 
     def up(self, name: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        self._up_args.append(name)
+        self._up_args.append((name, wait_sec))
 
     def down(self, name: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        self._down_args.append(name)
+        self._down_args.append((name, wait_sec))
 
     def show(self, name: str) -> ConnectionDetails:
         self._raise_error_if_needed()

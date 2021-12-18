@@ -64,7 +64,7 @@ def test_connect():
     c = DummyDeviceControl()
     ifname = 'eth0'
     c.connect(ifname)
-    assert c.connect_args == [ifname]
+    assert c.connect_args[0] == (ifname, None)
 
 
 def test_connect_when_raise_error():
@@ -77,7 +77,7 @@ def test_disconnect():
     c = DummyDeviceControl()
     ifname = 'eth0'
     c.disconnect(ifname)
-    assert c.disconnect_args == [ifname]
+    assert c.disconnect_args[0] == (ifname, None)
 
 
 def test_disconnect_when_raise_error():
@@ -103,7 +103,7 @@ def test_delete():
     c = DummyDeviceControl()
     ifname = 'eth0'
     c.delete(ifname)
-    assert c.delete_args == [ifname]
+    assert c.delete_args[0] == (ifname, None)
 
 
 def test_delete_when_raise_error():
@@ -133,9 +133,11 @@ def test_wifi_connect():
     password = 'passwd'
     ifname = 'wlan0'
     c.wifi_connect(ssid, password)
-    assert c.wifi_connect_args == [(ssid, password)]
+    assert c.wifi_connect_args[0] == (ssid, password, None, None)
     c.wifi_connect(ssid, password, ifname)
-    assert c.wifi_connect_args == [(ssid, password), (ssid, password, ifname)]
+    assert c.wifi_connect_args[1] == (ssid, password, ifname, None)
+    c.wifi_connect(ssid, password, ifname, wait_sec=10)
+    assert c.wifi_connect_args[2] == (ssid, password, ifname, 10)
 
 
 def test_wifi_connect_when_raise_error():

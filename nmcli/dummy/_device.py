@@ -57,10 +57,10 @@ class DummyDeviceControl(DeviceControlInterface):
         self._result_show_all = result_show_all or []
         self._result_wifi_hotspot = result_wifi_hotspot
         self._show_args: List[str] = []
-        self._connect_args: List[str] = []
-        self._disconnect_args: List[str] = []
+        self._connect_args: List[Tuple] = []
+        self._disconnect_args: List[Tuple] = []
         self._reapply_args: List[str] = []
-        self._delete_args: List[str] = []
+        self._delete_args: List[Tuple] = []
         self._wifi_args: List[str] = []
         self._wifi_connect_args: List[Tuple] = []
         self._wifi_hotspot_args: List[Tuple] = []
@@ -87,11 +87,11 @@ class DummyDeviceControl(DeviceControlInterface):
 
     def connect(self, ifname: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        self._connect_args.append(ifname)
+        self._connect_args.append((ifname, wait_sec))
 
     def disconnect(self, ifname: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        self._disconnect_args.append(ifname)
+        self._disconnect_args.append((ifname, wait_sec))
 
     def reapply(self, ifname: str) -> None:
         self._raise_error_if_needed()
@@ -99,7 +99,7 @@ class DummyDeviceControl(DeviceControlInterface):
 
     def delete(self, ifname: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        self._delete_args.append(ifname)
+        self._delete_args.append((ifname, wait_sec))
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         self._raise_error_if_needed()
@@ -113,10 +113,7 @@ class DummyDeviceControl(DeviceControlInterface):
                      ifname: str = None,
                      wait_sec: int = None) -> None:
         self._raise_error_if_needed()
-        if ifname is None:
-            self._wifi_connect_args.append((ssid, password))
-        else:
-            self._wifi_connect_args.append((ssid, password, ifname))
+        self._wifi_connect_args.append((ssid, password, ifname, wait_sec))
 
     def wifi_hotspot(self,
                      ifname: str = None,
