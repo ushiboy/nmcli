@@ -1,6 +1,7 @@
 import re
 from typing import List, Tuple
 
+from ._exception import ConnectionActivateFailedException
 from ._system import SystemCommand, SystemCommandInterface
 from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
@@ -148,7 +149,11 @@ class DeviceControl(DeviceControlInterface):
         cmd = ['device', 'wifi', 'connect', ssid, 'password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]
-        self._syscmd.nmcli(cmd)
+        r = self._syscmd.nmcli(cmd)
+        m = re.search(r'Connection activation failed:', r)
+        if m:
+            raise ConnectionActivateFailedException(
+                'Connection activation failed')
 
     def wifi_hotspot(self,
                      ifname: str = None,

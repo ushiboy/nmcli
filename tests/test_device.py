@@ -1,6 +1,8 @@
 import os
+import pytest
 
 from nmcli._device import DeviceControl
+from nmcli._exception import ConnectionActivateFailedException
 from nmcli.data import Device, DeviceWifi, Hotspot
 
 from .helper import DummySystemCommand
@@ -200,6 +202,15 @@ def test_wifi_connect():
     device.wifi_connect(ssid, password, ifname)
     assert s.passed_parameters == [
         'device', 'wifi', 'connect', ssid, 'password', password, 'ifname', ifname]
+
+def test_wifi_connect_when_connection_activate_failed():
+    s = DummySystemCommand('''Error: Connection activation failed: (7) Secrets were required, but not provided.
+''')
+    device = DeviceControl(s)
+    ssid = 'AP1'
+    password = 'abc'
+    with pytest.raises(ConnectionActivateFailedException):
+        device.wifi_connect(ssid, password)
 
 
 def test_wifi_hotspot():
