@@ -125,10 +125,18 @@ class DeviceControl(DeviceControlInterface):
         return results
 
     def connect(self, ifname: str, wait_sec: int = None) -> None:
-        self._syscmd.nmcli(['device', 'connect', ifname])
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['device', 'connect', ifname]
+        self._syscmd.nmcli(cmd)
 
     def disconnect(self, ifname: str, wait_sec: int = None) -> None:
-        self._syscmd.nmcli(['device', 'disconnect', ifname])
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['device', 'disconnect', ifname]
+        self._syscmd.nmcli(cmd)
 
     def reapply(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'reapply', ifname])
@@ -154,7 +162,10 @@ class DeviceControl(DeviceControlInterface):
                      password: str,
                      ifname: str = None,
                      wait_sec: int = None) -> None:
-        cmd = ['device', 'wifi', 'connect', ssid, 'password', password]
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['device', 'wifi', 'connect', ssid, 'password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]
         r = self._syscmd.nmcli(cmd)

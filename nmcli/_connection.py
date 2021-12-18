@@ -57,30 +57,42 @@ class ConnectionControl(ConnectionControlInterface):
             ifname: str = "*",
             name: str = None,
             autoconnect: bool = None) -> None:
-        params = ['connection', 'add', 'type', conn_type, 'ifname', ifname]
+        cmd = ['connection', 'add', 'type', conn_type, 'ifname', ifname]
         if autoconnect is not None:
-            params += ['autoconnect', 'yes' if autoconnect else 'no']
+            cmd += ['autoconnect', 'yes' if autoconnect else 'no']
         if not name is None:
-            params += ['con-name', name]
+            cmd += ['con-name', name]
         options = {} if options is None else options
         for k, v in options.items():
-            params += [k, v]
-        self._syscmd.nmcli(params)
+            cmd += [k, v]
+        self._syscmd.nmcli(cmd)
 
     def modify(self, name: str, options: ConnectionOptions) -> None:
-        params = ['connection', 'modify', name]
+        cmd = ['connection', 'modify', name]
         for k, v in options.items():
-            params += [k, v]
-        self._syscmd.nmcli(params)
+            cmd += [k, v]
+        self._syscmd.nmcli(cmd)
 
     def delete(self, name: str, wait_sec: int = None) -> None:
-        self._syscmd.nmcli(['connection', 'delete', name])
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['connection', 'delete', name]
+        self._syscmd.nmcli(cmd)
 
     def up(self, name: str, wait_sec: int = None) -> None:
-        self._syscmd.nmcli(['connection', 'up', name])
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['connection', 'up', name]
+        self._syscmd.nmcli(cmd)
 
     def down(self, name: str, wait_sec: int = None) -> None:
-        self._syscmd.nmcli(['connection', 'down', name])
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['connection', 'down', name]
+        self._syscmd.nmcli(cmd)
 
     def show(self, name: str) -> ConnectionDetails:
         r = self._syscmd.nmcli(['connection', 'show', name])
