@@ -21,13 +21,13 @@ class ConnectionControlInterface:
     def modify(self, name: str, options: ConnectionOptions) -> None:
         raise NotImplementedError
 
-    def delete(self, name: str) -> None:
+    def delete(self, name: str, wait_sec: int = None) -> None:
         raise NotImplementedError
 
-    def up(self, name: str) -> None:
+    def up(self, name: str, wait_sec: int = None) -> None:
         raise NotImplementedError
 
-    def down(self, name: str) -> None:
+    def down(self, name: str, wait_sec: int = None) -> None:
         raise NotImplementedError
 
     def show(self, name: str) -> ConnectionDetails:
@@ -73,13 +73,13 @@ class ConnectionControl(ConnectionControlInterface):
             params += [k, v]
         self._syscmd.nmcli(params)
 
-    def delete(self, name: str) -> None:
+    def delete(self, name: str, wait_sec: int = None) -> None:
         self._syscmd.nmcli(['connection', 'delete', name])
 
-    def up(self, name: str) -> None:
+    def up(self, name: str, wait_sec: int = None) -> None:
         self._syscmd.nmcli(['connection', 'up', name])
 
-    def down(self, name: str) -> None:
+    def down(self, name: str, wait_sec: int = None) -> None:
         self._syscmd.nmcli(['connection', 'down', name])
 
     def show(self, name: str) -> ConnectionDetails:

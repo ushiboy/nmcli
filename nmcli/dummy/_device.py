@@ -85,11 +85,11 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         return self._result_show_all
 
-    def connect(self, ifname: str) -> None:
+    def connect(self, ifname: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         self._connect_args.append(ifname)
 
-    def disconnect(self, ifname: str) -> None:
+    def disconnect(self, ifname: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         self._disconnect_args.append(ifname)
 
@@ -97,7 +97,7 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         self._reapply_args.append(ifname)
 
-    def delete(self, ifname: str) -> None:
+    def delete(self, ifname: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         self._delete_args.append(ifname)
 
@@ -107,7 +107,11 @@ class DummyDeviceControl(DeviceControlInterface):
             self._wifi_args.append(ifname)
         return self._result_wifi
 
-    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
+    def wifi_connect(self,
+                     ssid: str,
+                     password: str,
+                     ifname: str = None,
+                     wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         if ifname is None:
             self._wifi_connect_args.append((ssid, password))

@@ -47,22 +47,26 @@ class DeviceControlInterface:
     def show_all(self) -> List[DeviceDetails]:
         raise NotImplementedError
 
-    def connect(self, ifname: str) -> None:
+    def connect(self, ifname: str, wait_sec: int = None) -> None:
         raise NotImplementedError
 
-    def disconnect(self, ifname: str) -> None:
+    def disconnect(self, ifname: str, wait_sec: int = None) -> None:
         raise NotImplementedError
 
     def reapply(self, ifname: str) -> None:
         raise NotImplementedError
 
-    def delete(self, ifname: str) -> None:
+    def delete(self, ifname: str, wait_sec: int = None) -> None:
         raise NotImplementedError
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         raise NotImplementedError
 
-    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
+    def wifi_connect(self,
+                     ssid: str,
+                     password: str,
+                     ifname: str = None,
+                     wait_sec: int = None) -> None:
         raise NotImplementedError
 
     def wifi_hotspot(self,
@@ -120,16 +124,16 @@ class DeviceControl(DeviceControlInterface):
                 details[key] = None if value in ('--', '""') else value
         return results
 
-    def connect(self, ifname: str) -> None:
+    def connect(self, ifname: str, wait_sec: int = None) -> None:
         self._syscmd.nmcli(['device', 'connect', ifname])
 
-    def disconnect(self, ifname: str) -> None:
+    def disconnect(self, ifname: str, wait_sec: int = None) -> None:
         self._syscmd.nmcli(['device', 'disconnect', ifname])
 
     def reapply(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'reapply', ifname])
 
-    def delete(self, ifname: str) -> None:
+    def delete(self, ifname: str, wait_sec: int = None) -> None:
         self._syscmd.nmcli(['device', 'delete', ifname])
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
@@ -145,7 +149,11 @@ class DeviceControl(DeviceControlInterface):
                 results.append(DeviceWifi.parse(row))
         return results
 
-    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
+    def wifi_connect(self,
+                     ssid: str,
+                     password: str,
+                     ifname: str = None,
+                     wait_sec: int = None) -> None:
         cmd = ['device', 'wifi', 'connect', ssid, 'password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]

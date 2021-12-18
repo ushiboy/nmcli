@@ -62,15 +62,15 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._raise_error_if_needed()
         self._modify_args.append((name, options))
 
-    def delete(self, name: str) -> None:
+    def delete(self, name: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         self._delete_args.append(name)
 
-    def up(self, name: str) -> None:
+    def up(self, name: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         self._up_args.append(name)
 
-    def down(self, name: str) -> None:
+    def down(self, name: str, wait_sec: int = None) -> None:
         self._raise_error_if_needed()
         self._down_args.append(name)
 
