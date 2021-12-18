@@ -142,7 +142,11 @@ class DeviceControl(DeviceControlInterface):
         self._syscmd.nmcli(['device', 'reapply', ifname])
 
     def delete(self, ifname: str, wait_sec: int = None) -> None:
-        self._syscmd.nmcli(['device', 'delete', ifname])
+        cmd: List[str] = []
+        if wait_sec is not None:
+            cmd = ['--wait', str(wait_sec)]
+        cmd += ['device', 'delete', ifname]
+        self._syscmd.nmcli(cmd)
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         cmd = ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',

@@ -133,6 +133,9 @@ def test_connect():
     device.connect(ifname)
     assert s.passed_parameters == ['device', 'connect', ifname]
 
+    device.connect(ifname, wait_sec=10)
+    assert s.passed_parameters == ['--wait', '10', 'device', 'connect', ifname]
+
 
 def test_disconnect():
     s = DummySystemCommand()
@@ -140,6 +143,9 @@ def test_disconnect():
     ifname = 'eth0'
     device.disconnect(ifname)
     assert s.passed_parameters == ['device', 'disconnect', ifname]
+
+    device.disconnect(ifname, wait_sec=10)
+    assert s.passed_parameters == ['--wait', '10', 'device', 'disconnect', ifname]
 
 
 def test_reapply():
@@ -156,6 +162,9 @@ def test_delete():
     ifname = 'eth0'
     device.delete(ifname)
     assert s.passed_parameters == ['device', 'delete', ifname]
+
+    device.delete(ifname, wait_sec=10)
+    assert s.passed_parameters == ['--wait', '10', 'device', 'delete', ifname]
 
 
 def test_device_wifi():
@@ -202,6 +211,10 @@ def test_wifi_connect():
     device.wifi_connect(ssid, password, ifname)
     assert s.passed_parameters == [
         'device', 'wifi', 'connect', ssid, 'password', password, 'ifname', ifname]
+
+    device.wifi_connect(ssid, password, wait_sec=10)
+    assert s.passed_parameters == [
+        '--wait', '10', 'device', 'wifi', 'connect', ssid, 'password', password]
 
 def test_wifi_connect_when_connection_activate_failed():
     s = DummySystemCommand('''Error: Connection activation failed: (7) Secrets were required, but not provided.
