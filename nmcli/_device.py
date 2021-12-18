@@ -2,6 +2,7 @@ import re
 from typing import List, Tuple
 
 from ._exception import ConnectionActivateFailedException
+from ._helper import add_wait_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
@@ -125,27 +126,21 @@ class DeviceControl(DeviceControlInterface):
         return results
 
     def connect(self, ifname: str, wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['device', 'connect', ifname]
+        cmd = add_wait_option_if_needed(
+            wait_sec) + ['device', 'connect', ifname]
         self._syscmd.nmcli(cmd)
 
     def disconnect(self, ifname: str, wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['device', 'disconnect', ifname]
+        cmd = add_wait_option_if_needed(
+            wait_sec) + ['device', 'disconnect', ifname]
         self._syscmd.nmcli(cmd)
 
     def reapply(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'reapply', ifname])
 
     def delete(self, ifname: str, wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['device', 'delete', ifname]
+        cmd = add_wait_option_if_needed(
+            wait_sec) + ['device', 'delete', ifname]
         self._syscmd.nmcli(cmd)
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
@@ -166,10 +161,8 @@ class DeviceControl(DeviceControlInterface):
                      password: str,
                      ifname: str = None,
                      wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['device', 'wifi', 'connect', ssid, 'password', password]
+        cmd = add_wait_option_if_needed(
+            wait_sec) + ['device', 'wifi', 'connect', ssid, 'password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]
         r = self._syscmd.nmcli(cmd)

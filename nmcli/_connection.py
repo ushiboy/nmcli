@@ -1,6 +1,7 @@
 import re
 from typing import List, Optional
 
+from ._helper import add_wait_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.connection import Connection, ConnectionDetails, ConnectionOptions
 
@@ -74,24 +75,17 @@ class ConnectionControl(ConnectionControlInterface):
         self._syscmd.nmcli(cmd)
 
     def delete(self, name: str, wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['connection', 'delete', name]
+        cmd = add_wait_option_if_needed(
+            wait_sec) + ['connection', 'delete', name]
         self._syscmd.nmcli(cmd)
 
     def up(self, name: str, wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['connection', 'up', name]
+        cmd = add_wait_option_if_needed(wait_sec) + ['connection', 'up', name]
         self._syscmd.nmcli(cmd)
 
     def down(self, name: str, wait_sec: int = None) -> None:
-        cmd: List[str] = []
-        if wait_sec is not None:
-            cmd = ['--wait', str(wait_sec)]
-        cmd += ['connection', 'down', name]
+        cmd = add_wait_option_if_needed(
+            wait_sec) + ['connection', 'down', name]
         self._syscmd.nmcli(cmd)
 
     def show(self, name: str) -> ConnectionDetails:
