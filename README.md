@@ -138,7 +138,7 @@ Activate a connection.
 The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
 
 ```
-nmcli.connection.up(name: str, wait_set: int = None) -> None
+nmcli.connection.up(name: str, wait: int = None) -> None
 ```
 
 #### nmcli.connection.down
