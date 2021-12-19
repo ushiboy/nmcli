@@ -48,16 +48,16 @@ class DeviceControlInterface:
     def show_all(self) -> List[DeviceDetails]:
         raise NotImplementedError
 
-    def connect(self, ifname: str, wait_sec: int = None) -> None:
+    def connect(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def disconnect(self, ifname: str, wait_sec: int = None) -> None:
+    def disconnect(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def reapply(self, ifname: str) -> None:
         raise NotImplementedError
 
-    def delete(self, ifname: str, wait_sec: int = None) -> None:
+    def delete(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
@@ -67,7 +67,7 @@ class DeviceControlInterface:
                      ssid: str,
                      password: str,
                      ifname: str = None,
-                     wait_sec: int = None) -> None:
+                     wait: int = None) -> None:
         raise NotImplementedError
 
     def wifi_hotspot(self,
@@ -125,22 +125,22 @@ class DeviceControl(DeviceControlInterface):
                 details[key] = None if value in ('--', '""') else value
         return results
 
-    def connect(self, ifname: str, wait_sec: int = None) -> None:
+    def connect(self, ifname: str, wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait_sec) + ['device', 'connect', ifname]
+            wait) + ['device', 'connect', ifname]
         self._syscmd.nmcli(cmd)
 
-    def disconnect(self, ifname: str, wait_sec: int = None) -> None:
+    def disconnect(self, ifname: str, wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait_sec) + ['device', 'disconnect', ifname]
+            wait) + ['device', 'disconnect', ifname]
         self._syscmd.nmcli(cmd)
 
     def reapply(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'reapply', ifname])
 
-    def delete(self, ifname: str, wait_sec: int = None) -> None:
+    def delete(self, ifname: str, wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait_sec) + ['device', 'delete', ifname]
+            wait) + ['device', 'delete', ifname]
         self._syscmd.nmcli(cmd)
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
@@ -160,9 +160,9 @@ class DeviceControl(DeviceControlInterface):
                      ssid: str,
                      password: str,
                      ifname: str = None,
-                     wait_sec: int = None) -> None:
+                     wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait_sec) + ['device', 'wifi', 'connect', ssid, 'password', password]
+            wait) + ['device', 'wifi', 'connect', ssid, 'password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]
         r = self._syscmd.nmcli(cmd)

@@ -136,7 +136,7 @@ def test_wifi_connect():
     assert c.wifi_connect_args[0] == (ssid, password, None, None)
     c.wifi_connect(ssid, password, ifname)
     assert c.wifi_connect_args[1] == (ssid, password, ifname, None)
-    c.wifi_connect(ssid, password, ifname, wait_sec=10)
+    c.wifi_connect(ssid, password, ifname, wait=10)
     assert c.wifi_connect_args[2] == (ssid, password, ifname, 10)
 
 

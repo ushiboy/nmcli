@@ -63,7 +63,7 @@ def test_delete():
     c.delete(name)
     assert c.delete_args[0] == (name, None)
 
-    c.delete(name, wait_sec=10)
+    c.delete(name, wait=10)
     assert c.delete_args[1] == (name, 10)
 
 
@@ -79,7 +79,7 @@ def test_up():
     c.up(name)
     assert c.up_args[0] == (name, None)
 
-    c.up(name, wait_sec=10)
+    c.up(name, wait=10)
     assert c.up_args[1] == (name, 10)
 
 
@@ -95,7 +95,7 @@ def test_down():
     c.down(name)
     assert c.down_args[0] == (name, None)
 
-    c.down(name, wait_sec=10)
+    c.down(name, wait=10)
     assert c.down_args[1] == (name, 10)
 
 

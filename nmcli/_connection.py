@@ -22,13 +22,13 @@ class ConnectionControlInterface:
     def modify(self, name: str, options: ConnectionOptions) -> None:
         raise NotImplementedError
 
-    def delete(self, name: str, wait_sec: int = None) -> None:
+    def delete(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def up(self, name: str, wait_sec: int = None) -> None:
+    def up(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def down(self, name: str, wait_sec: int = None) -> None:
+    def down(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def show(self, name: str) -> ConnectionDetails:
@@ -74,18 +74,18 @@ class ConnectionControl(ConnectionControlInterface):
             cmd += [k, v]
         self._syscmd.nmcli(cmd)
 
-    def delete(self, name: str, wait_sec: int = None) -> None:
+    def delete(self, name: str, wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait_sec) + ['connection', 'delete', name]
+            wait) + ['connection', 'delete', name]
         self._syscmd.nmcli(cmd)
 
-    def up(self, name: str, wait_sec: int = None) -> None:
-        cmd = add_wait_option_if_needed(wait_sec) + ['connection', 'up', name]
+    def up(self, name: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(wait) + ['connection', 'up', name]
         self._syscmd.nmcli(cmd)
 
-    def down(self, name: str, wait_sec: int = None) -> None:
+    def down(self, name: str, wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait_sec) + ['connection', 'down', name]
+            wait) + ['connection', 'down', name]
         self._syscmd.nmcli(cmd)
 
     def show(self, name: str) -> ConnectionDetails:

@@ -133,7 +133,7 @@ def test_connect():
     device.connect(ifname)
     assert s.passed_parameters == ['device', 'connect', ifname]
 
-    device.connect(ifname, wait_sec=10)
+    device.connect(ifname, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'device', 'connect', ifname]
 
 
@@ -144,7 +144,7 @@ def test_disconnect():
     device.disconnect(ifname)
     assert s.passed_parameters == ['device', 'disconnect', ifname]
 
-    device.disconnect(ifname, wait_sec=10)
+    device.disconnect(ifname, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'device', 'disconnect', ifname]
 
 
@@ -163,7 +163,7 @@ def test_delete():
     device.delete(ifname)
     assert s.passed_parameters == ['device', 'delete', ifname]
 
-    device.delete(ifname, wait_sec=10)
+    device.delete(ifname, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'device', 'delete', ifname]
 
 
@@ -212,7 +212,7 @@ def test_wifi_connect():
     assert s.passed_parameters == [
         'device', 'wifi', 'connect', ssid, 'password', password, 'ifname', ifname]
 
-    device.wifi_connect(ssid, password, wait_sec=10)
+    device.wifi_connect(ssid, password, wait=10)
     assert s.passed_parameters == [
         '--wait', '10', 'device', 'wifi', 'connect', ssid, 'password', password]
 

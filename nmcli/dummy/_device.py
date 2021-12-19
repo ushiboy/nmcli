@@ -85,21 +85,21 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         return self._result_show_all
 
-    def connect(self, ifname: str, wait_sec: int = None) -> None:
+    def connect(self, ifname: str, wait: int = None) -> None:
         self._raise_error_if_needed()
-        self._connect_args.append((ifname, wait_sec))
+        self._connect_args.append((ifname, wait))
 
-    def disconnect(self, ifname: str, wait_sec: int = None) -> None:
+    def disconnect(self, ifname: str, wait: int = None) -> None:
         self._raise_error_if_needed()
-        self._disconnect_args.append((ifname, wait_sec))
+        self._disconnect_args.append((ifname, wait))
 
     def reapply(self, ifname: str) -> None:
         self._raise_error_if_needed()
         self._reapply_args.append(ifname)
 
-    def delete(self, ifname: str, wait_sec: int = None) -> None:
+    def delete(self, ifname: str, wait: int = None) -> None:
         self._raise_error_if_needed()
-        self._delete_args.append((ifname, wait_sec))
+        self._delete_args.append((ifname, wait))
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         self._raise_error_if_needed()
@@ -111,9 +111,9 @@ class DummyDeviceControl(DeviceControlInterface):
                      ssid: str,
                      password: str,
                      ifname: str = None,
-                     wait_sec: int = None) -> None:
+                     wait: int = None) -> None:
         self._raise_error_if_needed()
-        self._wifi_connect_args.append((ssid, password, ifname, wait_sec))
+        self._wifi_connect_args.append((ssid, password, ifname, wait))
 
     def wifi_hotspot(self,
                      ifname: str = None,

@@ -79,7 +79,7 @@ def test_delete():
     connection.delete(name)
     assert s.passed_parameters == ['connection', 'delete', name]
 
-    connection.delete(name, wait_sec=10)
+    connection.delete(name, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'connection', 'delete', name]
 
 
@@ -90,7 +90,7 @@ def test_up():
     connection.up(name)
     assert s.passed_parameters == ['connection', 'up', name]
 
-    connection.up(name, wait_sec=10)
+    connection.up(name, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'connection', 'up', name]
 
 
@@ -101,7 +101,7 @@ def test_down():
     connection.down(name)
     assert s.passed_parameters == ['connection', 'down', name]
 
-    connection.down(name, wait_sec=10)
+    connection.down(name, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'connection', 'down', name]
 
 
