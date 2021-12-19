@@ -455,6 +455,11 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 0.10.0
+
+- Handle connection failure exceptions with `nmcli.device.wifi_connect`.
+- Added wait param to `nmcli.connection.delete`, `nmcli.connection.up`, `nmcli.connection.down`, `nmcli.device.connect`, `nmcli.device.disconnect`, `nmcli.device.delete`, `nmcli.device.wifi_connect`.
+
 ### 0.9.0
 
 Added ifname param to wifi.
