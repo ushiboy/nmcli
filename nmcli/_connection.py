@@ -1,6 +1,7 @@
 import re
 from typing import List, Optional
 
+from ._helper import add_wait_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.connection import Connection, ConnectionDetails, ConnectionOptions
 
@@ -21,13 +22,13 @@ class ConnectionControlInterface:
     def modify(self, name: str, options: ConnectionOptions) -> None:
         raise NotImplementedError
 
-    def delete(self, name: str) -> None:
+    def delete(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def up(self, name: str) -> None:
+    def up(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def down(self, name: str) -> None:
+    def down(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def show(self, name: str) -> ConnectionDetails:
@@ -57,30 +58,35 @@ class ConnectionControl(ConnectionControlInterface):
             ifname: str = "*",
             name: str = None,
             autoconnect: bool = None) -> None:
-        params = ['connection', 'add', 'type', conn_type, 'ifname', ifname]
+        cmd = ['connection', 'add', 'type', conn_type, 'ifname', ifname]
         if autoconnect is not None:
-            params += ['autoconnect', 'yes' if autoconnect else 'no']
+            cmd += ['autoconnect', 'yes' if autoconnect else 'no']
         if not name is None:
-            params += ['con-name', name]
+            cmd += ['con-name', name]
         options = {} if options is None else options
         for k, v in options.items():
-            params += [k, v]
-        self._syscmd.nmcli(params)
+            cmd += [k, v]
+        self._syscmd.nmcli(cmd)
 
     def modify(self, name: str, options: ConnectionOptions) -> None:
-        params = ['connection', 'modify', name]
+        cmd = ['connection', 'modify', name]
         for k, v in options.items():
-            params += [k, v]
-        self._syscmd.nmcli(params)
+            cmd += [k, v]
+        self._syscmd.nmcli(cmd)
 
-    def delete(self, name: str) -> None:
-        self._syscmd.nmcli(['connection', 'delete', name])
+    def delete(self, name: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['connection', 'delete', name]
+        self._syscmd.nmcli(cmd)
 
-    def up(self, name: str) -> None:
-        self._syscmd.nmcli(['connection', 'up', name])
+    def up(self, name: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(wait) + ['connection', 'up', name]
+        self._syscmd.nmcli(cmd)
 
-    def down(self, name: str) -> None:
-        self._syscmd.nmcli(['connection', 'down', name])
+    def down(self, name: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['connection', 'down', name]
+        self._syscmd.nmcli(cmd)
 
     def show(self, name: str) -> ConnectionDetails:
         r = self._syscmd.nmcli(['connection', 'show', name])

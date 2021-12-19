@@ -61,7 +61,10 @@ def test_delete():
     c = DummyConnectionControl()
     name = 'MyHome'
     c.delete(name)
-    assert c.delete_args[0] == name
+    assert c.delete_args[0] == (name, None)
+
+    c.delete(name, wait=10)
+    assert c.delete_args[1] == (name, 10)
 
 
 def test_delete_when_raise_error():
@@ -74,7 +77,10 @@ def test_up():
     c = DummyConnectionControl()
     name = 'MyHome'
     c.up(name)
-    assert c.up_args[0] == name
+    assert c.up_args[0] == (name, None)
+
+    c.up(name, wait=10)
+    assert c.up_args[1] == (name, 10)
 
 
 def test_up_when_raise_error():
@@ -87,7 +93,10 @@ def test_down():
     c = DummyConnectionControl()
     name = 'MyHome'
     c.down(name)
-    assert c.down_args[0] == name
+    assert c.down_args[0] == (name, None)
+
+    c.down(name, wait=10)
+    assert c.down_args[1] == (name, 10)
 
 
 def test_down_when_raise_error():

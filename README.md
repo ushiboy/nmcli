@@ -125,24 +125,30 @@ nmcli.connection.modify(name: str, options: ConnectionOptions) -> None
 
 Delete a configured connection.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.connection.delete(name: str) -> None
+nmcli.connection.delete(name: str, wait: int = None) -> None
 ```
 
 #### nmcli.connection.up
 
 Activate a connection.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.connection.up(name: str) -> None
+nmcli.connection.up(name: str, wait_set: int = None) -> None
 ```
 
 #### nmcli.connection.down
 
 Deactivate a connection from a device without preventing the device from further auto-activation.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.connection.down(name: str) -> None
+nmcli.connection.down(name: str, wait: int = None) -> None
 ```
 
 #### nmcli.connection.show
@@ -199,16 +205,20 @@ nmcli.device.show_all() -> List[DeviceDetails]
 
 Connect the device.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.device.connect(ifname: str) -> None
+nmcli.device.connect(ifname: str, wait: int = None) -> None
 ```
 
 #### nmcli.device.disconnect
 
 Disconnect devices.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.device.disconnect(ifname: str) -> None
+nmcli.device.disconnect(ifname: str, wait: int = None) -> None
 ```
 
 #### nmcli.device.reapply
@@ -223,8 +233,11 @@ nmcli.device.reapply(ifname: str) -> None
 
 Delete the software devices.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
+
 ```
-nmcli.device.delete(ifname: str) -> None
+nmcli.device.delete(ifname: str, wait: int = None) -> None
 ```
 
 #### nmcli.device.wifi
@@ -239,8 +252,13 @@ nmcli.device.wifi(ifname: str = None) -> List[DeviceWifi]
 
 Connect to a Wi-Fi network specified by SSID or BSSID.
 
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.device.wifi_connect(ssid: str, password: str, ifname: str = None) -> None
+nmcli.device.wifi_connect(ssid: str,
+                          password: str,
+                          ifname: str = None,
+                          wait: int = None) -> None
 ```
 
 #### nmcli.device.wifi_hotspot
@@ -436,6 +454,11 @@ nmcli.set_lang(lang: str) -> None
 ```
 
 ## Change Log
+
+### 0.10.0
+
+- Handle connection failure exceptions with `nmcli.device.wifi_connect`.
+- Added wait param to `nmcli.connection.delete`, `nmcli.connection.up`, `nmcli.connection.down`, `nmcli.device.connect`, `nmcli.device.disconnect`, `nmcli.device.delete`, `nmcli.device.wifi_connect`.
 
 ### 0.9.0
 

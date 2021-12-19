@@ -1,6 +1,8 @@
 import re
 from typing import List, Tuple
 
+from ._exception import ConnectionActivateFailedException
+from ._helper import add_wait_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
@@ -46,22 +48,26 @@ class DeviceControlInterface:
     def show_all(self) -> List[DeviceDetails]:
         raise NotImplementedError
 
-    def connect(self, ifname: str) -> None:
+    def connect(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def disconnect(self, ifname: str) -> None:
+    def disconnect(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def reapply(self, ifname: str) -> None:
         raise NotImplementedError
 
-    def delete(self, ifname: str) -> None:
+    def delete(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         raise NotImplementedError
 
-    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
+    def wifi_connect(self,
+                     ssid: str,
+                     password: str,
+                     ifname: str = None,
+                     wait: int = None) -> None:
         raise NotImplementedError
 
     def wifi_hotspot(self,
@@ -119,17 +125,23 @@ class DeviceControl(DeviceControlInterface):
                 details[key] = None if value in ('--', '""') else value
         return results
 
-    def connect(self, ifname: str) -> None:
-        self._syscmd.nmcli(['device', 'connect', ifname])
+    def connect(self, ifname: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['device', 'connect', ifname]
+        self._syscmd.nmcli(cmd)
 
-    def disconnect(self, ifname: str) -> None:
-        self._syscmd.nmcli(['device', 'disconnect', ifname])
+    def disconnect(self, ifname: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['device', 'disconnect', ifname]
+        self._syscmd.nmcli(cmd)
 
     def reapply(self, ifname: str) -> None:
         self._syscmd.nmcli(['device', 'reapply', ifname])
 
-    def delete(self, ifname: str) -> None:
-        self._syscmd.nmcli(['device', 'delete', ifname])
+    def delete(self, ifname: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['device', 'delete', ifname]
+        self._syscmd.nmcli(cmd)
 
     def wifi(self, ifname: str = None) -> List[DeviceWifi]:
         cmd = ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
@@ -144,11 +156,20 @@ class DeviceControl(DeviceControlInterface):
                 results.append(DeviceWifi.parse(row))
         return results
 
-    def wifi_connect(self, ssid: str, password: str, ifname: str = None) -> None:
-        cmd = ['device', 'wifi', 'connect', ssid, 'password', password]
+    def wifi_connect(self,
+                     ssid: str,
+                     password: str,
+                     ifname: str = None,
+                     wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['device', 'wifi', 'connect', ssid, 'password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]
-        self._syscmd.nmcli(cmd)
+        r = self._syscmd.nmcli(cmd)
+        m = re.search(r'Connection activation failed:', r)
+        if m:
+            raise ConnectionActivateFailedException(
+                'Connection activation failed')
 
     def wifi_hotspot(self,
                      ifname: str = None,

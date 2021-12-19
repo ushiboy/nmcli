@@ -79,6 +79,9 @@ def test_delete():
     connection.delete(name)
     assert s.passed_parameters == ['connection', 'delete', name]
 
+    connection.delete(name, wait=10)
+    assert s.passed_parameters == ['--wait', '10', 'connection', 'delete', name]
+
 
 def test_up():
     s = DummySystemCommand()
@@ -87,6 +90,9 @@ def test_up():
     connection.up(name)
     assert s.passed_parameters == ['connection', 'up', name]
 
+    connection.up(name, wait=10)
+    assert s.passed_parameters == ['--wait', '10', 'connection', 'up', name]
+
 
 def test_down():
     s = DummySystemCommand()
@@ -94,6 +100,9 @@ def test_down():
     name = 'Con1'
     connection.down(name)
     assert s.passed_parameters == ['connection', 'down', name]
+
+    connection.down(name, wait=10)
+    assert s.passed_parameters == ['--wait', '10', 'connection', 'down', name]
 
 
 def test_show():
