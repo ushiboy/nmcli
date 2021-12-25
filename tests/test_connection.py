@@ -57,6 +57,7 @@ def test_add():
     assert s.passed_parameters == [
         'connection', 'add', 'type', conn_type, 'ifname', '*', 'autoconnect', 'no']
 
+
 def test_modify():
     s = DummySystemCommand()
     connection = ConnectionControl(s)
@@ -80,7 +81,8 @@ def test_delete():
     assert s.passed_parameters == ['connection', 'delete', name]
 
     connection.delete(name, wait=10)
-    assert s.passed_parameters == ['--wait', '10', 'connection', 'delete', name]
+    assert s.passed_parameters == [
+        '--wait', '10', 'connection', 'delete', name]
 
 
 def test_up():
@@ -106,7 +108,7 @@ def test_down():
 
 
 def test_show():
-    with open(connection_data_file) as f:
+    with open(connection_data_file, encoding='utf-8') as f:
         buf = f.read()
     s = DummySystemCommand(buf)
     connection = ConnectionControl(s)

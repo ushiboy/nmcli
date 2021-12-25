@@ -58,6 +58,7 @@ def test_parse():
                                         NetworkConnectivity.FULL,
                                         True, True, True, True)
 
+
 def test_parse_when_failed():
     with pytest.raises(ValueError) as e:
         General.parse('invalid')
