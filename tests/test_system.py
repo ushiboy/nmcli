@@ -44,7 +44,7 @@ def test_nmcli_when_successed():
     s = SystemCommand(run)
     assert s.nmcli('connection') == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'connection']
-    assert run.passed_env == {'LANG':'C'}
+    assert run.passed_env == {'LANG': 'C'}
 
 
 def test_nmcli_when_successed_with_list_args():
@@ -52,7 +52,7 @@ def test_nmcli_when_successed_with_list_args():
     s = SystemCommand(run)
     assert s.nmcli(['device', 'wifi']) == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'device', 'wifi']
-    assert run.passed_env == {'LANG':'C'}
+    assert run.passed_env == {'LANG': 'C'}
 
 
 def test_nmcli_when_failed_with_invalid_user_input():
@@ -152,4 +152,4 @@ def test_set_lang():
     s.set_lang('C.UTF-8')
     assert s.nmcli('connection') == 'test'
     assert run.passed_args == ['sudo', 'nmcli', 'connection']
-    assert run.passed_env == {'LANG':'C.UTF-8'}
+    assert run.passed_env == {'LANG': 'C.UTF-8'}

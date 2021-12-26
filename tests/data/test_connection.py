@@ -31,6 +31,7 @@ def test_parse():
         Connection('Wired connection 1',
                    '700f5b18-cbb3-4d38-9c61-999999999999', 'ethernet', 'eth1')
 
+
 def test_parse_when_failed():
     with pytest.raises(ValueError) as e:
         Connection.parse('invalid')

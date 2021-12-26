@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from nmcli._device import DeviceControl
@@ -31,7 +32,7 @@ lo      loopback  unmanaged  --''')
 
 
 def test_status():
-    with open(device_data_file) as f:
+    with open(device_data_file, encoding='utf-8') as f:
         buf = f.read()
     s = DummySystemCommand(buf)
     device = DeviceControl(s)
@@ -145,7 +146,8 @@ def test_disconnect():
     assert s.passed_parameters == ['device', 'disconnect', ifname]
 
     device.disconnect(ifname, wait=10)
-    assert s.passed_parameters == ['--wait', '10', 'device', 'disconnect', ifname]
+    assert s.passed_parameters == [
+        '--wait', '10', 'device', 'disconnect', ifname]
 
 
 def test_reapply():
@@ -176,14 +178,18 @@ def test_device_wifi():
     r = device.wifi()
     assert len(r) == 3
     assert r == [
-        DeviceWifi(True, 'AP1', '00:00:00:00:00:00', 'Infra', 1, 2400, 130, 82, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP2', '00:00:00:00:00:01', 'Infra', 11, 2401, 195, 74, 'WPA2'),
-        DeviceWifi(False, 'AP3', '00:00:00:00:00:02',  'Infra', 11, 2402, 195, 72, 'WPA1 WPA2'),
+        DeviceWifi(True, 'AP1', '00:00:00:00:00:00',
+                   'Infra', 1, 2400, 130, 82, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP2', '00:00:00:00:00:01',
+                   'Infra', 11, 2401, 195, 74, 'WPA2'),
+        DeviceWifi(False, 'AP3', '00:00:00:00:00:02',
+                   'Infra', 11, 2402, 195, 72, 'WPA1 WPA2'),
     ]
-    assert s.passed_parameters == ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+    assert s.passed_parameters == ['-t', '-f',
+                                   'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
                                    'device', 'wifi', 'list']
 
-    with open(device_wifi_data_file) as f:
+    with open(device_wifi_data_file, encoding='utf-8') as f:
         buf = f.read()
     s2 = DummySystemCommand(buf)
     device = DeviceControl(s2)
@@ -191,12 +197,16 @@ def test_device_wifi():
     r = device.wifi(ifname)
     assert len(r) == 3
     assert r == [
-        DeviceWifi(False, '', '00:00:00:00:00:00', 'Infra', 11, 2400, 195, 72, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP1', '00:00:00:00:00:01', 'Infra', 4, 2401, 130, 40, 'WPA1 WPA2'),
-        DeviceWifi(False, 'AP2', '00:00:00:00:00:02', 'Infra', 6, 2402, 65, 24, 'WPA2'),
+        DeviceWifi(False, '', '00:00:00:00:00:00', 'Infra',
+                   11, 2400, 195, 72, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP1', '00:00:00:00:00:01',
+                   'Infra', 4, 2401, 130, 40, 'WPA1 WPA2'),
+        DeviceWifi(False, 'AP2', '00:00:00:00:00:02',
+                   'Infra', 6, 2402, 65, 24, 'WPA2'),
     ]
-    assert s2.passed_parameters == ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
-                                   'device', 'wifi', 'list', 'ifname', ifname]
+    assert s2.passed_parameters == ['-t', '-f',
+                                    'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+                                    'device', 'wifi', 'list', 'ifname', ifname]
 
 
 def test_wifi_connect():
@@ -216,8 +226,10 @@ def test_wifi_connect():
     assert s.passed_parameters == [
         '--wait', '10', 'device', 'wifi', 'connect', ssid, 'password', password]
 
+
 def test_wifi_connect_when_connection_activate_failed():
-    s = DummySystemCommand('''Error: Connection activation failed: (7) Secrets were required, but not provided.
+    s = DummySystemCommand(
+        '''Error: Connection activation failed: (7) Secrets were required, but not provided.
 ''')
     device = DeviceControl(s)
     ssid = 'AP1'
@@ -268,7 +280,7 @@ Device 'wlan0' successfully activated with '00000000-0000-0000-0000-000000000000
     r = device.wifi_hotspot(ssid='foo:bar:baz')
     assert r == Hotspot('wlan0', 'Hotspot', 'foo:bar:baz', 'abcdefgh')
     assert s3.parameters_history == [
-            ['device', 'wifi', 'hotspot', '--show-secrets', 'ssid', 'foo:bar:baz'],
+        ['device', 'wifi', 'hotspot', '--show-secrets', 'ssid', 'foo:bar:baz'],
         ['-t', '-f', 'connection.id,802-11-wireless.ssid',
          'connection', 'show', 'uuid', '00000000-0000-0000-0000-000000000000']
     ]

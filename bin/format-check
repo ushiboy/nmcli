@@ -1,0 +1,13 @@
+#!/bin/sh
+
+autopep8 -i -r -v nmcli
+autoflake -i -r -v nmcli
+isort -v nmcli
+mypy nmcli
+pylint nmcli
+
+autopep8 -i -r -v tests
+autoflake -i -r -v tests
+isort -v tests
+mypy tests
+pylint tests

@@ -33,3 +33,6 @@ class DummySystemCommand(SystemCommandInterface):
 
     def disable_use_sudo(self):
         pass
+
+    def set_lang(self, lang: str):
+        pass
