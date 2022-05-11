@@ -113,7 +113,7 @@ class DeviceControl(DeviceControlInterface):
         return results
 
     def show_all(self, fields: str = None) -> List[DeviceDetails]:
-        cmd = add_fields_option_if_needed(fields) + ['device', 'show', ifname]
+        cmd = add_fields_option_if_needed(fields) + ['device', 'show']
         r = self._syscmd.nmcli(cmd)
         results = []
         details: DeviceDetails = {}
