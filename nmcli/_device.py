@@ -2,7 +2,7 @@ import re
 from typing import List, Tuple
 
 from ._exception import ConnectionActivateFailedException
-from ._helper import add_wait_option_if_needed
+from ._helper import add_wait_option_if_needed, add_fields_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
@@ -42,10 +42,10 @@ class DeviceControlInterface:
     def status(self) -> List[Device]:
         raise NotImplementedError
 
-    def show(self, ifname: str) -> DeviceDetails:
+    def show(self, ifname: str, fields: str) -> DeviceDetails:
         raise NotImplementedError
 
-    def show_all(self) -> List[DeviceDetails]:
+    def show_all(self, fields: str) -> List[DeviceDetails]:
         raise NotImplementedError
 
     def connect(self, ifname: str, wait: int = None) -> None:
@@ -101,8 +101,9 @@ class DeviceControl(DeviceControlInterface):
                 results.append(Device.parse(row))
         return results
 
-    def show(self, ifname: str) -> DeviceDetails:
-        r = self._syscmd.nmcli(['device', 'show', ifname])
+    def show(self, ifname: str, fields: str = None) -> DeviceDetails:
+        cmd = add_fields_option_if_needed(fields) + ['device', 'show', ifname]
+        r = self._syscmd.nmcli(cmd)
         results = {}
         for row in r.split('\n'):
             m = re.search(r'^(\S+):\s*([\S\s]+)\s*', row)
@@ -111,8 +112,9 @@ class DeviceControl(DeviceControlInterface):
                 results[key] = None if value in ('--', '""') else value
         return results
 
-    def show_all(self) -> List[DeviceDetails]:
-        r = self._syscmd.nmcli(['device', 'show'])
+    def show_all(self, fields: str = None) -> List[DeviceDetails]:
+        cmd = add_fields_option_if_needed(fields) + ['device', 'show', ifname]
+        r = self._syscmd.nmcli(cmd)
         results = []
         details: DeviceDetails = {}
         for row in r.split('\n'):
