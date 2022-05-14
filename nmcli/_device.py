@@ -2,7 +2,7 @@ import re
 from typing import List, Tuple
 
 from ._exception import ConnectionActivateFailedException
-from ._helper import add_wait_option_if_needed, add_fields_option_if_needed
+from ._helper import add_fields_option_if_needed, add_wait_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
@@ -42,10 +42,10 @@ class DeviceControlInterface:
     def status(self) -> List[Device]:
         raise NotImplementedError
 
-    def show(self, ifname: str, fields: str) -> DeviceDetails:
+    def show(self, ifname: str, fields: str = None) -> DeviceDetails:
         raise NotImplementedError
 
-    def show_all(self, fields: str) -> List[DeviceDetails]:
+    def show_all(self, fields: str = None) -> List[DeviceDetails]:
         raise NotImplementedError
 
     def connect(self, ifname: str, wait: int = None) -> None:

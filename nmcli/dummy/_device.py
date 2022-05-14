@@ -56,7 +56,7 @@ class DummyDeviceControl(DeviceControlInterface):
         self._result_show = result_show
         self._result_show_all = result_show_all or []
         self._result_wifi_hotspot = result_wifi_hotspot
-        self._show_args: List[str] = []
+        self._show_args: List[Tuple] = []
         self._connect_args: List[Tuple] = []
         self._disconnect_args: List[Tuple] = []
         self._reapply_args: List[str] = []
@@ -74,14 +74,14 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         return self._result_call
 
-    def show(self, ifname: str) -> DeviceDetails:
+    def show(self, ifname: str, fields: str = None) -> DeviceDetails:
         self._raise_error_if_needed()
-        self._show_args.append(ifname)
+        self._show_args.append((ifname, fields))
         if not self._result_show is None:
             return self._result_show
         raise ValueError("'result_show' is not properly initialized")
 
-    def show_all(self) -> List[DeviceDetails]:
+    def show_all(self, fields: str = None) -> List[DeviceDetails]:
         self._raise_error_if_needed()
         return self._result_show_all
 

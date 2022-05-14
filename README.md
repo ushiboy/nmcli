@@ -189,16 +189,20 @@ nmcli.device.status() -> List[Device]
 
 Show details of device.
 
+The `fields` argument applies the same effect to the command as the `-f | --fields` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.device.show(ifname: str) -> DeviceDetails
+nmcli.device.show(ifname: str, fields: str = None) -> DeviceDetails
 ```
 
 #### nmcli.device.show_all
 
 Show details of devices.
 
+The `fields` argument applies the same effect to the command as the `-f | --fields` option. If it is omitted, the default behavior is followed.
+
 ```
-nmcli.device.show_all() -> List[DeviceDetails]
+nmcli.device.show_all(fields: str = None) -> List[DeviceDetails]
 ```
 
 #### nmcli.device.connect
@@ -454,6 +458,10 @@ nmcli.set_lang(lang: str) -> None
 ```
 
 ## Change Log
+
+### 1.1.0
+
+- Added fields option to `nmcli.device.show` and `nmcli.device.show_all`
 
 ### 1.0.0
 

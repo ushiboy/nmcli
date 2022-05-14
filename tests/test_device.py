@@ -60,8 +60,8 @@ IP4.GATEWAY:                            --
 IP6.ADDRESS[1]:                         ::1/128
 IP6.GATEWAY:                            --
 IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
-    s = DummySystemCommand(d)
-    device = DeviceControl(s)
+    s1 = DummySystemCommand(d)
+    device = DeviceControl(s1)
     assert device.show('lo') == {
         'GENERAL.DEVICE': 'lo',
         'GENERAL.TYPE': 'loopback',
@@ -76,7 +76,25 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
         'IP6.GATEWAY': None,
         'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
     }
-    assert s.passed_parameters == ['device', 'show', 'lo']
+    assert s1.passed_parameters == ['device', 'show', 'lo']
+
+    s2 = DummySystemCommand(d)
+    device = DeviceControl(s2)
+    assert device.show('lo', 'all') == {
+        'GENERAL.DEVICE': 'lo',
+        'GENERAL.TYPE': 'loopback',
+        'GENERAL.HWADDR': '00:00:00:00:00:00',
+        'GENERAL.MTU': '65536',
+        'GENERAL.STATE': '10 (unmanaged)',
+        'GENERAL.CONNECTION': None,
+        'GENERAL.CON-PATH': None,
+        'IP4.ADDRESS[1]': '127.0.0.1/8',
+        'IP4.GATEWAY': None,
+        'IP6.ADDRESS[1]': '::1/128',
+        'IP6.GATEWAY': None,
+        'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
+    }
+    assert s2.passed_parameters == ['-f', 'all', 'device', 'show', 'lo']
 
 
 def test_show_all():
@@ -100,8 +118,8 @@ IP4.GATEWAY:                            --
 IP6.ADDRESS[1]:                         ::1/128
 IP6.GATEWAY:                            --
 IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
-    s = DummySystemCommand(d)
-    device = DeviceControl(s)
+    s1 = DummySystemCommand(d)
+    device = DeviceControl(s1)
     assert device.show_all() == [{
         'GENERAL.DEVICE': 'wlan0',
         'GENERAL.TYPE': 'wifi',
@@ -124,7 +142,33 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
         'IP6.GATEWAY': None,
         'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
     }]
-    assert s.passed_parameters == ['device', 'show']
+    assert s1.passed_parameters == ['device', 'show']
+
+    s2 = DummySystemCommand(d)
+    device = DeviceControl(s2)
+    assert device.show_all('all') == [{
+        'GENERAL.DEVICE': 'wlan0',
+        'GENERAL.TYPE': 'wifi',
+        'GENERAL.HWADDR': '46:7B:1F:32:36:E2',
+        'GENERAL.MTU': '1500',
+        'GENERAL.STATE': '30 (disconnected)',
+        'GENERAL.CONNECTION': None,
+        'GENERAL.CON-PATH': None
+    }, {
+        'GENERAL.DEVICE': 'lo',
+        'GENERAL.TYPE': 'loopback',
+        'GENERAL.HWADDR': '00:00:00:00:00:00',
+        'GENERAL.MTU': '65536',
+        'GENERAL.STATE': '10 (unmanaged)',
+        'GENERAL.CONNECTION': None,
+        'GENERAL.CON-PATH': None,
+        'IP4.ADDRESS[1]': '127.0.0.1/8',
+        'IP4.GATEWAY': None,
+        'IP6.ADDRESS[1]': '::1/128',
+        'IP6.GATEWAY': None,
+        'IP6.ROUTE[1]': 'dst = ::1/128, nh = ::, mt = 256'
+    }]
+    assert s2.passed_parameters == ['-f', 'all', 'device', 'show']
 
 
 def test_connect():

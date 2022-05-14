@@ -33,7 +33,11 @@ def test_show():
     c = DummyDeviceControl(result_show=result_show)
     ifname = 'eth0'
     assert c.show(ifname) == result_show
-    assert c.show_args == [ifname]
+    assert c.show_args == [(ifname, None)]
+
+    fields = 'all'
+    assert c.show(ifname, fields) == result_show
+    assert c.show_args == [(ifname, None), (ifname, fields)]
 
 
 def test_show_when_raise_error():
