@@ -42,10 +42,10 @@ class DeviceControlInterface:
     def status(self) -> List[Device]:
         raise NotImplementedError
 
-    def show(self, ifname: str, fields: str) -> DeviceDetails:
+    def show(self, ifname: str, fields: str = None) -> DeviceDetails:
         raise NotImplementedError
 
-    def show_all(self, fields: str) -> List[DeviceDetails]:
+    def show_all(self, fields: str = None) -> List[DeviceDetails]:
         raise NotImplementedError
 
     def connect(self, ifname: str, wait: int = None) -> None:
