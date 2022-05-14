@@ -96,6 +96,7 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
     }
     assert s2.passed_parameters == ['-f', 'all', 'device', 'show', 'lo']
 
+
 def test_show_all():
     d = '''GENERAL.DEVICE:                         wlan0
 GENERAL.TYPE:                           wifi

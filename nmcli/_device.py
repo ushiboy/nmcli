@@ -2,7 +2,7 @@ import re
 from typing import List, Tuple
 
 from ._exception import ConnectionActivateFailedException
-from ._helper import add_wait_option_if_needed, add_fields_option_if_needed
+from ._helper import add_fields_option_if_needed, add_wait_option_if_needed
 from ._system import SystemCommand, SystemCommandInterface
 from .data.device import Device, DeviceDetails, DeviceWifi
 from .data.hotspot import Hotspot
