@@ -16,6 +16,7 @@ setup(
     version='1.1.0',
     author='ushiboy',
     license='MIT',
+    license_files = ('LICENSE.txt',),
     description='A python wrapper library for the network-manager cli client',
     long_description=long_description,
     long_description_content_type='text/markdown',
