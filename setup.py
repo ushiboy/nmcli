@@ -13,7 +13,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='nmcli',
-    version='1.1.0',
+    version='1.1.1',
     author='ushiboy',
     license='MIT',
     license_files = ('LICENSE.txt',),
