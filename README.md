@@ -459,6 +459,10 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 1.1.1
+
+- Include LICENSE.txt in the tar.
+
 ### 1.1.0
 
 - Added fields option to `nmcli.device.show` and `nmcli.device.show_all`
@@ -470,75 +474,69 @@ nmcli.set_lang(lang: str) -> None
 
 ### 0.9.0
 
-Added ifname param to wifi.
+- Added ifname param to wifi.
 
 ### 0.8.0
 
-Added support for changing the LANG environment variable.
+- Added support for changing the LANG environment variable.
 
 ### 0.7.0
 
-Added ifname param to wifi_connect.
+- Added ifname param to wifi_connect.
 
 ### 0.6.1
 
-Fixed a bug in the autoconnect parameter of the nmcli.connection.add method (made the default value conform to the specification of nmcli connection add).
+- Fixed a bug in the autoconnect parameter of the nmcli.connection.add method (made the default value conform to the specification of nmcli connection add).
 
 ### 0.6.0
 
-Added BSSID and FREQ to DeviceWifi.
+- Added BSSID and FREQ to DeviceWifi.
 
 ### 0.5.0
 
-Added support for "nmcli device wifi hotspot".
-
-Added support for "nmcli device wifi rescan".
+- Added support for "nmcli device wifi hotspot".
+- Added support for "nmcli device wifi rescan".
 
 ### 0.4.2
 
-Fixed the parsing of device wifi.
+- Fixed the parsing of device wifi.
 
 ### 0.4.1
 
-Fixed parsing when SSID has a space.
+- Fixed parsing when SSID has a space.
 
 ### 0.4.0
 
-Added disabling of sudo usage.
-
-Added support for parsing the execution results of recent versions of the nmcli device wifi command.
+- Added disabling of sudo usage.
+- Added support for parsing the execution results of recent versions of the nmcli device wifi command.
 
 ### 0.3.1
 
-Fixed device status and device wifi parsing bug.
+- Fixed device status and device wifi parsing bug.
 
 ### 0.3.0
 
-Added networking and radio APIs.
-
-Added more APIs for connection, device and general.
-
-Changed the properties of the General data class.
-
-Changed throw a ValueError exception if the regular expression pattern is not matched.
+- Added networking and radio APIs.
+- Added more APIs for connection, device and general.
+- Changed the properties of the General data class.
+- Changed throw a ValueError exception if the regular expression pattern is not matched.
 
 ### 0.2.2
 
-Fix the parsing bug of connection names that contain spaces (connection.show).
-
-Added getting items that begin with a capital letter.
+- Fix the parsing bug of connection names that contain spaces (connection.show).
+- Added getting items that begin with a capital letter.
 
 ### 0.2.1
 
-Fix the parsing bug of connection names that contain spaces.
+- Fix the parsing bug of connection names that contain spaces.
 
 ### 0.2.0
 
-Added dummy classes.
+- Added dummy classes.
 
 ### 0.1.0
 
-Initial release.
+- Initial release.
 
 ## License
 
