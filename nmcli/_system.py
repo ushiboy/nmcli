@@ -1,3 +1,4 @@
+import os
 from subprocess import CalledProcessError, run
 from typing import List, Union
 
@@ -38,8 +39,9 @@ class SystemCommand(SystemCommandInterface):
         c = ['sudo', 'nmcli'] if self._use_sudo else ['nmcli']
         commands = c + parameters
         try:
+            env = dict(os.environ, **{'LANG': self._lang})
             r = self._run(commands, capture_output=True,
-                          check=True, env={'LANG': self._lang})
+                          check=True, env=env)
             return r.stdout.decode('utf-8')
         except CalledProcessError as e:
             rc = e.returncode
