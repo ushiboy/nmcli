@@ -459,6 +459,10 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 1.1.2
+
+- Fixed a problem with environment variables being scraped.
+
 ### 1.1.1
 
 - Include LICENSE.txt in the tar.
