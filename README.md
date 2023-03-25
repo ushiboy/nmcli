@@ -459,6 +459,10 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 1.2.0
+
+- Added support for encodings other than UTF-8.
+
 ### 1.1.2
 
 - Fixed a problem with environment variables being scraped.
