@@ -1,3 +1,4 @@
+import locale
 import os
 from subprocess import CalledProcessError, run
 from typing import List, Union
@@ -12,6 +13,9 @@ from ._exception import (ConnectionActivateFailedException,
                          UnspecifiedException)
 
 CommandParameter = Union[str, List[str]]
+
+
+encoding = locale.getpreferredencoding()
 
 
 class SystemCommandInterface:
@@ -42,10 +46,10 @@ class SystemCommand(SystemCommandInterface):
             env = dict(os.environ, **{'LANG': self._lang})
             r = self._run(commands, capture_output=True,
                           check=True, env=env)
-            return r.stdout.decode('utf-8')
+            return r.stdout.decode(encoding)
         except CalledProcessError as e:
             rc = e.returncode
-            stderr = e.stderr.decode('utf-8')
+            stderr = e.stderr.decode(encoding)
             if rc == 2:
                 raise InvalidUserInputException(
                     'Invalid user input, wrong nmcli invocation') from e
