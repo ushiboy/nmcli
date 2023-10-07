@@ -145,11 +145,13 @@ class DeviceControl(DeviceControlInterface):
             wait) + ['device', 'delete', ifname]
         self._syscmd.nmcli(cmd)
 
-    def wifi(self, ifname: str = None) -> List[DeviceWifi]:
+    def wifi(self, ifname: str = None, rescan: bool = None) -> List[DeviceWifi]:
         cmd = ['-t', '-f', 'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
                'device', 'wifi', 'list']
         if ifname is not None:
             cmd += ['ifname', ifname]
+        if rescan is not None:
+            cmd += ['--rescan', 'yes' if rescan else 'no']
         r = self._syscmd.nmcli(cmd)
         results = []
         rows = r.split('\n')
