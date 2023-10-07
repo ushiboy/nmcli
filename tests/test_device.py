@@ -252,6 +252,21 @@ def test_device_wifi():
                                     'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
                                     'device', 'wifi', 'list', 'ifname', ifname]
 
+    device.wifi(rescan=True)
+    assert s2.passed_parameters == ['-t', '-f',
+                                    'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+                                    'device', 'wifi', 'list', '--rescan', "yes"]
+
+    device.wifi(rescan=False)
+    assert s2.passed_parameters == ['-t', '-f',
+                                    'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+                                    'device', 'wifi', 'list', '--rescan', "no"]
+
+    device.wifi(ifname, rescan=True)
+    assert s2.passed_parameters == ['-t', '-f',
+                                    'IN-USE,SSID,BSSID,MODE,CHAN,FREQ,RATE,SIGNAL,SECURITY',
+                                    'device', 'wifi', 'list', 'ifname', ifname, '--rescan', "yes"]
+
 
 def test_wifi_connect():
     s = DummySystemCommand()
