@@ -249,7 +249,7 @@ nmcli.device.delete(ifname: str, wait: int = None) -> None
 List available Wi-Fi access points.
 
 ```
-nmcli.device.wifi(ifname: str = None) -> List[DeviceWifi]
+nmcli.device.wifi(ifname: str = None, rescan: bool = None) -> List[DeviceWifi]
 ```
 
 #### nmcli.device.wifi_connect
@@ -458,6 +458,10 @@ nmcli.set_lang(lang: str) -> None
 ```
 
 ## Change Log
+
+### 1.3.0
+
+- Added rescan parameter to `nmcli.device.wifi`.
 
 ### 1.2.0
 

@@ -123,7 +123,11 @@ def test_wifi():
     assert c.wifi() == result_wifi
     ifname = 'wlan0'
     assert c.wifi(ifname) == result_wifi
-    assert c.wifi_args == [ifname]
+    assert c.wifi(rescan=True) == result_wifi
+    assert c.wifi(rescan=False) == result_wifi
+    assert c.wifi(ifname, rescan=True) == result_wifi
+    assert c.wifi_args == [(None, None), (ifname, None),
+                           (None, True), (None, False), (ifname, True)]
 
 
 def test_wifi_when_raise_error():

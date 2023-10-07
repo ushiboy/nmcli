@@ -60,7 +60,7 @@ class DeviceControlInterface:
     def delete(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def wifi(self, ifname: str = None) -> List[DeviceWifi]:
+    def wifi(self, ifname: str = None, rescan: bool = None) -> List[DeviceWifi]:
         raise NotImplementedError
 
     def wifi_connect(self,
