@@ -64,7 +64,7 @@ class DeviceWifi:
         t = text.replace("\\:", "\uFFFE").replace(
             ":", "\uFFFF").replace("\uFFFE", ":")
         m = re.search(
-            r'^(\*|\s)\uFFFF(.*)\uFFFF(.*)\uFFFF(.*)\uFFFF(\d+)\uFFFF(\d+)\sMHz\uFFFF(\d+)\sMbit\/s\uFFFF(\d+)\uFFFF(.*)$', t)
+            r'^(\*|\s)\uFFFF(.*)\uFFFF(.*)\uFFFF(.*)\uFFFF(\d+)\uFFFF(\d+)\sMHz\uFFFF(\d+)\s(?:Mb|Mbit)\/s\uFFFF(\d+)\uFFFF(.*)$', t)
         if m:
             in_use, ssid, bssid, mode, chan, freq, rate, signal, security = m.groups()
             return DeviceWifi(in_use == '*', ssid, bssid, mode,
