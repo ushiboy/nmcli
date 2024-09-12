@@ -27,10 +27,11 @@ class General:
 
     @classmethod
     def parse(cls, text: str) -> General:
-        m = re.search(
-            r'^([\S\s]+)\s{2}(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*', text)
+        #pattern = r'^([\S\s]+)\s{2}(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*'
+        pattern = r'(.+?)\s+(.+?)\s+(.+?)\s+(.+?)\s+(.+?)\s+(.+?)\s+(.+)'
+        m = re.search(pattern, text)
         if m:
-            state, connectivity, wifi_hw, wifi, wwan_hw, wwan = m.groups()
+            state, connectivity, wifi_hw, wifi, wwan_hw, wwan, _metered = m.groups()
             return General(NetworkManagerState(state),
                            NetworkConnectivity(connectivity),
                            wifi_hw == 'enabled',
