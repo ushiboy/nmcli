@@ -58,6 +58,11 @@ def test_parse():
                                         NetworkConnectivity.FULL,
                                         True, True, True, True)
 
+    d8 = 'connected  full          enabled  enabled  missing  enabled  no (guessed)'
+    assert General.parse(d8) == General(NetworkManagerState.CONNECTED_GLOBAL,
+                                        NetworkConnectivity.FULL,
+                                        True, True, False, True)
+
 
 def test_parse_when_failed():
     with pytest.raises(ValueError) as e:
