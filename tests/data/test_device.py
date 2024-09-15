@@ -75,6 +75,10 @@ def test_device_wifi_parse():
     assert DeviceWifi.parse(d4) == \
         DeviceWifi(False, 'AAAAAA BBBBBBBBB CCC 9999', '00:00:00:00:00:03',
                    'Infra', 1, 2403, 130, 82, 'WPA1 WPA2')
+    d5 = '*:AP1:00\\:00\\:00\\:00\\:00\\:00:Infra:1:2400 MHz:130 Mb/s:82:WPA1 WPA2'
+    assert DeviceWifi.parse(d5) == \
+        DeviceWifi(True, 'AP1', '00:00:00:00:00:00',
+                   'Infra', 1, 2400, 130, 82, 'WPA1 WPA2')
 
 
 def test_device_wifi_parse_when_failed():
