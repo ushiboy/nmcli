@@ -56,7 +56,8 @@ class General:
             + r'$'
         )
 
-        m = re.search(pattern, text)
+        # The execution result will have a trailing space, so trim it and then match it to the pattern.
+        m = re.search(pattern, text.rstrip())
 
         if m:
             state, connectivity, wifi_hw, wifi, wwan_hw, wwan, _metered = m.groups()
