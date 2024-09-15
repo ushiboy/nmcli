@@ -39,34 +39,26 @@ class General:
 
     @classmethod
     def parse(cls, text: str) -> General:
-        #pattern = r'^([\S\s]+)\s{2}(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*'
-
-        state_r = r'(?P<state>.+)'
-        connectivity_r = r'(?P<connectivity>\S+)'
-        wifi_hw_r = r'(?P<wifi_hw>\S+)'
-        wifi_r = r'(?P<wifi>\S+)'
-        wwan_hw_r = r'(?P<wwan_hw>\S+)'
-        wwan_r = r'(?P<wwan>\S+)'
-        metered_r = r'(?:  (?P<metered>.+)?)?'
-
         pattern = (
-	        r'^'
-	        + state_r
-	        + r'  '
-	        + connectivity_r
-	        + r'\s+'
-	        + wifi_hw_r
-	        + r'  '
-	        + wifi_r
-	        + r'  '
-	        + wwan_hw_r
-	        + r'  '
-	        + wwan_r
-	        + metered_r
-	        + r'$'
+            r'^'
+            + r'(?P<state>.+)'
+            + r'  '
+            + r'(?P<connectivity>\S+)'
+            + r'\s+'
+            + r'(?P<wifi_hw>\S+)'
+            + r'  '
+            + r'(?P<wifi>\S+)'
+            + r'  '
+            + r'(?P<wwan_hw>\S+)'
+            + r'  '
+            + r'(?P<wwan>\S+)'
+            + r'(?:  (?P<metered>.+)?)?'
+            + r'$'
         )
 
-        m = re.search(pattern, text)
+        # The execution result will have a trailing space,
+        # so trim it and then match it to the pattern.
+        m = re.search(pattern, text.rstrip())
 
         if m:
             state, connectivity, wifi_hw, wifi, wwan_hw, wwan, _metered = m.groups()
