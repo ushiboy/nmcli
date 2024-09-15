@@ -56,7 +56,8 @@ class General:
             + r'$'
         )
 
-        # The execution result will have a trailing space, so trim it and then match it to the pattern.
+        # The execution result will have a trailing space,
+        # so trim it and then match it to the pattern.
         m = re.search(pattern, text.rstrip())
 
         if m:
