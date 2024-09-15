@@ -459,6 +459,11 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 1.4.0
+
+- Supported unsupported cases of `DeviceWifi.parse`.
+- Fixed the problem that `nmcli.general` does not work on nmcli client after version 1.48.x.
+
 ### 1.3.0
 
 - Added rescan parameter to `nmcli.device.wifi`.
