@@ -88,8 +88,11 @@ class ConnectionControl(ConnectionControlInterface):
             wait) + ['connection', 'down', name]
         self._syscmd.nmcli(cmd)
 
-    def show(self, name: str) -> ConnectionDetails:
-        r = self._syscmd.nmcli(['connection', 'show', name])
+    def show(self, name: str, show_secrets: bool = False) -> ConnectionDetails:
+        cmd = ['connection', 'show', name]
+        if show_secrets:
+            cmd += ["--show-secrets"]
+        r = self._syscmd.nmcli(cmd)
         results = {}
         for row in r.split('\n'):
             m = re.search(r'^(\S+):\s*([\S\s]+)\s*', row)
