@@ -1,5 +1,4 @@
-nmcli
-=====
+# nmcli
 
 nmcli is a python wrapper library for the network-manager cli client.
 
@@ -31,62 +30,61 @@ except Exception as e:
 
 ## Dependency
 
-* NetworkManager
-  * `sudo apt install network-manager` (Debian)
-* User who can execute nmcli with sudo with NOPASSWD
-  * If sudo is not needed (like root user), use `disable_use_sudo` at the beginning of the process.
+- NetworkManager
+  - `sudo apt install network-manager` (Debian)
+- User who can execute nmcli with sudo with NOPASSWD
+  - If sudo is not needed (like root user), use `disable_use_sudo` at the beginning of the process.
 
 ## Compatibility table
 
-| Object | Command | Status |
-|--------|---------|--------|
-| general | | supported |
-| general | status | supported |
-| general | hostname | supported |
-| general | permissions | not supported |
-| general | logging | not supported |
-| networking | | supported |
-| networking | on | supported |
-| networking | off | supported |
-| networking | connectivity | supported |
-| radio | | supported |
-| radio | all | supported |
-| radio | wifi | supported |
-| radio | wwan | supported |
-| connection | | supported |
-| connection | show | supported |
-| connection | up | supported |
-| connection | down | supported |
-| connection | add | supported |
-| connection | modify | supported |
-| connection | clone | not supported |
-| connection | edit | not supported |
-| connection | delete | supported |
-| connection | reload | supported |
-| connection | load | not supported |
-| connection | import | not supported |
-| connection | export | not supported |
-| device | | supported |
-| device | status | supported |
-| device | show | supported |
-| device | set | not supported |
-| device | connect | supported |
-| device | reapply | supported |
-| device | modify | not supported |
-| device | disconnect | supported |
-| device | delete | supported |
-| device | monitor | not supported |
-| device | wifi | supported |
-| device | wifi connect | supported |
-| device | wifi rescan | supported |
-| device | wifi hotspot | supported |
-| device | lldp | not supported |
-| agent | | not supported |
-| agent | secret | not supported |
-| agent | polkit | not supported |
-| agent | all | not supported |
-| monitor | | not supported |
-
+| Object     | Command      | Status        |
+| ---------- | ------------ | ------------- |
+| general    |              | supported     |
+| general    | status       | supported     |
+| general    | hostname     | supported     |
+| general    | permissions  | not supported |
+| general    | logging      | not supported |
+| networking |              | supported     |
+| networking | on           | supported     |
+| networking | off          | supported     |
+| networking | connectivity | supported     |
+| radio      |              | supported     |
+| radio      | all          | supported     |
+| radio      | wifi         | supported     |
+| radio      | wwan         | supported     |
+| connection |              | supported     |
+| connection | show         | supported     |
+| connection | up           | supported     |
+| connection | down         | supported     |
+| connection | add          | supported     |
+| connection | modify       | supported     |
+| connection | clone        | not supported |
+| connection | edit         | not supported |
+| connection | delete       | supported     |
+| connection | reload       | supported     |
+| connection | load         | not supported |
+| connection | import       | not supported |
+| connection | export       | not supported |
+| device     |              | supported     |
+| device     | status       | supported     |
+| device     | show         | supported     |
+| device     | set          | not supported |
+| device     | connect      | supported     |
+| device     | reapply      | supported     |
+| device     | modify       | not supported |
+| device     | disconnect   | supported     |
+| device     | delete       | supported     |
+| device     | monitor      | not supported |
+| device     | wifi         | supported     |
+| device     | wifi connect | supported     |
+| device     | wifi rescan  | supported     |
+| device     | wifi hotspot | supported     |
+| device     | lldp         | not supported |
+| agent      |              | not supported |
+| agent      | secret       | not supported |
+| agent      | polkit       | not supported |
+| agent      | all          | not supported |
+| monitor    |              | not supported |
 
 ## API
 
@@ -154,6 +152,8 @@ nmcli.connection.down(name: str, wait: int = None) -> None
 #### nmcli.connection.show
 
 Show details for specified connections.
+
+Use `show_secrets` argument to reveal associated secrets as well.
 
 ```
 nmcli.connection.show(name: str, show_secrets: bool = False) -> ConnectionDetails
@@ -238,7 +238,6 @@ nmcli.device.reapply(ifname: str) -> None
 Delete the software devices.
 
 The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
-
 
 ```
 nmcli.device.delete(ifname: str, wait: int = None) -> None
