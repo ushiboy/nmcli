@@ -28,6 +28,10 @@ class DummyConnectionControl(ConnectionControlInterface):
         return self._down_args
 
     @property
+    def show_args(self):
+        return self._show_args
+
+    @property
     def called_reload(self) -> int:
         return self._called_reload
 
@@ -43,6 +47,7 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._delete_args: List[Tuple] = []
         self._up_args: List[Tuple] = []
         self._down_args: List[Tuple] = []
+        self._show_args: List[Tuple] = []
         self._called_reload = 0
 
     def __call__(self) -> List[Connection]:
@@ -74,8 +79,9 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._raise_error_if_needed()
         self._down_args.append((name, wait))
 
-    def show(self, name: str) -> ConnectionDetails:
+    def show(self, name: str, show_secrets: bool = False) -> ConnectionDetails:
         self._raise_error_if_needed()
+        self._show_args.append((name, show_secrets))
         if not self._result_show is None:
             return self._result_show
         raise ValueError("'result_show' is not properly initialized")

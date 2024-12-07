@@ -112,13 +112,20 @@ def test_show():
         buf = f.read()
     s = DummySystemCommand(buf)
     connection = ConnectionControl(s)
-    r = connection.show('Wired connection 1')
+    name = 'Wired connection 1'
+
+    r = connection.show(name)
+    assert s.passed_parameters == ['connection', 'show', name]
     assert len(r.keys()) == 114
     assert r['connection.id'] == 'Wired connection 1'
     assert r['connection.stable-id'] is None
     assert r['ipv4.dns-options'] is None
     assert r['IP4.ADDRESS[1]'] == '192.168.1.10/24'
     assert r['DHCP6.OPTION[8]'] == 'requested_dhcp6_name_servers = 1'
+
+    connection.show(name, show_secrets=True)
+    assert s.passed_parameters == [
+        'connection', 'show', name, "--show-secrets"]
 
 
 def test_reload():
