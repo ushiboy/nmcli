@@ -110,8 +110,13 @@ def test_show():
         'key': 'value'
     }
     c = DummyConnectionControl(result_show=result_show)
+
     name = 'MyHome'
     assert c.show(name) == result_show
+    assert c.show_args[0] == (name, False)
+
+    c.show(name, show_secrets=True)
+    assert c.show_args[1] == (name, True)
 
 
 def test_show_when_raise_error():

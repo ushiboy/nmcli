@@ -28,6 +28,10 @@ class DummyConnectionControl(ConnectionControlInterface):
         return self._down_args
 
     @property
+    def show_args(self):
+        return self._show_args
+
+    @property
     def called_reload(self) -> int:
         return self._called_reload
 
