@@ -156,7 +156,7 @@ nmcli.connection.down(name: str, wait: int = None) -> None
 Show details for specified connections.
 
 ```
-nmcli.connection.show(name: str) -> ConnectionDetails
+nmcli.connection.show(name: str, show_secrets: bool = False) -> ConnectionDetails
 ```
 
 #### nmcli.connection.reload
