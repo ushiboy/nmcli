@@ -31,7 +31,7 @@ class ConnectionControlInterface:
     def down(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def show(self, name: str) -> ConnectionDetails:
+    def show(self, name: str, show_secrets: bool = False) -> ConnectionDetails:
         raise NotImplementedError
 
     def reload(self) -> None:
