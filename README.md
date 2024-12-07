@@ -458,6 +458,10 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 1.5.0
+
+- Added show_secrets option to `nmcli.connection.show`
+
 ### 1.4.0
 
 - Supported unsupported cases of `DeviceWifi.parse`.
