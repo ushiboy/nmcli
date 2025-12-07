@@ -127,6 +127,10 @@ def test_show():
     assert s.passed_parameters == [
         'connection', 'show', name, "--show-secrets"]
 
+    connection.show(name, active=True)
+    assert s.passed_parameters == [
+        'connection', 'show', name, "--active"]
+
 
 def test_reload():
     s = DummySystemCommand()
