@@ -113,10 +113,13 @@ def test_show():
 
     name = 'MyHome'
     assert c.show(name) == result_show
-    assert c.show_args[0] == (name, False)
+    assert c.show_args[0] == (name, False, False)
 
     c.show(name, show_secrets=True)
-    assert c.show_args[1] == (name, True)
+    assert c.show_args[1] == (name, True, False)
+
+    c.show(name, show_secrets=True, active=True)
+    assert c.show_args[2] == (name, True, True)
 
 
 def test_show_when_raise_error():

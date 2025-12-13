@@ -79,9 +79,9 @@ class DummyConnectionControl(ConnectionControlInterface):
         self._raise_error_if_needed()
         self._down_args.append((name, wait))
 
-    def show(self, name: str, show_secrets: bool = False) -> ConnectionDetails:
+    def show(self, name: str, show_secrets: bool = False, active: bool = False) -> ConnectionDetails:
         self._raise_error_if_needed()
-        self._show_args.append((name, show_secrets))
+        self._show_args.append((name, show_secrets, active))
         if not self._result_show is None:
             return self._result_show
         raise ValueError("'result_show' is not properly initialized")
