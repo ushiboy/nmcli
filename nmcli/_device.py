@@ -16,7 +16,8 @@ def parse_wifi_hotspot_result(text: str) -> Tuple[str, str, str]:
         r"Device\s'(.*)'\ssuccessfully\sactivated\swith\s'(.*)'", text)
     if m:
         ifname, uuid = m.groups()
-    return (uuid, ifname, password)
+    # TODO: Handle case when regex doesn't match - variables may be undefined
+    return (uuid, ifname, password)  # pylint: disable=possibly-used-before-assignment
 
 
 def parse_hotspot_properties(text: str) -> Tuple[str, str]:
@@ -31,7 +32,8 @@ def parse_hotspot_properties(text: str) -> Tuple[str, str]:
             con_name = value
         elif key == '802-11-wireless.ssid':
             ssid = value
-    return (con_name, ssid)
+    # TODO: Handle case when required keys are not found - variables may be undefined
+    return (con_name, ssid)  # pylint: disable=possibly-used-before-assignment,used-before-assignment
 
 
 class DeviceControlInterface:
