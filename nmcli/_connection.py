@@ -31,7 +31,7 @@ class ConnectionControlInterface:
     def down(self, name: str, wait: int = None) -> None:
         raise NotImplementedError
 
-    def show(self, name: str, show_secrets: bool = False) -> ConnectionDetails:
+    def show(self, name: str, show_secrets: bool = False, active: bool = False) -> ConnectionDetails:
         raise NotImplementedError
 
     def reload(self) -> None:
@@ -88,10 +88,12 @@ class ConnectionControl(ConnectionControlInterface):
             wait) + ['connection', 'down', name]
         self._syscmd.nmcli(cmd)
 
-    def show(self, name: str, show_secrets: bool = False) -> ConnectionDetails:
+    def show(self, name: str, show_secrets: bool = False, active: bool = False) -> ConnectionDetails:
         cmd = ['connection', 'show', name]
         if show_secrets:
             cmd += ["--show-secrets"]
+        if active:
+            cmd += ["--active"]
         r = self._syscmd.nmcli(cmd)
         results = {}
         for row in r.split('\n'):
