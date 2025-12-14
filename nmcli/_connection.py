@@ -89,11 +89,12 @@ class ConnectionControl(ConnectionControlInterface):
         self._syscmd.nmcli(cmd)
 
     def show(self, name: str, show_secrets: bool = False, active: bool = False) -> ConnectionDetails:
-        cmd = ['connection', 'show', name]
-        if show_secrets:
-            cmd += ["--show-secrets"]
+        cmd = ['connection', 'show']
         if active:
             cmd += ["--active"]
+        cmd += [name]
+        if show_secrets:
+            cmd += ["--show-secrets"]
         r = self._syscmd.nmcli(cmd)
         results = {}
         for row in r.split('\n'):
