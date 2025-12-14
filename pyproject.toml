@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nmcli"
+version = "1.5.0"
+description = "A python wrapper library for the network-manager cli client"
+readme = "README.md"
+authors = [{name = "ushiboy"}]
+license = "MIT"
+license-files = ["LICENSE.txt"]
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux"
+]
+
+[project.urls]
+Homepage = "https://github.com/ushiboy/nmcli"
+
+[tool.setuptools.packages.find]
+include = ["nmcli*"]
+
+[tool.setuptools.package-data]
+nmcli = ["py.typed"]
