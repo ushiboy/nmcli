@@ -129,7 +129,7 @@ def test_show():
 
     connection.show(name, active=True)
     assert s.passed_parameters == [
-        'connection', 'show', name, "--active"]
+        'connection', 'show', "--active", name]
 
 
 def test_reload():
