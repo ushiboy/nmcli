@@ -154,9 +154,10 @@ nmcli.connection.down(name: str, wait: int = None) -> None
 Show details for specified connections.
 
 Use `show_secrets` argument to reveal associated secrets as well.
+Use `active` argument to show only the active profile.
 
 ```
-nmcli.connection.show(name: str, show_secrets: bool = False) -> ConnectionDetails
+nmcli.connection.show(name: str, show_secrets: bool = False, active: bool = False) -> ConnectionDetails
 ```
 
 #### nmcli.connection.reload
@@ -457,6 +458,10 @@ nmcli.set_lang(lang: str) -> None
 ```
 
 ## Change Log
+
+### 1.6.0
+
+- Added active option to `nmcli.connection.show`
 
 ### 1.5.0
 
