@@ -134,6 +134,28 @@ def test_show_when_no_arguments_are_passed():
         c.show('MyHome')
 
 
+def test_show_all():
+    result_show_all = [
+        Connection('AP1', '3eac760c-de77-4823-9ab8-773c276daca3',
+                   'wifi', 'wlan0'),
+        Connection('Home', '700f5b18-cbb3-4d38-9c61-e3bc3a3852b9',
+                   'ethernet', 'eth0')
+    ]
+    c = DummyConnectionControl(result_show_all=result_show_all)
+
+    assert c.show_all() == result_show_all
+    assert c.show_all_args[0] == (False,)
+
+    c.show_all(active=True)
+    assert c.show_all_args[1] == (True,)
+
+
+def test_show_all_when_raise_error():
+    c = DummyConnectionControl(raise_error=Exception)
+    with pytest.raises(Exception):
+        c.show_all()
+
+
 def test_reload():
     c = DummyConnectionControl()
     c.reload()
