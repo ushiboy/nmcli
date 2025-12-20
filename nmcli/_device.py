@@ -52,7 +52,13 @@ class DeviceControlInterface:
     def show_all(self, fields: str = None) -> List[DeviceDetails]:
         raise NotImplementedError
 
+    def up(self, ifname: str, wait: int = None) -> None:
+        raise NotImplementedError
+
     def connect(self, ifname: str, wait: int = None) -> None:
+        raise NotImplementedError
+
+    def down(self, ifname: str, wait: int = None) -> None:
         raise NotImplementedError
 
     def disconnect(self, ifname: str, wait: int = None) -> None:
@@ -131,9 +137,19 @@ class DeviceControl(DeviceControlInterface):
                 details[key] = None if value in ('--', '""') else value
         return results
 
+    def up(self, ifname: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['device', 'up', ifname]
+        self._syscmd.nmcli(cmd)
+
     def connect(self, ifname: str, wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
             wait) + ['device', 'connect', ifname]
+        self._syscmd.nmcli(cmd)
+
+    def down(self, ifname: str, wait: int = None) -> None:
+        cmd = add_wait_option_if_needed(
+            wait) + ['device', 'down', ifname]
         self._syscmd.nmcli(cmd)
 
     def disconnect(self, ifname: str, wait: int = None) -> None:

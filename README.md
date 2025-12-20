@@ -71,11 +71,11 @@ except Exception as e:
 | device     | status       | supported     |
 | device     | show         | supported     |
 | device     | set          | not supported |
-| device     | up           | not supported |
+| device     | up           | supported     |
 | device     | connect      | supported     |
 | device     | reapply      | supported     |
 | device     | modify       | not supported |
-| device     | down         | not supported |
+| device     | down         | supported     |
 | device     | disconnect   | supported     |
 | device     | delete       | supported     |
 | device     | monitor      | not supported |
@@ -221,6 +221,16 @@ The `fields` argument applies the same effect to the command as the `-f | --fiel
 nmcli.device.show_all(fields: str = None) -> List[DeviceDetails]
 ```
 
+#### nmcli.device.up
+
+Connect the device.
+
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
+```
+nmcli.device.up(ifname: str, wait: int = None) -> None
+```
+
 #### nmcli.device.connect
 
 Connect the device.
@@ -229,6 +239,16 @@ The `wait` argument applies the same effect to the command as the `--wait` optio
 
 ```
 nmcli.device.connect(ifname: str, wait: int = None) -> None
+```
+
+#### nmcli.device.down
+
+Disconnect a device and prevent the device from automatically activating further connections without user/manual intervention.
+
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
+```
+nmcli.device.down(ifname: str, wait: int = None) -> None
 ```
 
 #### nmcli.device.disconnect

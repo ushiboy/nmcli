@@ -5,15 +5,23 @@ from ..data.device import Device, DeviceWifi
 from ..data.hotspot import Hotspot
 
 
-class DummyDeviceControl(DeviceControlInterface):
+class DummyDeviceControl(DeviceControlInterface):  # pylint: disable=too-many-public-methods
 
     @property
     def show_args(self):
         return self._show_args
 
     @property
+    def up_args(self):
+        return self._up_args
+
+    @property
     def connect_args(self):
         return self._connect_args
+
+    @property
+    def down_args(self):
+        return self._down_args
 
     @property
     def disconnect_args(self):
@@ -57,7 +65,9 @@ class DummyDeviceControl(DeviceControlInterface):
         self._result_show_all = result_show_all or []
         self._result_wifi_hotspot = result_wifi_hotspot
         self._show_args: List[Tuple] = []
+        self._up_args: List[Tuple] = []
         self._connect_args: List[Tuple] = []
+        self._down_args: List[Tuple] = []
         self._disconnect_args: List[Tuple] = []
         self._reapply_args: List[str] = []
         self._delete_args: List[Tuple] = []
@@ -85,9 +95,17 @@ class DummyDeviceControl(DeviceControlInterface):
         self._raise_error_if_needed()
         return self._result_show_all
 
+    def up(self, ifname: str, wait: int = None) -> None:
+        self._raise_error_if_needed()
+        self._up_args.append((ifname, wait))
+
     def connect(self, ifname: str, wait: int = None) -> None:
         self._raise_error_if_needed()
         self._connect_args.append((ifname, wait))
+
+    def down(self, ifname: str, wait: int = None) -> None:
+        self._raise_error_if_needed()
+        self._down_args.append((ifname, wait))
 
     def disconnect(self, ifname: str, wait: int = None) -> None:
         self._raise_error_if_needed()
