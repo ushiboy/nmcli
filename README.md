@@ -160,6 +160,16 @@ Use `active` argument to show only the active profile.
 nmcli.connection.show(name: str, show_secrets: bool = False, active: bool = False) -> ConnectionDetails
 ```
 
+#### nmcli.connection.show_all
+
+Show all connections.
+
+Use `active` argument to show only active connections.
+
+```
+nmcli.connection.show_all(active: bool = False) -> List[Connection]
+```
+
 #### nmcli.connection.reload
 
 Reload all connection files from disk.
