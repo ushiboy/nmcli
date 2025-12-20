@@ -44,6 +44,7 @@ except Exception as e:
 | general    | hostname     | supported     |
 | general    | permissions  | not supported |
 | general    | logging      | not supported |
+| general    | reload       | supported     |
 | networking |              | supported     |
 | networking | on           | supported     |
 | networking | off          | supported     |
@@ -61,6 +62,7 @@ except Exception as e:
 | connection | clone        | not supported |
 | connection | edit         | not supported |
 | connection | delete       | supported     |
+| connection | monitor      | not supported |
 | connection | reload       | supported     |
 | connection | load         | not supported |
 | connection | import       | not supported |
@@ -69,17 +71,20 @@ except Exception as e:
 | device     | status       | supported     |
 | device     | show         | supported     |
 | device     | set          | not supported |
+| device     | up           | supported     |
 | device     | connect      | supported     |
 | device     | reapply      | supported     |
 | device     | modify       | not supported |
+| device     | down         | supported     |
 | device     | disconnect   | supported     |
 | device     | delete       | supported     |
 | device     | monitor      | not supported |
-| device     | wifi         | supported     |
-| device     | wifi connect | supported     |
-| device     | wifi rescan  | supported     |
-| device     | wifi hotspot | supported     |
-| device     | lldp         | not supported |
+| device     | wifi                | supported     |
+| device     | wifi connect        | supported     |
+| device     | wifi rescan         | supported     |
+| device     | wifi hotspot        | supported     |
+| device     | wifi show-password  | not supported |
+| device     | lldp                | not supported |
 | agent      |              | not supported |
 | agent      | secret       | not supported |
 | agent      | polkit       | not supported |
@@ -216,6 +221,16 @@ The `fields` argument applies the same effect to the command as the `-f | --fiel
 nmcli.device.show_all(fields: str = None) -> List[DeviceDetails]
 ```
 
+#### nmcli.device.up
+
+Connect the device.
+
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
+```
+nmcli.device.up(ifname: str, wait: int = None) -> None
+```
+
 #### nmcli.device.connect
 
 Connect the device.
@@ -224,6 +239,16 @@ The `wait` argument applies the same effect to the command as the `--wait` optio
 
 ```
 nmcli.device.connect(ifname: str, wait: int = None) -> None
+```
+
+#### nmcli.device.down
+
+Disconnect a device and prevent the device from automatically activating further connections without user/manual intervention.
+
+The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
+
+```
+nmcli.device.down(ifname: str, wait: int = None) -> None
 ```
 
 #### nmcli.device.disconnect
@@ -328,6 +353,21 @@ Change persistent system hostname.
 
 ```
 nmcli.general.set_hostname(hostname: str) -> None
+```
+
+#### nmcli.general.reload
+
+Reload NetworkManager's configuration and perform certain updates.
+
+The `flags` argument specifies which configurations to reload. Valid flags are:
+- `conf`: Reload NetworkManager.conf configuration from disk
+- `dns-rc`: Update DNS configuration (equivalent to SIGUSR1)
+- `dns-full`: Restart the DNS plugin
+
+If no flags are provided, everything that is supported is reloaded.
+
+```
+nmcli.general.reload(flags: Optional[List[str]] = None) -> None
 ```
 
 ### networking

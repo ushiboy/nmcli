@@ -171,6 +171,17 @@ IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256'''
     assert s2.passed_parameters == ['-f', 'all', 'device', 'show']
 
 
+def test_up():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ifname = 'eth0'
+    device.up(ifname)
+    assert s.passed_parameters == ['device', 'up', ifname]
+
+    device.up(ifname, wait=10)
+    assert s.passed_parameters == ['--wait', '10', 'device', 'up', ifname]
+
+
 def test_connect():
     s = DummySystemCommand()
     device = DeviceControl(s)
@@ -180,6 +191,18 @@ def test_connect():
 
     device.connect(ifname, wait=10)
     assert s.passed_parameters == ['--wait', '10', 'device', 'connect', ifname]
+
+
+def test_down():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ifname = 'eth0'
+    device.down(ifname)
+    assert s.passed_parameters == ['device', 'down', ifname]
+
+    device.down(ifname, wait=10)
+    assert s.passed_parameters == [
+        '--wait', '10', 'device', 'down', ifname]
 
 
 def test_disconnect():
