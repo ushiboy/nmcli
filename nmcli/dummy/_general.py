@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from .._general import GeneralControlInterface
 from ..data.general import General
@@ -10,6 +10,10 @@ class DummyGeneralControl(GeneralControlInterface):
     def set_hostname_args(self):
         return self._set_hostname_args
 
+    @property
+    def reload_args(self):
+        return self._reload_args
+
     def __init__(self,
                  result_call: General = None,
                  result_status: General = None,
@@ -20,6 +24,7 @@ class DummyGeneralControl(GeneralControlInterface):
         self._result_status = result_status
         self._result_hostname = result_hostname
         self._set_hostname_args: List[str] = []
+        self._reload_args: List[Optional[List[str]]] = []
 
     def __call__(self) -> General:
         self._raise_error_if_needed()
@@ -40,6 +45,10 @@ class DummyGeneralControl(GeneralControlInterface):
     def set_hostname(self, hostname: str):
         self._raise_error_if_needed()
         self._set_hostname_args.append(hostname)
+
+    def reload(self, flags: Optional[List[str]] = None) -> None:
+        self._raise_error_if_needed()
+        self._reload_args.append(flags)
 
     def _raise_error_if_needed(self):
         if not self._raise_error is None:

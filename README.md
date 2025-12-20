@@ -44,7 +44,7 @@ except Exception as e:
 | general    | hostname     | supported     |
 | general    | permissions  | not supported |
 | general    | logging      | not supported |
-| general    | reload       | not supported |
+| general    | reload       | supported     |
 | networking |              | supported     |
 | networking | on           | supported     |
 | networking | off          | supported     |
@@ -353,6 +353,21 @@ Change persistent system hostname.
 
 ```
 nmcli.general.set_hostname(hostname: str) -> None
+```
+
+#### nmcli.general.reload
+
+Reload NetworkManager's configuration and perform certain updates.
+
+The `flags` argument specifies which configurations to reload. Valid flags are:
+- `conf`: Reload NetworkManager.conf configuration from disk
+- `dns-rc`: Update DNS configuration (equivalent to SIGUSR1)
+- `dns-full`: Restart the DNS plugin
+
+If no flags are provided, everything that is supported is reloaded.
+
+```
+nmcli.general.reload(flags: Optional[List[str]] = None) -> None
 ```
 
 ### networking
