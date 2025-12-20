@@ -44,6 +44,7 @@ except Exception as e:
 | general    | hostname     | supported     |
 | general    | permissions  | not supported |
 | general    | logging      | not supported |
+| general    | reload       | not supported |
 | networking |              | supported     |
 | networking | on           | supported     |
 | networking | off          | supported     |
@@ -61,6 +62,7 @@ except Exception as e:
 | connection | clone        | not supported |
 | connection | edit         | not supported |
 | connection | delete       | supported     |
+| connection | monitor      | not supported |
 | connection | reload       | supported     |
 | connection | load         | not supported |
 | connection | import       | not supported |
@@ -69,17 +71,20 @@ except Exception as e:
 | device     | status       | supported     |
 | device     | show         | supported     |
 | device     | set          | not supported |
+| device     | up           | not supported |
 | device     | connect      | supported     |
 | device     | reapply      | supported     |
 | device     | modify       | not supported |
+| device     | down         | not supported |
 | device     | disconnect   | supported     |
 | device     | delete       | supported     |
 | device     | monitor      | not supported |
-| device     | wifi         | supported     |
-| device     | wifi connect | supported     |
-| device     | wifi rescan  | supported     |
-| device     | wifi hotspot | supported     |
-| device     | lldp         | not supported |
+| device     | wifi                | supported     |
+| device     | wifi connect        | supported     |
+| device     | wifi rescan         | supported     |
+| device     | wifi hotspot        | supported     |
+| device     | wifi show-password  | not supported |
+| device     | lldp                | not supported |
 | agent      |              | not supported |
 | agent      | secret       | not supported |
 | agent      | polkit       | not supported |
