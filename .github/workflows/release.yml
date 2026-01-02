@@ -1,0 +1,98 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  # Run tests first to ensure quality
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - python-version: '3.7'
+            os: ubuntu-22.04
+          - python-version: '3.8'
+            os: ubuntu-latest
+          - python-version: '3.9'
+            os: ubuntu-latest
+          - python-version: '3.10'
+            os: ubuntu-latest
+          - python-version: '3.11'
+            os: ubuntu-latest
+          - python-version: '3.12'
+            os: ubuntu-latest
+          - python-version: '3.13'
+            os: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          pip install -r develop-requirements.txt
+      - name: Check mypy
+        run: python -m mypy nmcli
+      - name: Check lint
+        run: python -m pylint nmcli
+      - name: Run unit tests
+        run: python -m pytest tests
+
+  # Build and create release after tests pass
+  build-and-release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install -U pip
+          pip install build
+
+      - name: Build package
+        run: python -m build
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Verify version matches
+        run: |
+          PKG_VERSION=$(grep '^version = ' pyproject.toml | cut -d '"' -f 2)
+          TAG_VERSION="${{ steps.version.outputs.version }}"
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "Error: Package version ($PKG_VERSION) does not match tag version ($TAG_VERSION)"
+            exit 1
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          # Auto-generate release notes (editable after creation)
+          generate_release_notes: true
+          # Create as draft (publish after manual review)
+          draft: true
+          # Attach build artifacts
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+          # Release body template (shown before auto-generated notes)
+          body: |
+            ## What's Changed
+
+            <!-- Add main changes as bullet points here -->
+
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ steps.version.outputs.version }}...v${{ steps.version.outputs.version }}
