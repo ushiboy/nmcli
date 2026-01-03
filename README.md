@@ -509,6 +509,12 @@ nmcli.set_lang(lang: str) -> None
 
 ## Change Log
 
+### 1.7.0
+
+- Added `nmcli.connection.show_all` method with active filtering support
+- Added `nmcli.device.up` and `nmcli.device.down` methods
+- Added `nmcli.general.reload` method with configuration flags support
+
 ### 1.6.0
 
 - Added active option to `nmcli.connection.show`
