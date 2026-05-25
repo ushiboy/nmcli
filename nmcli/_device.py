@@ -182,11 +182,13 @@ class DeviceControl(DeviceControlInterface):
 
     def wifi_connect(self,
                      ssid: str,
-                     password: str,
+                     password: str | None,
                      ifname: str = None,
                      wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
-            wait) + ['device', 'wifi', 'connect', ssid, 'password', password]
+            wait) + ['device', 'wifi', 'connect', ssid]
+        if password is not None:
+            cmd += ['password', password] 
         if ifname is not None:
             cmd += ['ifname', ifname]
         r = self._syscmd.nmcli(cmd)
