@@ -293,9 +293,11 @@ Connect to a Wi-Fi network specified by SSID or BSSID.
 
 The `wait` argument applies the same effect to the command as the `--wait` option. If it is omitted, the default behavior is followed.
 
+If `password` is `None`, the password option is omitted from the command. This allows connecting to open networks or known networks that already have credentials stored.
+
 ```
 nmcli.device.wifi_connect(ssid: str,
-                          password: str,
+                          password: str = None,
                           ifname: str = None,
                           wait: int = None) -> None
 ```
@@ -508,6 +510,10 @@ nmcli.set_lang(lang: str) -> None
 ```
 
 ## Change Log
+
+### 1.8.0
+
+- Allow `nmcli.device.wifi_connect` to accept `None` as password to connect to open or known networks without specifying a password.
 
 ### 1.7.0
 
