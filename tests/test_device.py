@@ -309,6 +309,24 @@ def test_wifi_connect():
         '--wait', '10', 'device', 'wifi', 'connect', ssid, 'password', password]
 
 
+def test_wifi_connect_without_password():
+    s = DummySystemCommand()
+    device = DeviceControl(s)
+    ssid = 'Open AP'
+    ifname = 'wlan0'
+
+    device.wifi_connect(ssid, None)
+    assert s.passed_parameters == ['device', 'wifi', 'connect', ssid]
+
+    device.wifi_connect(ssid, None, ifname)
+    assert s.passed_parameters == [
+        'device', 'wifi', 'connect', ssid, 'ifname', ifname]
+
+    device.wifi_connect(ssid, None, wait=10)
+    assert s.passed_parameters == [
+        '--wait', '10', 'device', 'wifi', 'connect', ssid]
+
+
 def test_wifi_connect_when_connection_activate_failed():
     s = DummySystemCommand(
         '''Error: Connection activation failed: (7) Secrets were required, but not provided.
