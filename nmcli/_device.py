@@ -75,7 +75,7 @@ class DeviceControlInterface:
 
     def wifi_connect(self,
                      ssid: str,
-                     password: str,
+                     password: str | None,
                      ifname: str = None,
                      wait: int = None) -> None:
         raise NotImplementedError

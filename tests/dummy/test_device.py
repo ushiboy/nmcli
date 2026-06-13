@@ -149,6 +149,18 @@ def test_wifi_connect():
     assert c.wifi_connect_args[2] == (ssid, password, ifname, 10)
 
 
+def test_wifi_connect_without_password():
+    c = DummyDeviceControl()
+    ssid = 'ssid'
+    ifname = 'wlan0'
+    c.wifi_connect(ssid, None)
+    assert c.wifi_connect_args[0] == (ssid, None, None, None)
+    c.wifi_connect(ssid, None, ifname)
+    assert c.wifi_connect_args[1] == (ssid, None, ifname, None)
+    c.wifi_connect(ssid, None, ifname, wait=10)
+    assert c.wifi_connect_args[2] == (ssid, None, ifname, 10)
+
+
 def test_wifi_connect_when_raise_error():
     c = DummyDeviceControl(raise_error=Exception)
     ssid = 'ssid'
