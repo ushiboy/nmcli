@@ -188,7 +188,7 @@ class DeviceControl(DeviceControlInterface):
         cmd = add_wait_option_if_needed(
             wait) + ['device', 'wifi', 'connect', ssid]
         if password is not None:
-            cmd += ['password', password] 
+            cmd += ['password', password]
         if ifname is not None:
             cmd += ['ifname', ifname]
         r = self._syscmd.nmcli(cmd)

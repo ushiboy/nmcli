@@ -59,7 +59,8 @@ def test_reload_with_all_valid_flags():
     s = DummySystemCommand()
     general = GeneralControl(s)
     general.reload(['conf', 'dns-rc', 'dns-full'])
-    assert s.passed_parameters == ['general', 'reload', 'conf', 'dns-rc', 'dns-full']
+    assert s.passed_parameters == ['general',
+                                   'reload', 'conf', 'dns-rc', 'dns-full']
 
 
 def test_reload_with_invalid_flag():
