@@ -297,7 +297,7 @@ If `password` is `None`, the password option is omitted from the command. This a
 
 ```
 nmcli.device.wifi_connect(ssid: str,
-                          password: str = None,
+                          password: Optional[str] = None,
                           ifname: str = None,
                           wait: int = None) -> None
 ```

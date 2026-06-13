@@ -75,7 +75,7 @@ class DeviceControlInterface:
 
     def wifi_connect(self,
                      ssid: str,
-                     password: Optional[str],
+                     password: Optional[str] = None,
                      ifname: str = None,
                      wait: int = None) -> None:
         raise NotImplementedError
@@ -182,7 +182,7 @@ class DeviceControl(DeviceControlInterface):
 
     def wifi_connect(self,
                      ssid: str,
-                     password: Optional[str],
+                     password: Optional[str] = None,
                      ifname: str = None,
                      wait: int = None) -> None:
         cmd = add_wait_option_if_needed(

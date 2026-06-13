@@ -159,6 +159,8 @@ def test_wifi_connect_without_password():
     assert c.wifi_connect_args[1] == (ssid, None, ifname, None)
     c.wifi_connect(ssid, None, ifname, wait=10)
     assert c.wifi_connect_args[2] == (ssid, None, ifname, 10)
+    c.wifi_connect(ssid)
+    assert c.wifi_connect_args[3] == (ssid, None, None, None)
 
 
 def test_wifi_connect_when_raise_error():
