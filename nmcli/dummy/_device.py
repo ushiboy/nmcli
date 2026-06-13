@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from .._device import DeviceControlInterface, DeviceDetails
 from ..data.device import Device, DeviceWifi
@@ -126,7 +126,7 @@ class DummyDeviceControl(DeviceControlInterface):  # pylint: disable=too-many-pu
 
     def wifi_connect(self,
                      ssid: str,
-                     password: str | None,
+                     password: Optional[str],
                      ifname: str = None,
                      wait: int = None) -> None:
         self._raise_error_if_needed()

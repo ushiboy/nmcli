@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from ._exception import ConnectionActivateFailedException
 from ._helper import add_fields_option_if_needed, add_wait_option_if_needed
@@ -75,7 +75,7 @@ class DeviceControlInterface:
 
     def wifi_connect(self,
                      ssid: str,
-                     password: str | None,
+                     password: Optional[str],
                      ifname: str = None,
                      wait: int = None) -> None:
         raise NotImplementedError
@@ -182,7 +182,7 @@ class DeviceControl(DeviceControlInterface):
 
     def wifi_connect(self,
                      ssid: str,
-                     password: str | None,
+                     password: Optional[str],
                      ifname: str = None,
                      wait: int = None) -> None:
         cmd = add_wait_option_if_needed(
