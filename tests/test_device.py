@@ -326,6 +326,9 @@ def test_wifi_connect_without_password():
     assert s.passed_parameters == [
         '--wait', '10', 'device', 'wifi', 'connect', ssid]
 
+    device.wifi_connect(ssid)
+    assert s.passed_parameters == ['device', 'wifi', 'connect', ssid]
+
 
 def test_wifi_connect_when_connection_activate_failed():
     s = DummySystemCommand(
